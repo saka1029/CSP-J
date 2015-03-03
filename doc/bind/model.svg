@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="33cm" height="15cm" viewBox="219 52 653 285" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="320" y="80" width="441.2" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="320" y="80" width="441.2" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="540.6" y="100">Variable</text>
+    <rect style="fill: #ffffff" x="320" y="108" width="441.2" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="320" y="108" width="441.2" height="8"/>
+    <rect style="fill: #ffffff" x="320" y="116" width="441.2" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="320" y="116" width="441.2" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="323" y="129.2">#domain(bind:Bind): Domain</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="323" y="145.2">#bind(Bind:bind): boolean</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="323" y="161.2">#&lt;&lt;abstract&gt;&gt; bind(domain:Domain,bind:Bind): boolean</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="323" y="177.2">#put(domain:Domain,bind:Bind,que:Set&lt;Variable&gt;): boolean</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="220" y="280" width="310.3" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="220" y="280" width="310.3" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="375.15" y="300">Var</text>
+    <rect style="fill: #ffffff" x="220" y="308" width="310.3" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="220" y="308" width="310.3" height="8"/>
+    <rect style="fill: #ffffff" x="220" y="316" width="310.3" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="220" y="316" width="310.3" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="223" y="329.2">+bind(domain:Domain,bind:Bind): boolean</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="560" y="280" width="310.3" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="560" y="280" width="310.3" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="715.15" y="300">Constraint</text>
+    <rect style="fill: #ffffff" x="560" y="308" width="310.3" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="560" y="308" width="310.3" height="8"/>
+    <rect style="fill: #ffffff" x="560" y="316" width="310.3" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="560" y="316" width="310.3" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="563" y="329.2">+bind(domain:Domain,bind:Bind): boolean</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="540.6,203.243 540.6,240 715.15,240 715.15,278.993 "/>
+    <polygon style="fill: #ffffff" points="548.6,203.243 540.6,187.243 532.6,203.243 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="548.6,203.243 540.6,187.243 532.6,203.243 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="540.6,203.243 540.6,240 375.15,240 375.15,278.993 "/>
+    <polygon style="fill: #ffffff" points="548.6,203.243 540.6,187.243 532.6,203.243 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="548.6,203.243 540.6,187.243 532.6,203.243 "/>
+  </g>
+  <text font-size="15.8044" style="fill: #000000;text-anchor:start;font-family:MS Gothic;font-style:normal;font-weight:700" x="320" y="65.7">
+    <tspan x="320" y="65.7">Problem.bind()は何をしているか？</tspan>
+  </text>
+</svg>

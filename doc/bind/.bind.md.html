@@ -1,0 +1,560 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>C:\git\saka1029\java\saka1029.dcsp\doc\bind\.bind.md.html</title>
+
+
+<style type="text/css">
+body {
+	color: #333;
+	font: 13px/1.4 Helvetica,arial,freesans,clean,sans-serif;
+}
+
+.markdown-body {
+    border: 1px solid #CACACA;
+    padding: 30px;
+    font-size: 15px;
+    line-height: 1.7;
+    word-wrap: break-word;
+}
+.markdown-body > *:first-child {
+    margin-top: 0 !important;
+}
+.markdown-body > *:last-child {
+    margin-bottom: 0 !important;
+}
+.markdown-body a.absent {
+    color: #C00;
+}
+.markdown-body a.anchor {
+    bottom: 0;
+    cursor: pointer;
+    display: block;
+    left: 0;
+    margin-left: -30px;
+    padding-left: 30px;
+    padding-right: 6px;
+    position: absolute;
+    top: 0;
+}
+.markdown-body a.anchor:focus {
+    outline: medium none;
+}
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
+    cursor: text;
+    font-weight: bold;
+    line-height: 1.7;
+    margin: 1em 0 15px;
+    padding: 0;
+    position: relative;
+}
+
+.markdown-body h1 .octicon-link, .markdown-body h2 .octicon-link, .markdown-body h3 .octicon-link, .markdown-body h4 .octicon-link, .markdown-body h5 .octicon-link, .markdown-body h6 .octicon-link {
+    color: #000;
+    display: none;
+}
+.markdown-body h1:hover a.anchor, .markdown-body h2:hover a.anchor, .markdown-body h3:hover a.anchor, .markdown-body h4:hover a.anchor, .markdown-body h5:hover a.anchor, .markdown-body h6:hover a.anchor {
+    line-height: 1;
+    margin-left: -22px;
+    padding-left: 0;
+    text-decoration: none;
+    top: 15%;
+}
+.markdown-body h1:hover a.anchor .octicon-link, .markdown-body h2:hover a.anchor .octicon-link, .markdown-body h3:hover a.anchor .octicon-link, .markdown-body h4:hover a.anchor .octicon-link, .markdown-body h5:hover a.anchor .octicon-link, .markdown-body h6:hover a.anchor .octicon-link {
+    display: inline-block;
+}
+.markdown-body h1 tt, .markdown-body h1 code, .markdown-body h2 tt, .markdown-body h2 code, .markdown-body h3 tt, .markdown-body h3 code, .markdown-body h4 tt, .markdown-body h4 code, .markdown-body h5 tt, .markdown-body h5 code, .markdown-body h6 tt, .markdown-body h6 code {
+    font-size: inherit;
+}
+.markdown-body h1 {
+    border-bottom: 1px solid #DDD;
+    font-size: 2.5em;
+}
+.markdown-body h2 {
+    border-bottom: 1px solid #EEE;
+    font-size: 2em;
+}
+.markdown-body h3 {
+    font-size: 1.5em;
+}
+.markdown-body h4 {
+    font-size: 1.2em;
+}
+.markdown-body h5 {
+    font-size: 1em;
+}
+.markdown-body h6 {
+    color: #777;
+    font-size: 1em;
+}
+.markdown-body p, .markdown-body blockquote, .markdown-body ul, .markdown-body ol, .markdown-body dl, .markdown-body table, .markdown-body pre {
+    margin: 15px 0;
+}
+.markdown-body ul, .markdown-body ol {
+    padding-left: 30px;
+}
+.markdown-body ul.no-list, .markdown-body ol.no-list {
+    list-style-type: none;
+    padding: 0;
+}
+.markdown-body ul ul, .markdown-body ul ol, .markdown-body ol ol, .markdown-body ol ul {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+.markdown-body dl {
+    padding: 0;
+}
+.markdown-body dl dt {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: bold;
+    margin-top: 15px;
+    padding: 0;
+}
+.markdown-body dl dd {
+    margin-bottom: 15px;
+    padding: 0 15px;
+}
+.markdown-body blockquote {
+    border-left: 4px solid #DDD;
+    color: #777;
+    padding: 0 15px;
+}
+.markdown-body blockquote > *:first-child {
+    margin-top: 0;
+}
+.markdown-body blockquote > *:last-child {
+    margin-bottom: 0;
+}
+.markdown-body table {
+    display: block;
+    overflow: auto;
+    width: 100%;
+    border-collapse: collapse;
+}
+.markdown-body table th {
+    font-weight: bold;
+}
+.markdown-body table th, .markdown-body table td {
+    border: 1px solid #DDD;
+    padding: 6px 13px;
+}
+.markdown-body table tr {
+    background-color: #FFF;
+    border-top: 1px solid #CCC;
+}
+.markdown-body table tr:nth-child(2n) {
+    background-color: #F8F8F8;
+}
+.markdown-body img {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+    max-width: 100%;
+    border: 0px;
+}
+.markdown-body span.frame {
+    display: block;
+    overflow: hidden;
+}
+.markdown-body span.frame > span {
+    border: 1px solid #DDD;
+    display: block;
+    float: left;
+    margin: 13px 0 0;
+    overflow: hidden;
+    padding: 7px;
+    width: auto;
+}
+.markdown-body span.frame span img {
+    display: block;
+    float: left;
+}
+.markdown-body span.frame span span {
+    clear: both;
+    color: #333;
+    display: block;
+    padding: 5px 0 0;
+}
+.markdown-body span.align-center {
+    clear: both;
+    display: block;
+    overflow: hidden;
+}
+.markdown-body span.align-center > span {
+    display: block;
+    margin: 13px auto 0;
+    overflow: hidden;
+    text-align: center;
+}
+.markdown-body span.align-center span img {
+    margin: 0 auto;
+    text-align: center;
+}
+.markdown-body span.align-right {
+    clear: both;
+    display: block;
+    overflow: hidden;
+}
+.markdown-body span.align-right > span {
+    display: block;
+    margin: 13px 0 0;
+    overflow: hidden;
+    text-align: right;
+}
+.markdown-body span.align-right span img {
+    margin: 0;
+    text-align: right;
+}
+.markdown-body span.float-left {
+    display: block;
+    float: left;
+    margin-right: 13px;
+    overflow: hidden;
+}
+.markdown-body span.float-left span {
+    margin: 13px 0 0;
+}
+.markdown-body span.float-right {
+    display: block;
+    float: right;
+    margin-left: 13px;
+    overflow: hidden;
+}
+.markdown-body span.float-right > span {
+    display: block;
+    margin: 13px auto 0;
+    overflow: hidden;
+    text-align: right;
+}
+.markdown-body code, .markdown-body tt {
+    background-color: #F8F8F8;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    margin: 0 2px;
+    padding: 0 5px;
+}
+.markdown-body code {
+    white-space: nowrap;
+}
+.markdown-body pre > code {
+    border: medium none;
+    margin: 0;
+    padding: 0;
+    white-space: pre;
+}
+.markdown-body .highlight pre, .markdown-body pre {
+    background-color: #F8F8F8;
+    border: 1px solid #DDD;
+    border-radius: 3px;
+    font-size: 13px;
+    line-height: 19px;
+    overflow: auto;
+    padding: 6px 10px;
+}
+.markdown-body pre code, .markdown-body pre tt {
+    border: medium none;
+    margin: 0;
+    padding: 0;
+    word-wrap: normal;
+}
+
+pre, code, tt {
+    font-family: Consolas,"Liberation Mono",Courier,monospace;
+    font-size: 12px;
+}
+
+.highlight {
+    background: #FFF;
+}
+.highlight .k,
+.highlight .o,
+.highlight .cp,
+.highlight .cs,
+.highlight .gs,
+.highlight .gu,
+.highlight .kc,
+.highlight .kd,
+.highlight .kn,
+.highlight .kp,
+.highlight .kr,
+.highlight .kt,
+.highlight .nc,
+.highlight .ne,
+.highlight .nf,
+.highlight .ow {
+    font-weight: bold;
+}
+.highlight .gd,
+.highlight .gd .x,
+.highlight .gi,
+.highlight .gi .x,
+.type-csharp .highlight .nf,
+.type-csharp .highlight .nn {
+    color: #000;
+}
+.highlight .c,
+.highlight .cm,
+.highlight .c1 {
+    color: #998;
+    font-style: italic;
+}
+.highlight .err {
+    background-color: #E3D2D2;
+    color: #A61717;
+}
+.highlight .cp,
+.highlight .cs {
+    color: #999;
+}
+.highlight .cs,
+.highlight .ge {
+    font-style: italic;
+}
+.highlight .gd {
+    background-color: #FDD;
+}
+.highlight .gd .x {
+    background-color: #FAA;
+}
+.highlight .gr,
+.highlight .gt {
+    color: #A00;
+}
+.highlight .gh {
+    color: #999;
+}
+.highlight .gi {
+    background-color: #DFD;
+}
+.highlight .gi .x {
+    background-color: #AFA;
+}
+.highlight .go {
+    color: #888;
+}
+.highlight .gp,
+.highlight .nn {
+    color: #555;
+}
+.highlight .gu,
+.highlight .ni {
+    color: #800080;
+}
+.highlight .kt {
+    color: #458;
+}
+.highlight .m {
+    color: #099;
+}
+.highlight .s {
+    color: #D14;
+}
+.highlight .n {
+    color: #333;
+}
+.highlight .na,
+.highlight .no,
+.highlight .nv,
+.highlight .vc,
+.highlight .vg,
+.highlight .vi {
+    color: #008080;
+}
+.highlight .nb {
+    color: #0086B3;
+}
+.highlight .nc {
+    color: #458;
+}
+.highlight .ne,
+.highlight .nf {
+    color: #900;
+}
+.highlight .nt {
+    color: #000080;
+}
+.highlight .w {
+    color: #BBB;
+}
+.highlight .mf,
+.highlight .mh,
+.highlight .mi,
+.highlight .mo {
+    color: #099;
+}
+.highlight .sb,
+.highlight .sc,
+.highlight .sd,
+.highlight .s2,
+.highlight .se,
+.highlight .sh,
+.highlight .si,
+.highlight .sx,
+.highlight .s1 {
+    color: #D14;
+}
+.highlight .sr {
+    color: #009926;
+}
+.highlight .ss {
+    color: #990073;
+}
+.highlight .bp {
+    color: #999;
+}
+.highlight .il {
+    color: #099;
+}
+.highlight .gc {
+    background-color: #EAF2F5;
+    color: #999;
+}
+.type-csharp .highlight .k,
+.type-csharp .highlight .kt {
+    color: #00F;
+}
+.type-csharp .highlight .nf {
+    font-weight: normal;
+}
+.type-csharp .highlight .nc {
+    color: #2B91AF;
+}
+.type-csharp .highlight .s,
+.type-csharp .highlight .sc {
+    color: #A31515;
+}
+
+</style>
+
+
+<script type="text/javascript">
+
+function getDocumentScrollTop() 
+{
+   var res = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset || 0;
+   // alert(res);
+   return res;
+}
+
+function setDocumentScrollTop(ypos) 
+{
+	window.scrollTo(0, ypos);
+}
+
+</script>
+
+
+</head>
+<body class="markdown-body">
+<h1> <a name="user-content-problembind%E3%81%AF%E4%BD%95%E3%82%92%E3%81%97%E3%81%A6%E3%81%84%E3%82%8B%E3%81%8B" class="anchor" href="..md.html#problembindは何をしているか" aria-hidden="true"><span class="octicon octicon-link"></span></a>Problem.bind()は何をしているか？</h1> 
+<h2> <a name="user-content-%E3%83%A2%E3%83%87%E3%83%AB" class="anchor" href="..md.html#モデル" aria-hidden="true"><span class="octicon octicon-link"></span></a>モデル</h2> 
+<p><a href="model.svg" target="_blank"><img src="model.svg" alt="Problem.bindに関連するモデル" title="Problem.bindに関連するモデル" style="max-width:100%;" /></a></p> 
+<h2> <a name="user-content-interface-bind" class="anchor" href="..md.html#interface-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>interface Bind</h2> 
+<pre><code>public interface Bind {
+
+    int size();
+    Domain&lt;?&gt; get(Variable&lt;?&gt; key);
+    void put(Variable&lt;?&gt; key, Domain&lt;?&gt; value);
+    void fail(Variable&lt;?&gt; key, Domain&lt;?&gt; oldValue);
+
+    Iterable&lt;Variable&lt;?&gt;&gt; variables();
+
+}
+</code></pre> 
+<h2> <a name="user-content-bind-problembind" class="anchor" href="..md.html#bind-problembind" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bind Problem.bind()</h2> 
+<ol> 
+ <li>すべての変数について既定のドメインをputする。</li> 
+ <li>全ての変数についてbind(bind)を呼ぶ。 （bindが変更されたことを通知する）</li> 
+</ol>
+<pre><code>    public Bind bind() {
+        Bind bind = new BindMap();
+        for (Variable&lt;?&gt; v : variables)
+            bind.put(v, v.domain(bind));
+        for (Variable&lt;?&gt; v : variables)
+            v.bind(bind);
+        return bind;
+    }
+
+</code></pre> 
+<h2> <a name="user-content-domain-variabledomainbind-bind" class="anchor" href="..md.html#domain-variabledomainbind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>Domain Variable.domain(Bind bind)</h2> 
+<p>bindにDomainがあればそれを返す。 なければ既定のDomainを返す。 ただしトップレベルの場合で論理値の場合はTRUEを返す。 このメソッドはExpressionをオーバーライドしている。 （Constantの場合は常に既定のDomainを返す）</p> 
+<pre><code>    @SuppressWarnings(&quot;unchecked&quot;)
+    @Override
+    protected Domain&lt;T&gt; domain(Bind bind) {
+        Domain&lt;T&gt; d = get(bind);
+        if (d == null) d = domain;
+        if (referers.size() == 0 &amp;&amp; d.isBoolean()) {
+            if (!d.containsTrue())
+                throw new IllegalArgumentException(&quot;top level domain does not contain true&quot;);
+            d = (Domain&lt;T&gt;)Domain.TRUE;
+        }
+        return d;
+    }
+</code></pre> 
+<h2> <a name="user-content-boolean-variablebindbind-bind" class="anchor" href="..md.html#boolean-variablebindbind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Variable.bind(Bind bind)</h2> 
+<p>bindにおける自分自身のドメインを指定されたdomainに変更する。 ドメインを変更することによって影響を受ける変数がある場合は、 それらを再バインドする。 正常に変更できた場合はtrueを返す。 ドメインを変更することによって矛盾が生じる場合 （自分自身または影響を受ける変数のドメインが空集合となる場合）、 falseを返す。</p> 
+<pre><code>    protected boolean bind(Bind bind) {
+        return bind(domain(bind), bind);
+    }
+</code></pre> 
+<h2> <a name="user-content-boolean-variablebinddomain-domain-bind-bind" class="anchor" href="..md.html#boolean-variablebinddomain-domain-bind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Variable.bind(Domain domain, Bind bind)</h2> 
+<p>このメソッドは抽象メソッド。 実装クラスはふたつある。</p> 
+<ol> 
+ <li>Var extends Variable</li> 
+ <li>Constraint extends Variable</li> 
+</ol>
+<h2> <a name="user-content-boolean-variableputdomain-domain-bind-bind-set-que" class="anchor" href="..md.html#boolean-variableputdomain-domain-bind-bind-set-que" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Variable.put(Domain domain, Bind bind, Set que)</h2> 
+<p>domainが空集合ならfalseをリターンする。 bindされているDomainの要素数と同じ要素数ならtrueを返す。 （putせずに成功する） 割り当てようとしているdomainの要素数が小さければ bindにputして、referersをすべてキューに追加する。</p> 
+<pre><code>   protected boolean put(Domain&lt;T&gt; domain, Bind bind, Set&lt;Variable&lt;?&gt;&gt; que) {
+        int size = domain.size();
+        if (size &lt;= 0) {
+            bind.fail(this, get(bind)); // Variable.domain(bind)と違って単にbindからgetする
+            return false;
+        }
+        if (size &gt;= get(bind).size()) return true;
+        bind.put(this, domain);
+        que.addAll(referers);
+        return true;
+    }
+</code></pre> 
+<h2> <a name="user-content-boolean-varbinddomain-domain-bind-bind" class="anchor" href="..md.html#boolean-varbinddomain-domain-bind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Var.bind(Domain domain, Bind bind)</h2> 
+<p>キュー（Variableの集合）を作成して put(Domain, Bind, キュー)を呼ぶ。 putに失敗したらfalseを返す。 成功した場合はキューにあるすべての変数について v.bind(Bind)を呼ぶ。</p> 
+<pre><code>    @Override
+    public boolean bind(Domain&lt;T&gt; domain, Bind bind) {
+        Set&lt;Variable&lt;?&gt;&gt; que = newQue();
+        if (!put(domain, bind, que))    // Variableで実装
+            return false;
+        return bindQue(que, bind);  // Variableで実装
+    }
+</code></pre> 
+<h2> <a name="user-content-boolean-constraintbinddomain-domain-bind-bind" class="anchor" href="..md.html#boolean-constraintbinddomain-domain-bind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Constraint.bind(Domain domain, Bind bind)</h2> 
+<p>キュー（Variableの集合）を作成して 自分自身と引数のDomainをビルドする。 ビルドしたDomainでputする。 putに失敗したらfalseを返す。 成功したら、引数の内のすべての変数について bind(ビルドしたDomain, bind)を呼ぶ。 このbindにひとつでも失敗したらfalseを返す。 すべて成功した場合はキューにあるすべての変数について v.bind(Bind)を呼ぶ。</p> 
+<pre><code>    @Override
+    public boolean bind(Domain&lt;T&gt; domain, Bind bind) {
+        Set&lt;Variable&lt;?&gt;&gt; que = newQue();
+        DomainBuilder db = new DomainBuilder();
+        db.build(domain, bind);
+        if (!put(db.builder.build(), bind, que))    // Variableで実装
+            return false;
+        for (int i = 0, size = arguments.size(); i &lt; size; ++i) {
+            Expression&lt;A&gt; e = arguments.get(i);
+            if (e instanceof Variable)
+                if (!((Variable&lt;A&gt;)e).bind(db.argsBuilder.get(i).build(), bind))
+                    return false;
+        }
+        return bindQue(que, bind);  // Variableで実装
+    }
+</code></pre> 
+<p>DomainBuilderの中では以下のようなことをやっている。</p> 
+<pre><code>Domain domain; // 自分自身のDomain
+Builder builder; // 自分自身のDomain
+List&lt;Domain&gt; argsDomain // 引数のDomain
+List&lt;Builder&gt; argsBuilder // 引数のBuilder
+List&lt;A&gt; args    // functionに与える引数
+</code></pre> 
+<p>argsDomainにある要素のすべての組み合わせについて function.eval(args)を実行する。 結果がnullでなくて、domainに含まれる場合は 結果をbuilderに追加し、argsBuilderの各要素にもargsをそれぞれ追加する。</p>
+</body>
+</html>
