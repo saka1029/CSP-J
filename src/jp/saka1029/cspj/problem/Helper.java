@@ -1,6 +1,10 @@
 package jp.saka1029.cspj.problem;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 public class Helper {
 
@@ -11,8 +15,8 @@ public class Helper {
         return args[0].problem.constraint(func, funcName, args);
     }
 
-    public static <T> Constraint<T> constraint(ConstraintFunction<T> func, String funcName, List<? extends Expression<?>> args) {
-        return args.get(0).problem.constraint(func, funcName, args);
+    public static <T> Constraint<T> constraint(ConstraintFunction<T> func, String funcName, Collection<? extends Expression<?>> args) {
+        return args.iterator().next().problem.constraint(func, funcName, args);
     }
 
     // equals to
@@ -84,7 +88,7 @@ public class Helper {
         return constraint(AND, "&&", args);
     }
 
-    public static Constraint<Boolean> and(List<? extends Expression<Boolean>> args) {
+    public static Constraint<Boolean> and(Collection<? extends Expression<Boolean>> args) {
         return constraint(AND , "&&", args);
     }
 
@@ -101,7 +105,7 @@ public class Helper {
         return constraint(OR , "||", args);
     }
 
-    public static Constraint<Boolean> or(List<? extends Expression<Boolean>> args) {
+    public static Constraint<Boolean> or(Collection<? extends Expression<Boolean>> args) {
         return constraint(OR , "||", args);
     }
 
@@ -126,7 +130,7 @@ public class Helper {
         return constraint(PLUS, "+", args);
     }
 
-    public static Constraint<Integer> plus(List<? extends Expression<Integer>> args) {
+    public static Constraint<Integer> plus(Collection<? extends Expression<Integer>> args) {
         return constraint(PLUS, "+", args);
     }
 
@@ -174,8 +178,8 @@ public class Helper {
         return constraint(a -> (int)a[0] * (int)a[1], "*", l, l.problem.constant(r));
     }
     
-    public static void forEachPairs(ConstraintFunction<Boolean> func, String funcName, List<? extends Expression<?>> args) {
-        args.get(0).problem.forEachPairs(func, funcName, args);
+    public static void forEachPairs(ConstraintFunction<Boolean> func, String funcName, Collection<? extends Expression<?>> args) {
+        args.iterator().next().problem.forEachPairs(func, funcName, args);
     }
 
     @SafeVarargs
@@ -185,12 +189,25 @@ public class Helper {
 
     public static void allDifferent(Expression<?>... args) { args[0].problem.allDifferent(args); } 
     
-    public static void allDifferent(List<? extends Expression<?>> args) { args.get(0).problem.allDifferent(args); }
-    
+    public static void allDifferent(Collection<? extends Expression<?>> args) { args.iterator().next().problem.allDifferent(args); }
+   
+	public static <X, Y> List<Y> map(Function<X, Y> f, Collection<X> args) {
+    	List<Y> r = new ArrayList<>();
+    	for (X a : args)
+    		r.add(f.apply(a));
+    	return r;
+    }
+
+    @SafeVarargs
+	public static <X, Y> List<Y> map(Function<X, Y> f, X... args) {
+    	return map(f, Arrays.asList(args));
+    }
+
     public static int numberFromDigits(int... digits) {
         int r = 0;
         for (int i : digits)
             r = r * 10 + i;
         return r;
     }
+    
 }

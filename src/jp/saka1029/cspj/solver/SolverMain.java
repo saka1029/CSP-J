@@ -92,6 +92,7 @@ public abstract class SolverMain {
     public abstract boolean answer(int n, Result result) throws IOException;
     
     public int solve() throws IOException {
+    	Log.info("SolverMain: start solve() solver=%s", solver.getClass().getSimpleName());
         define();
         int count[] = {0};
         solver.solve(problem, new Answer() {

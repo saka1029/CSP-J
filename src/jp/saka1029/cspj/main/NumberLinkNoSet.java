@@ -19,62 +19,52 @@ import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
 
-public class NumberLink extends SolverMain {
+public class NumberLinkNoSet extends SolverMain {
 
-    enum Direction { Left, Right, Up, Down}
+    enum Direction { Left, Right, Up, Down; }
 
     static class Cell {
-
-        final int number;
-        final EnumSet<Direction> directions;
-        
-        Cell(int number, EnumSet<Direction> directions) {
-            this.number = number;
-            this.directions = directions;
-        }
-
-        Cell(int n, Direction in) {
-            this(n, EnumSet.of(in)); 
-        }
-        
-        Cell(int n, Direction in, Direction out) {
-            this(n, EnumSet.of(in, out));
-        }
-        
+		final int number;
+    	final Direction direction1;
+        Cell(int number, Direction direction1) { this.number = number; this.direction1 = direction1; } 
+        EnumSet<Direction> directions() { return EnumSet.of(direction1); }
+        boolean contains(Direction d) { return direction1 == d; }
         boolean right(Cell c) {
-        	if (c.number == number)
-        		return directions.contains(Direction.Right) && c.directions.contains(Direction.Left)
-        			&& !(directions.contains(Direction.Up) && c.directions.contains(Direction.Up))
-        			&& !(directions.contains(Direction.Down) && c.directions.contains(Direction.Down));
+        	if (number == c.number)
+        		return contains(Direction.Right) && c.contains(Direction.Left)
+        			&& !(contains(Direction.Up) && c.contains(Direction.Up))
+        			&& !(contains(Direction.Down) && c.contains(Direction.Down));
         	else
-        		return !directions.contains(Direction.Right) && !c.directions.contains(Direction.Left);
+        		return !contains(Direction.Right) && !c.contains(Direction.Left);
         }
-
         boolean below(Cell c) {
-        	if (c.number == number)
-        		return directions.contains(Direction.Down) && c.directions.contains(Direction.Up)
-        			&& !(directions.contains(Direction.Left) && c.directions.contains(Direction.Left))
-        			&& !(directions.contains(Direction.Right) && c.directions.contains(Direction.Right));
+        	if (number == c.number)
+        		return contains(Direction.Down) && c.contains(Direction.Up)
+        			&& !(contains(Direction.Left) && c.contains(Direction.Left))
+        			&& !(contains(Direction.Right) && c.contains(Direction.Right));
         	else
-        		return !directions.contains(Direction.Down) && !c.directions.contains(Direction.Up);
+        		return !contains(Direction.Down) && !c.contains(Direction.Up);
         }
-
+        @Override public int hashCode() { return number << 16 ^ direction1.hashCode(); }
         @Override
         public boolean equals(Object obj) {
-            if (!(obj instanceof Cell))
-                return false;
-            Cell o = (Cell)obj;
-            return number == o.number && directions.equals(o.directions);
+        	return obj instanceof Cell && ((Cell)obj).number == number && ((Cell)obj).direction1 == direction1;
         }
-        
+    }
+    
+    static class CellEmpty extends Cell {
+    	Direction direction2;
+    	CellEmpty(int number, Direction direction1, Direction direction2) {
+    		super(number, direction1);
+    		this.direction2 = direction2;
+    	}
+        EnumSet<Direction> directions() { return EnumSet.of(direction1, direction2); }
+        @Override boolean contains(Direction d) { return super.contains(d) || direction2 == d; }
+        @Override public int hashCode() { return super.hashCode() << 8 ^ direction2.hashCode(); }
         @Override
-        public int hashCode() {
-            return number << 16 ^ directions.hashCode();
-        }
-        
-        @Override
-        public String toString() {
-            return String.format("{%s %s}", number, directions);
+        public boolean equals(Object obj) {
+        	if (!(obj instanceof CellEmpty)) return false;
+        	return super.equals(obj) && ((CellEmpty)obj).direction2 == direction2;
         }
     }
 
@@ -90,9 +80,9 @@ public class NumberLink extends SolverMain {
     }
 
     File input;
-    public NumberLink input(String a) { input = new File(a); return this; }
+    public NumberLinkNoSet input(String a) { input = new File(a); return this; }
     
-    public NumberLink() {
+    public NumberLinkNoSet() {
     	addOption("-i", true, true, a -> input(a));
     }
 
@@ -119,7 +109,7 @@ public class NumberLink extends SolverMain {
                         for (Direction out : dirs)
                             if (in.compareTo(out) < 0)
                                 for (int n : nums)
-                                    builder.add(new Cell(n, in, out));
+                                    builder.add(new CellEmpty(n, in, out));
                 }
                 variables.set(x, y, problem.variable(
                 	String.format("%d@%d", x, y), builder.build()));
@@ -149,7 +139,7 @@ public class NumberLink extends SolverMain {
                 Set<EnumSet<Direction>> d = new HashSet<>();
                 for (Cell e : v) {
                 	n.add(e.number);
-                	d.add(e.directions);
+                	d.add(e.directions());
                 }
                 int nn = n.iterator().next();
                 EnumSet<Direction> dd = d.iterator().next();
@@ -178,11 +168,12 @@ public class NumberLink extends SolverMain {
         printer.draw(0, 0, variables.width, variables.height);
         for (int y = 0; y < variables.height; ++y)
             for (int x = 0; x < variables.width; ++x) {
-                Cell e = result.get(variables.get(x,  y));
-                if (e.directions.size() == 1)
-                    printer.draw(x, y, Integer.toString(e.number));
+                Cell e = (Cell)result.get(variables.get(x,  y));
+                Point p = new Point(x, y);
+                if (e instanceof CellEmpty)
+                    printer.draw(p, PATH.get(e.directions()));
                 else
-                    printer.draw(x, y, PATH.get(e.directions));
+                    printer.draw(p, Integer.toString(e.number));
             }
         Log.info(printer);
         File svg = new File(input.getParentFile(), input.getName() + ".svg");
@@ -195,7 +186,7 @@ public class NumberLink extends SolverMain {
     }
     
     public static void main(String[] args) throws Exception {
-        new NumberLink().parse(args).solve();
+        new NumberLinkNoSet().parse(args).solve();
     }
 
 }

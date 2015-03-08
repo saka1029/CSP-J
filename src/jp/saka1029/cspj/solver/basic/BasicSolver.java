@@ -82,21 +82,21 @@ public class BasicSolver implements Solver {
 //        return sel;
     }
 
-    private boolean solveSimple(Bind bind) {
-        boolean b = true;
-        Variable<?> var = select(bind);
-        if (var == null) {
-            ++answerCount;
-            b = answer.answer(new Result(problem, bind));
-        } else
-            for (Object i : bind.get(var)) {
-                Bind newBind = new Bind(bind);
-                if (var.bindSingle(i, newBind))
-                    b = solveSimple(newBind);
-                if (!b) break;
-            }
-        return b;
-    }
+//    private boolean solveSimple(Bind bind) {
+//        boolean b = true;
+//        Variable<?> var = select(bind);
+//        if (var == null) {
+//            ++answerCount;
+//            b = answer.answer(new Result(problem, bind));
+//        } else
+//            for (Object i : bind.get(var)) {
+//                Bind newBind = new Bind(bind);
+//                if (var.bindSingle(i, newBind))
+//                    b = solveSimple(newBind);
+//                if (!b) break;
+//            }
+//        return b;
+//    }
     
     private boolean solveParallel(Bind bind, boolean parallel) {
         boolean b = true;
@@ -127,7 +127,6 @@ public class BasicSolver implements Solver {
         	for (Variable<?> v : problem.variables())
         		Log.info("BasicSolver: %s : %s", v, b.get(v));
         }
-        Log.info("BasicSolver: ***** start backtrack *****");
         Bind bind = new Bind(b);
         this.reduced = new ArrayList<>();
         for (Variable<?> v : problem.variables())

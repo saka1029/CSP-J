@@ -1,0 +1,4 @@
+<configuration>
+	<!-- Chocoのログレベルを設定 -->
+	<root level="fatal" />
+</configuration>

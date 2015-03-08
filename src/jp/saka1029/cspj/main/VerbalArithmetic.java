@@ -8,11 +8,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import jp.saka1029.cspj.problem.Constant;
-import jp.saka1029.cspj.problem.Constraint;
-import jp.saka1029.cspj.problem.ConstraintFunction;
 import jp.saka1029.cspj.problem.Domain;
 import jp.saka1029.cspj.problem.Expression;
-import static jp.saka1029.cspj.problem.Helper.*;
 import jp.saka1029.cspj.problem.Log;
 import jp.saka1029.cspj.problem.Problem;
 import jp.saka1029.cspj.problem.Variable;
@@ -93,15 +90,15 @@ public class VerbalArithmetic extends SolverMain {
 			}
 		}
 		
-		private static final ConstraintFunction<Boolean> vertical = args -> {
-			int sum = (int)args[0];
-			int c1 = (int)args[1];
-			int c0 = (int)args[2];
-			int total = 0;
-			for (int i = 3; i < args.length; ++i)
-				total += (int)args[i];
-			return sum + c1 * 10 == c0 + total;
-		};
+//		private static final ConstraintFunction<Boolean> vertical = args -> {
+//			int sum = (int)args[0];
+//			int c1 = (int)args[1];
+//			int c0 = (int)args[2];
+//			int total = 0;
+//			for (int i = 3; i < args.length; ++i)
+//				total += (int)args[i];
+//			return sum + c1 * 10 == c0 + total;
+//		};
 
 		private void check() {
 			if (firsts.size() > 10)
@@ -137,7 +134,7 @@ public class VerbalArithmetic extends SolverMain {
 				carrys.add(problem.variable("c" + i, carryDomain));
 			carrys.add(zero);
 			
-			Constant<Integer> ten = problem.constant(10);
+//			Constant<Integer> ten = problem.constant(10);
 			for (int i = 0; i < cols; ++i) {
 
 			/** with Helper **/
@@ -158,9 +155,9 @@ public class VerbalArithmetic extends SolverMain {
 				for (int j = 0; j < rows - 1; ++j) {
 					Variable<Integer> v = var(j, i);
 					if (v != null)
-						sum = problem.constraint( a -> (int)a[0] + (int)a[1], "+", sum, v);
+						sum = problem.constraint(a -> (int)a[0] + (int)a[1], "+", sum, v);
 				}
-				problem.constraint(a -> (int)a[0] == (int)a[1], "==", total, sum);
+				problem.constraint(Problem.EQ, "==", total, sum);
 
 			/** constraint between many variables (slow solution) ***/
 //                List<Expression<Integer>> digits = new ArrayList<>();
@@ -221,9 +218,9 @@ public class VerbalArithmetic extends SolverMain {
 	@Override
 	public boolean answer(int n, Result result) throws IOException {
 		Log.info("*** answer %d ***", n);
-		for (Entry<Variable<?>, Object> e : result.entrySet())
-			if (!(e.getKey() instanceof Constraint<?>))
-                Log.info("%s = %s", e.getKey(), e.getValue());
+//		for (Entry<Variable<?>, Object> e : result.entrySet())
+//			if (!(e.getKey() instanceof Constraint<?>))
+//                Log.info("%s = %s", e.getKey(), e.getValue());
 		Log.info(e.toString(result));
 		return true;
 	}

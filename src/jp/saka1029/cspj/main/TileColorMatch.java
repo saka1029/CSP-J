@@ -132,12 +132,10 @@ public class TileColorMatch extends SolverMain {
 //                if (h + 1 < height)
 //                    problem.constraint(a -> ((Tile)a[0]).bottom((Tile)a[1]), "bottom",
 //                        variables.get(w, h), variables.get(w, h + 1));
-            	int ww = w + 1 < width ? w + 1 : 0;
                 problem.constraint(a -> ((Tile)a[0]).right((Tile)a[1]), "right",
-                    variables.get(w, h), variables.get(ww, h));
-                int hh = h + 1 < height ? h + 1 : 0;
+                    variables.get(w, h), variables.get((w + 1) % width, h));
                 problem.constraint(a -> ((Tile)a[0]).bottom((Tile)a[1]), "bottom",
-                    variables.get(w, h), variables.get(w, hh));
+                    variables.get(w, h), variables.get(w, (h + 1) % height));
             }
     }
 

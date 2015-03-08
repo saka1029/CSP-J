@@ -1,18 +1,12 @@
-package jp.saka1029.cspj.solver.jacop;
+package jp.saka1029.cspj.solver.choco;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
 
-import org.jacop.constraints.ExtensionalSupportVA;
-import org.jacop.core.IntVar;
-import org.jacop.core.Store;
-import org.jacop.search.DepthFirstSearch;
-import org.jacop.search.IndomainMin;
-import org.jacop.search.InputOrderSelect;
-import org.jacop.search.Search;
-import org.jacop.search.SelectChoicePoint;
+import org.chocosolver.solver.constraints.ICF;
+import org.chocosolver.solver.constraints.extension.Tuples;
+import org.chocosolver.solver.variables.IntVar;
+import org.chocosolver.solver.variables.VariableFactory;
 
 import jp.saka1029.cspj.problem.Bind;
 import jp.saka1029.cspj.problem.Constraint;
@@ -25,7 +19,7 @@ import jp.saka1029.cspj.solver.Debug;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.Solver;
 
-public class JacopSolver implements Solver {
+public class ChocoSolver implements Solver {
 
 	private static final EnumSet<Debug> DEFAULT_DEBUG = EnumSet.noneOf(Debug.class);
 	private EnumSet<Debug> debug = DEFAULT_DEBUG;
@@ -38,14 +32,14 @@ public class JacopSolver implements Solver {
         Bind b = problem.bind();
         if (b == null) return;
         Bind bind = new Bind(b);
-		Store store = new Store();
+		org.chocosolver.solver.Solver solver = new org.chocosolver.solver.Solver();
 		Object[][] map = bind.map();
 		int size = problem.variables().size();
 		IntVar[] vars = new IntVar[size];
 		for (int i = 0; i < size; ++i) {
 			Variable<?> v = problem.variable(i);
 			Domain<?> domain = bind.get(v);
-			vars[i] = new IntVar(store, "v" + i, 0, domain.size() - 1);
+			vars[i] = VariableFactory.bounded("v" + i, 0, domain.size() - 1, solver);
 		}
 		for (Variable<?> v : problem.variables()) {
 			if (!(v instanceof Constraint<?>)) continue;
@@ -56,7 +50,7 @@ public class JacopSolver implements Solver {
 			ivars[0] = vars[c.no];
 			for (int i = 0; i < argsSize; ++i)
 				ivars[i + 1] = vars[arguments.get(i).no];
-			List<int[]> list = new ArrayList<>();
+			Tuples tuples = new Tuples();
 			c.encodeVariable(bind.get(c), bind,
 				(index, value, args, argsIndex, argsValue) -> {
 					if (index == -1) return;
@@ -64,34 +58,23 @@ public class JacopSolver implements Solver {
                     indexes[0] = index;
                     for (int i = 0; i < argsSize; ++i)
                     	indexes[i + 1] = argsIndex[i];
-                    list.add(indexes);
+                    tuples.add(indexes);
 				});
-			int tableSize = list.size();
-			int[][] table = new int[tableSize][];
-			for (int i = 0; i < tableSize; ++i)
-				table[i] = list.get(i);
-			store.impose(new ExtensionalSupportVA(ivars, table));
+			solver.post(ICF.table(ivars,  tuples, "STR2+"));
 		}
-        Search<IntVar> search = new DepthFirstSearch<IntVar>(); 
-        search.setPrintInfo(false);
         final int[] answerCount = {0};
-        search.setSolutionListener(new AnswerListener() {
-			@Override
-			public boolean answer(Set<IntVar> variables) {
-				++answerCount[0];
-				Result result = new Result();
-                for (IntVar v : variables) {
-//                    Log.info(" %s : %s", v.id, v.domain.value());
-                    int no = v.index;
-                    int d = v.domain.value();
-                    result.put(problem.variable(no), map[no][d]);
-                }
-                return answer.answer(result);
-			}
-		});
-        SelectChoicePoint<IntVar> select = new InputOrderSelect<IntVar>(store, vars, new IndomainMin<IntVar>()); 
-        search.labeling(store, select); 
-        Log.info("JacopSolver: vars=%d answers=%d elapse=%dms",
+        boolean found = solver.findSolution();
+		while (found) {
+        	++answerCount[0];
+        	Result result = new Result();
+        	for (int i = 0, max = vars.length; i < max; ++i) {
+        		IntVar var = vars[i];
+        		result.put(problem.variable(i), map[i][var.getValue()]);
+        	}
+        	if (!answer.answer(result)) break;
+        	found = solver.nextSolution();
+        }
+        Log.info("ChocoSolver: vars=%d answers=%d elapse=%dms",
             problem.variables().size(), answerCount[0], System.currentTimeMillis() - start);
 	}
 

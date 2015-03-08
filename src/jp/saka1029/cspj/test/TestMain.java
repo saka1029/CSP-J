@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
+import jp.saka1029.cspj.main.AC3;
 import jp.saka1029.cspj.main.Akari;
 import jp.saka1029.cspj.main.Australia;
 import jp.saka1029.cspj.main.Benchmark;
@@ -13,19 +14,21 @@ import jp.saka1029.cspj.main.Hamilton2;
 import jp.saka1029.cspj.main.Komachi;
 import jp.saka1029.cspj.main.NQueen;
 import jp.saka1029.cspj.main.NumberLink;
+import jp.saka1029.cspj.main.NumberLinkNoSet;
 import jp.saka1029.cspj.main.SendMoreMoney;
 import jp.saka1029.cspj.main.Shikaku;
+import jp.saka1029.cspj.main.SimpleColoring;
 import jp.saka1029.cspj.main.Sudoku;
 import jp.saka1029.cspj.main.TileColorMatch;
 import jp.saka1029.cspj.main.TriangleTileColorMatch;
 import jp.saka1029.cspj.main.VerbalArithmetic;
 import jp.saka1029.cspj.main.春からみんな新生活;
 import jp.saka1029.cspj.problem.Log;
-import jp.saka1029.cspj.solver.Debug;
 import jp.saka1029.cspj.solver.Solver;
 import jp.saka1029.cspj.solver.basic.BasicSolver;
 import jp.saka1029.cspj.solver.jacop.JacopSolver;
 import jp.saka1029.cspj.solver.sat.minisat.MinisatSolver;
+import jp.saka1029.cspj.solver.sat.sat4j.Sat4jSolver;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -38,17 +41,32 @@ import org.junit.runner.RunWith;
 public class TestMain {
 
     @DataPoints
-    public static Solver[] solvers = { new BasicSolver(), new MinisatSolver(), new JacopSolver()};
+    public static Solver[] solvers = { new BasicSolver(), new MinisatSolver(), new JacopSolver(), new Sat4jSolver(), /* new ChocoSolver(), */};
+    
+    @Theory
+    public void testSimpleColoring(Solver solver) throws IOException {
+        Log.methodName(); assertEquals(6, new SimpleColoring().solver(solver).solve());
+    }
+    
+    @Theory
+    public void testAC3(Solver solver) throws IOException {
+        Log.methodName(); assertEquals(3, new AC3().solver(solver).solve());
+    }
     
     @Theory
     public void testSendMoreMoney(Solver solver) throws IOException {
-        Log.methodName(); assertEquals(1, new SendMoreMoney().solver(solver).debug(Debug.ALL).solve());
+        Log.methodName(); assertEquals(1, new SendMoreMoney().solver(solver).solve());
     }
     
 //    @Test
-//    public void testSendMoreMoneyMinisat() throws IOException {
-//        Log.methodName(); assertEquals(1, new SendMoreMoney().solver(new MinisatSolver(Debug.ALL)).solve());
+//    public void testSendMoreMoneyChoco() throws IOException {
+//        Log.methodName(); assertEquals(1, new SendMoreMoney().solver(new ChocoSolver()).debug(Debug.ALL).solve());
 //    }
+    
+    @Theory
+    public void testNumberLink0(Solver solver) throws IOException {
+        Log.methodName(); assertEquals(1, new NumberLink().input("data/numberlink0.txt").solver(solver).solve());
+    }
     
     @Theory
     public void testNumberLink1(Solver solver) throws IOException {
@@ -56,8 +74,53 @@ public class TestMain {
     }
     
     @Theory
-    public void testNumberLink0(Solver solver) throws IOException {
-        Log.methodName(); assertEquals(1, new NumberLink().input("data/numberlink0.txt").solver(solver).solve());
+    public void testNumberLink2(Solver solver) throws IOException {
+//    	if (solver instanceof BasicSolver) return;
+//    	if (solver instanceof MinisatSolver) return;
+//    	if (solver instanceof JacopSolver) return;
+//    	if (solver instanceof Sat4jSolver) return;
+        Log.methodName(); assertEquals(1, new NumberLink().input("data/numberlink2.txt").solver(solver).solve());
+    }
+    
+    @Theory
+    public void testNumberLink3(Solver solver) throws IOException {
+        Log.methodName(); assertEquals(1, new NumberLink().input("data/numberlink3.txt").solver(solver).solve());
+    }
+    
+    @Theory
+    public void testNumberLink5(Solver solver) throws IOException {
+    	if (solver instanceof BasicSolver) return;
+    	if (solver instanceof MinisatSolver) return;
+    	if (solver instanceof JacopSolver) return;
+    	if (solver instanceof Sat4jSolver) return;
+        Log.methodName(); assertEquals(1, new NumberLink().input("data/numberlink5.txt").solver(solver).solve());
+    }
+    
+    @Theory
+    public void testNumberLink10(Solver solver) throws IOException {
+//    	if (solver instanceof BasicSolver) return;
+    	if (solver instanceof MinisatSolver) return;
+    	if (solver instanceof JacopSolver) return;
+    	if (solver instanceof Sat4jSolver) return;
+        Log.methodName(); assertEquals(1, new NumberLink().input("data/numberlink10.txt").solver(solver).solve());
+    }
+    
+    @Theory
+    public void testNumberLink11(Solver solver) throws IOException {
+//    	if (solver instanceof BasicSolver) return;
+    	if (solver instanceof MinisatSolver) return;
+    	if (solver instanceof JacopSolver) return;
+    	if (solver instanceof Sat4jSolver) return;
+        Log.methodName(); assertEquals(1, new NumberLink().input("data/numberlink11.txt").solver(solver).solve());
+    }
+    
+    @Theory
+    public void testNumberLinkNoSet2(Solver solver) throws IOException {
+//    	if (solver instanceof BasicSolver) return;
+    	if (solver instanceof MinisatSolver) return;
+    	if (solver instanceof JacopSolver) return;
+    	if (solver instanceof Sat4jSolver) return;
+        Log.methodName(); assertEquals(1, new NumberLinkNoSet().input("data/numberlink2.txt").solver(solver).solve());
     }
 
     @Theory
@@ -103,6 +166,7 @@ public class TestMain {
 
     @Theory
     public void testTileColorMatch(Solver solver) throws IOException {
+    	if (solver instanceof JacopSolver) return;
         Log.methodName(); assertTrue(new TileColorMatch().solver(solver).solve() >= 1);
     }
 
@@ -118,7 +182,7 @@ public class TestMain {
 
     @Theory
     public void testAustralia(Solver solver) throws IOException {
-    	Log.methodName(); assertEquals(18, new Australia().solver(solver).debug(Debug.ALL).solve());
+    	Log.methodName(); assertEquals(18, new Australia().solver(solver).solve());
     }
 
     @Ignore
@@ -144,31 +208,31 @@ public class TestMain {
 //    	String ex = "BLACK+GREEN=ORANGE";
 //    	String ex = "SIX+SEVEN+SEVEN=TWENTY";
     	String ex = "ONE+TWO+FIVE+NINE+ELEVEN+TWELVE+FIFTY=NINETY";
-    	assertTrue(new VerbalArithmetic().expression(ex).solver(solver).debug("Reduced").solve() > 0);
+    	assertTrue(new VerbalArithmetic().expression(ex).solver(solver).solve() > 0);
     }
 
     @Theory
     public void testAkari1(Solver solver) throws IOException {
-    	Log.methodName(); assertTrue(new Akari().input("data/akari1.txt").solver(solver).debug("Reduced").solve() > 0);
+    	Log.methodName(); assertTrue(new Akari().input("data/akari1.txt").solver(solver).solve() > 0);
     }
 
     @Theory
     public void testAkari2(Solver solver) throws IOException {
-    	Log.methodName(); assertTrue(new Akari().input("data/akari2.txt").solver(solver).debug("Reduced").solve() > 0);
+    	Log.methodName(); assertTrue(new Akari().input("data/akari2.txt").solver(solver).solve() > 0);
     }
 
     @Theory
     public void testAkari3(Solver solver) throws IOException {
-    	Log.methodName(); assertTrue(new Akari().input("data/akari3.txt").solver(solver).debug("Reduced").solve() > 0);
+    	Log.methodName(); assertTrue(new Akari().input("data/akari3.txt").solver(solver).solve() > 0);
     }
 
     @Theory
     public void testAkari7(Solver solver) throws IOException {
-    	Log.methodName(); assertTrue(new Akari().input("data/akari7.txt").solver(solver)/*.debug("Reduced")*/.solve() > 0);
+    	Log.methodName(); assertTrue(new Akari().input("data/akari7.txt").solver(solver).solve() > 0);
     }
 
     @Theory
     public void testAkari10(Solver solver) throws IOException {
-    	Log.methodName(); assertTrue(new Akari().input("data/akari10.txt").solver(solver)/*.debug("Reduced")*/.solve() > 0);
+    	Log.methodName(); assertTrue(new Akari().input("data/akari10.txt").solver(solver).solve() > 0);
     }
 }

@@ -181,17 +181,14 @@ public class Akari extends SolverMain {
 				if (c.isNumber())
 					printer.draw(x, y, ((Number)c).n);
 				else if (c.isBlock())
-					printer.draw(x, y, "##");
+					printer.draw(x, y, "#");
 				else if (c.isOn())
-					printer.draw(x, y, "**");
+					printer.draw(x, y, "*");
                 else {
                     String s = "";
-                    if (c.up) s += "^";
-                    if (c.down) s += "v";
-                    if (!c.up && !c.down) s += " ";
-                    if (c.left) s += "<";
-                    if (c.right) s += ">";
-                    if (!c.left && !c.right) s += " ";
+                    if ((c.up || c.down) && (c.left || c.right)) s = "+";
+                    else if (c.up || c.down) s = "|";
+                    else if (c.left || c.right) s = "-";
                     printer.draw(x, y, s);
                 }
 			}

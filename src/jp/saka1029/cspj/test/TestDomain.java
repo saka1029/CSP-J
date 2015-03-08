@@ -29,4 +29,5 @@ public class TestDomain {
         assertTrue(i.contains(3));
         Log.info("%s", i);
     }
+    
 }

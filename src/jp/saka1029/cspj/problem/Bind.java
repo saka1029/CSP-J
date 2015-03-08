@@ -22,9 +22,19 @@ public class Bind {
         System.arraycopy(prev.domains, 0, this.domains, 0, prev.domains.length);
     }
     
-    public Domain<?> get(Variable<?> key) {
-        return domains[key.no];
+	@SuppressWarnings("unchecked")
+	public <T> Domain<T> get(Expression<T> key) {
+    	if (key instanceof Variable<?>)
+            return (Domain<T>)domains[((Variable<?>)key).no];
+    	else if (key instanceof Constant<?>)
+    		return (Domain<T>)((Constant<?>)key).domain;
+    	else
+    		throw new IllegalArgumentException("unknown expression: " + key);
     }
+
+//    public Domain<?> get(Variable<?> key) {
+//        return domains[key.no];
+//    }
 
     public Domain<?> get(int no) {
     	return domains[no];

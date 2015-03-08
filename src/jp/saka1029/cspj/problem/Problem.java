@@ -77,6 +77,18 @@ public class Problem {
     public void allDifferent(Expression<?>... args) { forEachPairs(NE, "!=", args); }
     public void allDifferent(Collection<? extends Expression<?>> args) { forEachPairs(NE, "!=", args); }
 
+//    public <A> Constraint<Boolean> or(Function<A, Constraint<Boolean>> func, Collection<? extends A> args) {
+//    	Iterator<? extends A> i = args.iterator();
+//    	Constraint<Boolean> r = func.apply(i.next());
+//    	while (i.hasNext())
+//    		r = constraint(a -> (boolean)a[0] || (boolean)a[1], "or", r, func.apply(i.next()));
+//    	return r;
+//    }
+//
+//    public <A> Constraint<Boolean> or(Function<A, Constraint<Boolean>> func, @SuppressWarnings("unchecked") A... args) {
+//    	return or(func, Arrays.asList(args));
+//    }
+
     @Override public String toString() { return variables.toString(); }
 }
 
