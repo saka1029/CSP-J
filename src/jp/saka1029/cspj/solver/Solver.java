@@ -2,7 +2,7 @@ package jp.saka1029.cspj.solver;
 
 import java.util.EnumSet;
 
-import jp.saka1029.cspj.problem.Problem;
+import jp.saka1029.cspj.problem.old.Problem;
 
 public interface Solver {
 

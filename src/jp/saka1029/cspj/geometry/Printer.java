@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import jp.saka1029.cspj.problem.StringFormatter;
+import jp.saka1029.cspj.problem.old.StringFormatter;
 
 public class Printer {
 

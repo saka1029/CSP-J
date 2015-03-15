@@ -7,9 +7,10 @@ import jp.saka1029.cspj.geometry.Board;
 import jp.saka1029.cspj.geometry.Matrix;
 import jp.saka1029.cspj.geometry.Point;
 import jp.saka1029.cspj.geometry.Printer;
-import jp.saka1029.cspj.problem.Domain;
-import jp.saka1029.cspj.problem.Log;
-import jp.saka1029.cspj.problem.Variable;
+import jp.saka1029.cspj.problem.old.Bind;
+import jp.saka1029.cspj.problem.old.Domain;
+import jp.saka1029.cspj.problem.old.Log;
+import jp.saka1029.cspj.problem.old.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
 
@@ -48,8 +49,26 @@ public class Sudoku extends SolverMain {
                 problem.allDifferent(variables.submatrix(x, y, 3, 3).asList());
         Log.info("Sudoku: file=%s", input);
         Log.info(board);
+        printReducedProblem(problem.bind());
     }
 
+    public void printReducedProblem(Bind bind) {
+    	Log.info("*** reduced problem ***");
+        Printer printer = new Printer();
+        int width = variables.width;
+        int height = variables.height;
+        printer.draw(0, 0, width, height);
+        printer.draw(0, 3, width, 3);
+        printer.draw(3, 0, 3, height);
+        for (int y = 0; y < height; ++y)
+            for (int x = 0; x < width; ++x) {
+            	Domain<Integer> d = bind.get(variables.get(x, y));
+            	if (d.size() == 1)
+                    printer.draw(x, y, d.first());
+            }
+        Log.info(printer);
+    }
+    
     @Override
     public boolean answer(int n, Result result) {
         Printer printer = new Printer();

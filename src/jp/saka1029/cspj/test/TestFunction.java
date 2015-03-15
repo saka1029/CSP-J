@@ -1,12 +1,12 @@
 package jp.saka1029.cspj.test;
 
-import static jp.saka1029.cspj.problem.Helper.*;
+import static jp.saka1029.cspj.problem.old.Helper.*;
 import static org.junit.Assert.*;
-import jp.saka1029.cspj.problem.Constraint;
-import jp.saka1029.cspj.problem.Domain;
-import jp.saka1029.cspj.problem.Log;
-import jp.saka1029.cspj.problem.Problem;
-import jp.saka1029.cspj.problem.Variable;
+import jp.saka1029.cspj.problem.old.Constraint;
+import jp.saka1029.cspj.problem.old.Domain;
+import jp.saka1029.cspj.problem.old.Log;
+import jp.saka1029.cspj.problem.old.Problem;
+import jp.saka1029.cspj.problem.old.Variable;
 
 import org.junit.Test;
 

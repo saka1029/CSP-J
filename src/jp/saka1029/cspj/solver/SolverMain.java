@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import jp.saka1029.cspj.problem.Log;
-import jp.saka1029.cspj.problem.Problem;
+import jp.saka1029.cspj.problem.old.Log;
+import jp.saka1029.cspj.problem.old.Problem;
 import jp.saka1029.cspj.solver.basic.BasicSolver;
 import jp.saka1029.cspj.solver.sat.minisat.MinisatSolver;
 

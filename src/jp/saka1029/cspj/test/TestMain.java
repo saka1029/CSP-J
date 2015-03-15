@@ -20,10 +20,9 @@ import jp.saka1029.cspj.main.Shikaku;
 import jp.saka1029.cspj.main.SimpleColoring;
 import jp.saka1029.cspj.main.Sudoku;
 import jp.saka1029.cspj.main.TileColorMatch;
-import jp.saka1029.cspj.main.TriangleTileColorMatch;
 import jp.saka1029.cspj.main.VerbalArithmetic;
 import jp.saka1029.cspj.main.春からみんな新生活;
-import jp.saka1029.cspj.problem.Log;
+import jp.saka1029.cspj.problem.old.Log;
 import jp.saka1029.cspj.solver.Solver;
 import jp.saka1029.cspj.solver.basic.BasicSolver;
 import jp.saka1029.cspj.solver.jacop.JacopSolver;
@@ -148,6 +147,11 @@ public class TestMain {
         Log.methodName(); assertTrue(new Filomino().input("data/fillomino3.txt").solver(solver).solve() > 0);
     }
 
+//    @Theory
+//    public void testFilomino10(Solver solver) throws IOException {
+//        Log.methodName(); assertTrue(new Filomino().input("data/fillomino10.txt").solver(solver).solve() > 0);
+//    }
+
     @Theory
     public void test春からみんな新生活(Solver solver) throws IOException {
         Log.methodName(); assertEquals(1, new 春からみんな新生活().solver(solver).solve());
@@ -170,11 +174,6 @@ public class TestMain {
         Log.methodName(); assertTrue(new TileColorMatch().solver(solver).solve() >= 1);
     }
 
-    @Theory
-    public void testTriangleTileColorMatch(Solver solver) throws IOException {
-        Log.methodName(); assertEquals(1, new TriangleTileColorMatch().solver(solver).solve());
-    }
-    
     @Theory
     public void testNQueen(Solver solver) throws IOException {
     	Log.methodName(); assertTrue(new NQueen().number(8).solver(solver).solve() > 0);

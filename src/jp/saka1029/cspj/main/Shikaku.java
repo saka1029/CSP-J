@@ -13,9 +13,10 @@ import jp.saka1029.cspj.geometry.Board;
 import jp.saka1029.cspj.geometry.Box;
 import jp.saka1029.cspj.geometry.Point;
 import jp.saka1029.cspj.geometry.Printer;
-import jp.saka1029.cspj.problem.Domain;
-import jp.saka1029.cspj.problem.Log;
-import jp.saka1029.cspj.problem.Variable;
+import jp.saka1029.cspj.problem.old.Bind;
+import jp.saka1029.cspj.problem.old.Domain;
+import jp.saka1029.cspj.problem.old.Log;
+import jp.saka1029.cspj.problem.old.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
 
@@ -57,6 +58,22 @@ public class Shikaku extends SolverMain {
             variables.add(problem.variable(String.format("%d@%s", n, p), builder.build()));
         }
         problem.forEachPairs(a -> !((Box)a[0]).overlap((Box)a[1]), "notOverlap", variables);
+        printReduced(problem.bind());
+    }
+
+    void printReduced(Bind bind) {
+    	Log.info("*** reduces problem ***");
+        Printer printer = new Printer();
+        printer.draw(board.box);
+        for (Variable<Box> v : variables) {
+        	Domain<Box> d = bind.get(v);
+        	if (d.size() == 1)
+            printer.draw(d.first());
+        }
+        for (Entry<Point, Integer> e : board.numbers.entrySet())
+            printer.draw(e.getKey(), e.getValue());
+        Log.info(printer);
+    	
     }
 
     @Override
@@ -64,7 +81,7 @@ public class Shikaku extends SolverMain {
         Printer printer = new Printer();
         printer.draw(board.box);
         for (Variable<Box> v : variables)
-            printer.draw((Box)result.get(v));
+            printer.draw(result.get(v));
         for (Entry<Point, Integer> e : board.numbers.entrySet())
             printer.draw(e.getKey(), e.getValue());
         Log.info(printer);

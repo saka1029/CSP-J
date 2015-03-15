@@ -4,10 +4,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import jp.saka1029.cspj.problem.Bind;
-import jp.saka1029.cspj.problem.Expression;
-import jp.saka1029.cspj.problem.Problem;
-import jp.saka1029.cspj.problem.Variable;
+import jp.saka1029.cspj.problem.old.Bind;
+import jp.saka1029.cspj.problem.old.Expression;
+import jp.saka1029.cspj.problem.old.Problem;
+import jp.saka1029.cspj.problem.old.Variable;
 
 public class Result {
 

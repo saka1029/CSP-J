@@ -6,10 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import jp.saka1029.cspj.problem.Bind;
-import jp.saka1029.cspj.problem.Domain;
-import jp.saka1029.cspj.problem.Problem;
-import jp.saka1029.cspj.problem.Variable;
+import jp.saka1029.cspj.problem.old.Bind;
+import jp.saka1029.cspj.problem.old.Domain;
+import jp.saka1029.cspj.problem.old.Problem;
+import jp.saka1029.cspj.problem.old.Variable;
 
 public class VariableMap {
 

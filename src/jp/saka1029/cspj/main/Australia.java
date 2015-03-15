@@ -2,10 +2,10 @@ package jp.saka1029.cspj.main;
 
 import java.io.IOException;
 
-import jp.saka1029.cspj.problem.Domain;
-import jp.saka1029.cspj.problem.Log;
-import static jp.saka1029.cspj.problem.Helper.*;
-import jp.saka1029.cspj.problem.Variable;
+import static jp.saka1029.cspj.problem.old.Helper.*;
+import jp.saka1029.cspj.problem.old.Domain;
+import jp.saka1029.cspj.problem.old.Log;
+import jp.saka1029.cspj.problem.old.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
 

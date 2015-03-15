@@ -12,10 +12,10 @@ import jp.saka1029.cspj.geometry.Board;
 import jp.saka1029.cspj.geometry.Matrix;
 import jp.saka1029.cspj.geometry.Point;
 import jp.saka1029.cspj.geometry.Printer;
-import jp.saka1029.cspj.problem.Bind;
-import jp.saka1029.cspj.problem.Domain;
-import jp.saka1029.cspj.problem.Log;
-import jp.saka1029.cspj.problem.Variable;
+import jp.saka1029.cspj.problem.old.Bind;
+import jp.saka1029.cspj.problem.old.Domain;
+import jp.saka1029.cspj.problem.old.Log;
+import jp.saka1029.cspj.problem.old.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
 

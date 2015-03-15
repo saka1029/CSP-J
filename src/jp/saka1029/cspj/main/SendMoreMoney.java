@@ -1,9 +1,9 @@
 package jp.saka1029.cspj.main;
 
-import jp.saka1029.cspj.problem.Constant;
-import jp.saka1029.cspj.problem.ConstraintFunction;
-import jp.saka1029.cspj.problem.Domain;
-import jp.saka1029.cspj.problem.Variable;
+import jp.saka1029.cspj.problem.old.Constant;
+import jp.saka1029.cspj.problem.old.ConstraintFunction;
+import jp.saka1029.cspj.problem.old.Domain;
+import jp.saka1029.cspj.problem.old.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
 

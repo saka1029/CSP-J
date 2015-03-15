@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>C:\git\saka1029\java\saka1029.dcsp\doc\bind\.bind.md.html</title>
+<title>C:\git\github\CSP-J\doc\bind\.bind.md.html</title>
 
 
 <style type="text/css">
@@ -449,10 +449,10 @@ function setDocumentScrollTop(ypos)
 
 </head>
 <body class="markdown-body">
-<h1> <a name="user-content-problembind%E3%81%AF%E4%BD%95%E3%82%92%E3%81%97%E3%81%A6%E3%81%84%E3%82%8B%E3%81%8B" class="anchor" href="..md.html#problembindは何をしているか" aria-hidden="true"><span class="octicon octicon-link"></span></a>Problem.bind()は何をしているか？</h1> 
-<h2> <a name="user-content-%E3%83%A2%E3%83%87%E3%83%AB" class="anchor" href="..md.html#モデル" aria-hidden="true"><span class="octicon octicon-link"></span></a>モデル</h2> 
+<h1> <a id="user-content-problembindは何をしているか" class="anchor" href="..md.html#problembindは何をしているか" aria-hidden="true"><span class="octicon octicon-link"></span></a>Problem.bind()は何をしているか？</h1> 
+<h2> <a id="user-content-モデル" class="anchor" href="..md.html#モデル" aria-hidden="true"><span class="octicon octicon-link"></span></a>モデル</h2> 
 <p><a href="model.svg" target="_blank"><img src="model.svg" alt="Problem.bindに関連するモデル" title="Problem.bindに関連するモデル" style="max-width:100%;" /></a></p> 
-<h2> <a name="user-content-interface-bind" class="anchor" href="..md.html#interface-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>interface Bind</h2> 
+<h2> <a id="user-content-interface-bind" class="anchor" href="..md.html#interface-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>interface Bind</h2> 
 <pre><code>public interface Bind {
 
     int size();
@@ -464,11 +464,11 @@ function setDocumentScrollTop(ypos)
 
 }
 </code></pre> 
-<h2> <a name="user-content-bind-problembind" class="anchor" href="..md.html#bind-problembind" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bind Problem.bind()</h2> 
+<h2> <a id="user-content-bind-problembind" class="anchor" href="..md.html#bind-problembind" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bind Problem.bind()</h2> 
 <ol> 
  <li>すべての変数について既定のドメインをputする。</li> 
  <li>全ての変数についてbind(bind)を呼ぶ。 （bindが変更されたことを通知する）</li> 
-</ol>
+</ol> 
 <pre><code>    public Bind bind() {
         Bind bind = new BindMap();
         for (Variable&lt;?&gt; v : variables)
@@ -479,7 +479,7 @@ function setDocumentScrollTop(ypos)
     }
 
 </code></pre> 
-<h2> <a name="user-content-domain-variabledomainbind-bind" class="anchor" href="..md.html#domain-variabledomainbind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>Domain Variable.domain(Bind bind)</h2> 
+<h2> <a id="user-content-domain-variabledomainbind-bind" class="anchor" href="..md.html#domain-variabledomainbind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>Domain Variable.domain(Bind bind)</h2> 
 <p>bindにDomainがあればそれを返す。 なければ既定のDomainを返す。 ただしトップレベルの場合で論理値の場合はTRUEを返す。 このメソッドはExpressionをオーバーライドしている。 （Constantの場合は常に既定のDomainを返す）</p> 
 <pre><code>    @SuppressWarnings(&quot;unchecked&quot;)
     @Override
@@ -494,19 +494,19 @@ function setDocumentScrollTop(ypos)
         return d;
     }
 </code></pre> 
-<h2> <a name="user-content-boolean-variablebindbind-bind" class="anchor" href="..md.html#boolean-variablebindbind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Variable.bind(Bind bind)</h2> 
+<h2> <a id="user-content-boolean-variablebindbind-bind" class="anchor" href="..md.html#boolean-variablebindbind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Variable.bind(Bind bind)</h2> 
 <p>bindにおける自分自身のドメインを指定されたdomainに変更する。 ドメインを変更することによって影響を受ける変数がある場合は、 それらを再バインドする。 正常に変更できた場合はtrueを返す。 ドメインを変更することによって矛盾が生じる場合 （自分自身または影響を受ける変数のドメインが空集合となる場合）、 falseを返す。</p> 
 <pre><code>    protected boolean bind(Bind bind) {
         return bind(domain(bind), bind);
     }
 </code></pre> 
-<h2> <a name="user-content-boolean-variablebinddomain-domain-bind-bind" class="anchor" href="..md.html#boolean-variablebinddomain-domain-bind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Variable.bind(Domain domain, Bind bind)</h2> 
+<h2> <a id="user-content-boolean-variablebinddomain-domain-bind-bind" class="anchor" href="..md.html#boolean-variablebinddomain-domain-bind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Variable.bind(Domain domain, Bind bind)</h2> 
 <p>このメソッドは抽象メソッド。 実装クラスはふたつある。</p> 
 <ol> 
  <li>Var extends Variable</li> 
  <li>Constraint extends Variable</li> 
-</ol>
-<h2> <a name="user-content-boolean-variableputdomain-domain-bind-bind-set-que" class="anchor" href="..md.html#boolean-variableputdomain-domain-bind-bind-set-que" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Variable.put(Domain domain, Bind bind, Set que)</h2> 
+</ol> 
+<h2> <a id="user-content-boolean-variableputdomain-domain-bind-bind-set-que" class="anchor" href="..md.html#boolean-variableputdomain-domain-bind-bind-set-que" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Variable.put(Domain domain, Bind bind, Set que)</h2> 
 <p>domainが空集合ならfalseをリターンする。 bindされているDomainの要素数と同じ要素数ならtrueを返す。 （putせずに成功する） 割り当てようとしているdomainの要素数が小さければ bindにputして、referersをすべてキューに追加する。</p> 
 <pre><code>   protected boolean put(Domain&lt;T&gt; domain, Bind bind, Set&lt;Variable&lt;?&gt;&gt; que) {
         int size = domain.size();
@@ -520,7 +520,7 @@ function setDocumentScrollTop(ypos)
         return true;
     }
 </code></pre> 
-<h2> <a name="user-content-boolean-varbinddomain-domain-bind-bind" class="anchor" href="..md.html#boolean-varbinddomain-domain-bind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Var.bind(Domain domain, Bind bind)</h2> 
+<h2> <a id="user-content-boolean-varbinddomain-domain-bind-bind" class="anchor" href="..md.html#boolean-varbinddomain-domain-bind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Var.bind(Domain domain, Bind bind)</h2> 
 <p>キュー（Variableの集合）を作成して put(Domain, Bind, キュー)を呼ぶ。 putに失敗したらfalseを返す。 成功した場合はキューにあるすべての変数について v.bind(Bind)を呼ぶ。</p> 
 <pre><code>    @Override
     public boolean bind(Domain&lt;T&gt; domain, Bind bind) {
@@ -530,7 +530,7 @@ function setDocumentScrollTop(ypos)
         return bindQue(que, bind);  // Variableで実装
     }
 </code></pre> 
-<h2> <a name="user-content-boolean-constraintbinddomain-domain-bind-bind" class="anchor" href="..md.html#boolean-constraintbinddomain-domain-bind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Constraint.bind(Domain domain, Bind bind)</h2> 
+<h2> <a id="user-content-boolean-constraintbinddomain-domain-bind-bind" class="anchor" href="..md.html#boolean-constraintbinddomain-domain-bind-bind" aria-hidden="true"><span class="octicon octicon-link"></span></a>boolean Constraint.bind(Domain domain, Bind bind)</h2> 
 <p>キュー（Variableの集合）を作成して 自分自身と引数のDomainをビルドする。 ビルドしたDomainでputする。 putに失敗したらfalseを返す。 成功したら、引数の内のすべての変数について bind(ビルドしたDomain, bind)を呼ぶ。 このbindにひとつでも失敗したらfalseを返す。 すべて成功した場合はキューにあるすべての変数について v.bind(Bind)を呼ぶ。</p> 
 <pre><code>    @Override
     public boolean bind(Domain&lt;T&gt; domain, Bind bind) {

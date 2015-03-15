@@ -13,10 +13,10 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import jp.saka1029.cspj.problem.ConstraintFunction;
-import jp.saka1029.cspj.problem.Domain;
-import jp.saka1029.cspj.problem.Log;
-import jp.saka1029.cspj.problem.Variable;
+import jp.saka1029.cspj.problem.old.ConstraintFunction;
+import jp.saka1029.cspj.problem.old.Domain;
+import jp.saka1029.cspj.problem.old.Log;
+import jp.saka1029.cspj.problem.old.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
 

@@ -14,10 +14,10 @@ import jp.saka1029.cspj.geometry.Matrix;
 import jp.saka1029.cspj.geometry.Point;
 import jp.saka1029.cspj.geometry.PointSet;
 import jp.saka1029.cspj.geometry.Printer;
-import jp.saka1029.cspj.problem.Domain;
-import jp.saka1029.cspj.problem.Log;
-import jp.saka1029.cspj.problem.Util;
-import jp.saka1029.cspj.problem.Variable;
+import jp.saka1029.cspj.problem.old.Domain;
+import jp.saka1029.cspj.problem.old.Log;
+import jp.saka1029.cspj.problem.old.Util;
+import jp.saka1029.cspj.problem.old.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
 
@@ -122,14 +122,14 @@ public class Filomino extends SolverMain {
 
     @Override
     public boolean answer(int n, Result result) throws IOException {
-        if (n > 100) {
+        if (n > 1000) {
             Log.info("answer count exeeds 100");
             return false;
         }
         int width = board.box.size.x, height = board.box.size.y;
         Matrix<Integer> m = new Matrix<>(width, height, 0);
         for (Variable<PointSet> v : variables) {
-            PointSet set = (PointSet)result.get(v);
+            PointSet set = result.get(v);
             int s = set.size();
             for (Point p : set)
                 m.set(p.x, p.y, s);

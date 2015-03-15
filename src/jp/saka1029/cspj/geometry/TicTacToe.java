@@ -3,7 +3,7 @@ package jp.saka1029.cspj.geometry;
 import java.util.HashSet;
 import java.util.Set;
 
-import jp.saka1029.cspj.problem.StringFormatter;
+import jp.saka1029.cspj.problem.old.StringFormatter;
 
 public class TicTacToe {
     

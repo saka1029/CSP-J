@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import jp.saka1029.cspj.problem.Constant;
-import jp.saka1029.cspj.problem.Domain;
-import jp.saka1029.cspj.problem.Expression;
-import jp.saka1029.cspj.problem.Log;
-import jp.saka1029.cspj.problem.Problem;
-import jp.saka1029.cspj.problem.Variable;
+import jp.saka1029.cspj.problem.old.Constant;
+import jp.saka1029.cspj.problem.old.Domain;
+import jp.saka1029.cspj.problem.old.Expression;
+import jp.saka1029.cspj.problem.old.Log;
+import jp.saka1029.cspj.problem.old.Problem;
+import jp.saka1029.cspj.problem.old.Variable;
 import jp.saka1029.cspj.solver.Debug;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;

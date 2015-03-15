@@ -1,4 +1,4 @@
-package jp.saka1029.cspj.problem;
+package jp.saka1029.cspj.problem.old;
 
 import java.util.ArrayList;
 import java.util.Collection;

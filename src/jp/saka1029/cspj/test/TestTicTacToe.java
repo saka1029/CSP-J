@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jp.saka1029.cspj.geometry.TicTacToe;
-import jp.saka1029.cspj.problem.Log;
+import jp.saka1029.cspj.problem.old.Log;
 
 import org.junit.Test;
 

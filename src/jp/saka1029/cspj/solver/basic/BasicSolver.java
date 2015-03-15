@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-import jp.saka1029.cspj.problem.Bind;
-import jp.saka1029.cspj.problem.Domain;
-import jp.saka1029.cspj.problem.Log;
-import jp.saka1029.cspj.problem.Problem;
-import jp.saka1029.cspj.problem.Variable;
+import jp.saka1029.cspj.problem.old.Bind;
+import jp.saka1029.cspj.problem.old.Domain;
+import jp.saka1029.cspj.problem.old.Log;
+import jp.saka1029.cspj.problem.old.Problem;
+import jp.saka1029.cspj.problem.old.Variable;
 import jp.saka1029.cspj.solver.Answer;
 import jp.saka1029.cspj.solver.Debug;
 import jp.saka1029.cspj.solver.Result;

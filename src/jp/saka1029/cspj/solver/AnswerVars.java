@@ -2,9 +2,9 @@ package jp.saka1029.cspj.solver;
 
 import java.util.Map.Entry;
 
-import jp.saka1029.cspj.problem.Constraint;
-import jp.saka1029.cspj.problem.Log;
-import jp.saka1029.cspj.problem.Variable;
+import jp.saka1029.cspj.problem.old.Constraint;
+import jp.saka1029.cspj.problem.old.Log;
+import jp.saka1029.cspj.problem.old.Variable;
 
 public class AnswerVars implements Answer {
 

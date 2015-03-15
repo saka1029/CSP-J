@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import jp.saka1029.cspj.problem.Log;
+import jp.saka1029.cspj.problem.old.Log;
 
 import org.junit.Test;
 
