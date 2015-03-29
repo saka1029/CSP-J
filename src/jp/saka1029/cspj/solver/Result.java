@@ -4,10 +4,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import jp.saka1029.cspj.problem.old.Bind;
-import jp.saka1029.cspj.problem.old.Expression;
-import jp.saka1029.cspj.problem.old.Problem;
-import jp.saka1029.cspj.problem.old.Variable;
+import jp.saka1029.cspj.problem.Bind;
+import jp.saka1029.cspj.problem.Problem;
+import jp.saka1029.cspj.problem.Variable;
 
 public class Result {
 
@@ -17,18 +16,13 @@ public class Result {
     }
 
     public Result(Problem problem, Bind bind) {
-        for (Variable<?> v : problem.variables())
+        for (Variable<?> v : problem.variables)
             map.put(v, bind.get(v).first());
     }
     
-    @SuppressWarnings("unchecked")
-	public <T> T get(Expression<T> e) {
-    	if (e instanceof Variable<?>)
-    		return (T)map.get((Variable<T>)e);
-    	else if (e instanceof Expression<?>)
-    		return e.domain.first();
-    	else
-    		throw new IllegalArgumentException("unknown expression: " + e);
+	@SuppressWarnings("unchecked")
+	public <T> T get(Variable<T> e) {
+        return (T)map.get((Variable<T>)e);
     }
     
     public void put(Variable<?> key, Object value) {

@@ -2,23 +2,21 @@ package jp.saka1029.cspj.main;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Logger;
 
 import jp.saka1029.cspj.geometry.Board;
 import jp.saka1029.cspj.geometry.Matrix;
 import jp.saka1029.cspj.geometry.Point;
 import jp.saka1029.cspj.geometry.Printer;
-import jp.saka1029.cspj.problem.old.Constant;
-import jp.saka1029.cspj.problem.old.Domain;
-import jp.saka1029.cspj.problem.old.Expression;
-import jp.saka1029.cspj.problem.old.Log;
-import jp.saka1029.cspj.problem.old.Variable;
+import jp.saka1029.cspj.problem.Domain;
+import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
 
 public class Akari extends SolverMain {
 
+	static final Logger logger = Logger.getLogger(Akari.class.getName());
+	
 	/**
 	 * 生成するインスタンスを制約しているので、hashCodeやequalsの実装を省略している。
 	 */
@@ -116,18 +114,18 @@ public class Akari extends SolverMain {
 	}
 	
 	Board board;
-	Matrix<Expression<Cell>> expressions;
+	Matrix<Variable<Cell>> variables;
 	
 	@Override
 	public void define() throws IOException {
 		Domain<Cell> vacants = Domain.of(Cell.VACANTS);
-		Constant<Cell> block = problem.constant(Cell.BLOCK);
+		Variable<Cell> block = problem.constant(Cell.BLOCK);
 		board = new Board(input);
 		Point size = board.box.size;
-		expressions = new Matrix<>(size.x, size.y);
+		variables = new Matrix<>(size.x, size.y);
 		for (int y = 0; y < size.y; ++y)
 			for (int x = 0; x < size.x; ++x) {
-				Expression<Cell> e;
+				Variable<Cell> e;
 				Integer n = board.numbers.get(new Point(x, y));
 				if (n == null)
 					e = problem.variable(String.format("%d@%d", x, y), vacants);
@@ -135,39 +133,29 @@ public class Akari extends SolverMain {
 					e = block;
 				else
 					e = problem.constant(Cell.number(n));
-				expressions.set(x, y, e);
+				variables.set(x, y, e);
 			}
-		Log.info(board);
+		logger.info(board.toString());
 		for (int y = -1; y < size.y; ++y)
             for (int x = -1; x < size.x; ++x) {
-                problem.constraint(a -> ((Cell)a[0]).isValidDown((Cell)a[1]), "isValidDown",
-                    expressions.get(x, y, block), expressions.get(x, y + 1, block));
-                problem.constraint(a -> ((Cell)a[0]).isValidRight((Cell)a[1]), "isValidRight",
-                    expressions.get(x, y, block), expressions.get(x + 1, y, block));
+                problem.constraint("isValidDown", (a, b) -> a.isValidDown(b),
+                    variables.get(x, y, block), variables.get(x, y + 1, block));
+                problem.constraint("isValidRight", (a, b) -> a.isValidRight(b),
+                    variables.get(x, y, block), variables.get(x + 1, y, block));
             }
 		for (int y = 0; y < size.y; ++y)
             for (int x = 0; x < size.x; ++x) {
             	Integer n = board.numbers.get(new Point(x, y));
             	if (n == null || n == 9) continue;
-                List<Expression<Cell>> args = new ArrayList<>();
-                args.add(expressions.get(x, y));
-                    args.add(expressions.get(x - 1, y, block));
-                    args.add(expressions.get(x + 1, y, block));
-                    args.add(expressions.get(x, y - 1, block));
-                    args.add(expressions.get(x, y + 1, block));
-                    problem.constraint(
-                        a -> ((Cell)a[0]).isValidLightCount((Cell)a[1], (Cell)a[2], (Cell)a[3], (Cell)a[4]),
-                        "isValidLightCount", args);
+                Variable<Cell> center = variables.get(x, y);
+                Variable<Cell> left = variables.get(x - 1, y, block);
+                Variable<Cell> right = variables.get(x + 1, y, block);
+                Variable<Cell> up = variables.get(x, y - 1, block);
+                Variable<Cell> down = variables.get(x, y + 1, block);
+                    problem.constraint("isValidLightCount",
+                    	(c, l, r, u, d) -> c.isValidLightCount(l, r, u, d),
+                    	center, left, right, up, down);
             }
-	}
-
-	Cell get(Result result, Expression<Cell> e) {
-		if (e instanceof Constant<?>)
-			return e.domain.first();
-		else if (e instanceof Variable<?>)
-			return (Cell)result.get((Variable<Cell>)e);
-		else
-			throw new IllegalArgumentException("unknown expression: " + e);
 	}
 
 	@Override
@@ -177,7 +165,7 @@ public class Akari extends SolverMain {
 		Point size = board.box.size;
 		for (int y = 0; y < size.y; ++y)
 			for (int x = 0; x < size.x; ++x) {
-				Cell c = result.get(expressions.get(x, y));
+				Cell c = result.get(variables.get(x, y));
 				if (c.isNumber())
 					printer.draw(x, y, ((Number)c).n);
 				else if (c.isBlock())
@@ -192,7 +180,7 @@ public class Akari extends SolverMain {
                     printer.draw(x, y, s);
                 }
 			}
-		Log.info(printer);
+		logger.info(printer.toString());
 //		try {
 //			printer.writeSVG(new File(input.getParentFile(), input.getName() + "." + solver.getClass().getSimpleName() + ".svg"));
 //		} catch (IOException e) {

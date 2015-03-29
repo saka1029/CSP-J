@@ -4,10 +4,10 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
-import jp.saka1029.cspj.main.SendMoreMoney;
+import jp.saka1029.cspj.main.old.SendMoreMoney;
 import jp.saka1029.cspj.problem.old.Log;
-import jp.saka1029.cspj.solver.Debug;
-import jp.saka1029.cspj.solver.sat.minisat.MinisatSolver;
+import jp.saka1029.cspj.solver.old.Debug;
+import jp.saka1029.cspj.solver.old.sat.minisat.MinisatSolver;
 
 import org.junit.Test;
 

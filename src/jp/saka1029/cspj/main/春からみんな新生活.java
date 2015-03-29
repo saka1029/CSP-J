@@ -1,14 +1,15 @@
 package jp.saka1029.cspj.main;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
-import jp.saka1029.cspj.problem.old.Domain;
-import jp.saka1029.cspj.problem.old.Log;
-import jp.saka1029.cspj.problem.old.Problem;
-import jp.saka1029.cspj.problem.old.Variable;
+import jp.saka1029.cspj.problem.Constraint;
+import jp.saka1029.cspj.problem.Domain;
+import jp.saka1029.cspj.problem.Problem;
+import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
-import static jp.saka1029.cspj.problem.old.Helper.*;
+import static jp.saka1029.cspj.problem.Helper.*;
 
 /**
  * この春から新生活を始めることになった５人兄弟。
@@ -29,6 +30,8 @@ import static jp.saka1029.cspj.problem.old.Helper.*;
  */
 public class 春からみんな新生活 extends SolverMain {
     
+	static final Logger logger = Logger.getLogger(春からみんな新生活.class.getName());
+	
     enum 新生活 { 国内転勤, 海外転勤, 転職, 結婚, ペットを飼う }
     
     Domain<新生活> すべての新生活 = Domain.of(新生活.values());
@@ -60,34 +63,47 @@ public class 春からみんな新生活 extends SolverMain {
         allDifferent(map(p -> p.新生活, セツオ, イクミ, カナコ, シンイチ, ツキコ));
 
         // セツオ：　　オレはこの春、結婚することになったんだ。
-        eq(セツオ.新生活, 新生活.結婚);
+//        constraint(eq(セツオ.新生活, 新生活.結婚));
+        ceq(セツオ.新生活, 新生活.結婚);
 
         // イクミ：　　私はセツオより一つ年上よ。２５才で思い切って転職する人がいるのね。
-        eq(イクミ.年齢, plus(セツオ.年齢, 1));
-        or(map(p -> and(eq(p.新生活, 新生活.転職), eq(p.年齢, 25)), セツオ, カナコ, シンイチ, ツキコ));
+//        constraint(eq(イクミ.年齢, plus(セツオ.年齢, 1)));
+        ceq(イクミ.年齢, plus(セツオ.年齢, 1));
+//        constraint(or(map(p -> and(eq(p.新生活, 新生活.転職), eq(p.年齢, 25)), セツオ, カナコ, シンイチ, ツキコ)));
+        cor(map(p -> and(eq(p.新生活, 新生活.転職), eq(p.年齢, 25)), セツオ, カナコ, シンイチ, ツキコ));
 
         // カナコ：　　私は海外転勤になっちゃった。
         //        私はツキコとは１才違いで、セツオとは３才違いよ。
-        eq(カナコ.新生活, 新生活.海外転勤);
-        eq(abs(minus(カナコ.年齢, ツキコ.年齢)), 1);
-        eq(abs(minus(カナコ.年齢, セツオ.年齢)), 3);
+//        constraint(eq(カナコ.新生活, 新生活.海外転勤));
+        ceq(カナコ.新生活, 新生活.海外転勤);
+//        constraint(eq(abs(minus(カナコ.年齢, ツキコ.年齢)), 1));
+        ceq(abs(minus(カナコ.年齢, ツキコ.年齢)), 1);
+//        constraint(eq(abs(minus(カナコ.年齢, セツオ.年齢)), 3));
+        ceq(abs(minus(カナコ.年齢, セツオ.年齢)), 3);
 
         // シンイチ：　カナコ姉さんはしっかりしていますよね。
         //        ところで、３０才の記念にペットを飼い始めたのは誰だっけ？
-        lt(シンイチ.年齢, カナコ.年齢);
-        or(map(p -> and(eq(p.新生活, 新生活.ペットを飼う), eq(p.年齢, 30)), セツオ, イクミ, カナコ, ツキコ));
+//        constraint(lt(シンイチ.年齢, カナコ.年齢));
+        clt(シンイチ.年齢, カナコ.年齢);
+//        constraint(or(map(p -> and(eq(p.新生活, 新生活.ペットを飼う), eq(p.年齢, 30)), セツオ, イクミ, カナコ, ツキコ)));
+        cor(map(p -> and(eq(p.新生活, 新生活.ペットを飼う), eq(p.年齢, 30)), セツオ, イクミ, カナコ, ツキコ));
         
         // ツキコ：　　私もイクミ姉さんのように仕事頑張らないとね。
-        lt(ツキコ.年齢, イクミ.年齢);
+//        constraint(lt(ツキコ.年齢, イクミ.年齢));
+        clt(ツキコ.年齢, イクミ.年齢);
+
+        logger.info("*** constraints ***");
+        for (Constraint c : problem.constraints)
+        	logger.info("constraint: " + c);
     }
 
     @Override
     public boolean answer(int n, Result result) throws IOException {
-        Log.info(セツオ.toString(result));
-        Log.info(イクミ.toString(result));
-        Log.info(カナコ.toString(result));
-        Log.info(シンイチ.toString(result));
-        Log.info(ツキコ.toString(result));
+        logger.info(セツオ.toString(result));
+        logger.info(イクミ.toString(result));
+        logger.info(カナコ.toString(result));
+        logger.info(シンイチ.toString(result));
+        logger.info(ツキコ.toString(result));
         return true;
     }
 

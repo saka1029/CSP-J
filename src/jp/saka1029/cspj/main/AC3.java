@@ -1,10 +1,12 @@
 package jp.saka1029.cspj.main;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
-import jp.saka1029.cspj.problem.old.Domain;
-import jp.saka1029.cspj.problem.old.Log;
-import jp.saka1029.cspj.problem.old.Variable;
+import jp.saka1029.cspj.problem.Bind;
+import jp.saka1029.cspj.problem.Constraint;
+import jp.saka1029.cspj.problem.Domain;
+import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
 
@@ -47,6 +49,8 @@ import jp.saka1029.cspj.solver.SolverMain;
  */
 public class AC3 extends SolverMain {
 
+	static final Logger logger = Logger.getLogger(AC3.class.getName());
+
     Variable<Integer> x;
     Variable<Integer> y;
 
@@ -54,13 +58,20 @@ public class AC3 extends SolverMain {
 	public void define() throws IOException {
 		x = problem.variable("X", Domain.range(0, 5));
 		y = problem.variable("Y", Domain.range(0, 5));
-		problem.constraint(a -> (int)a[0] % 2 == 0, "%s %% 2 == 0", x);
-		problem.constraint(a -> (int)a[0] + (int)a[1] == 4, "%s + %s == 4", x, y);
+		problem.constraint("%s %% 2 == 0", a -> a % 2 == 0, x);
+		problem.constraint("%s + %s == 4", (a, b) -> a + b == 4, x, y);
+		Bind bind = problem.bind();
+		for (Variable<?> v : problem.variables)
+			logger.info("variable: " + v + " : " + v.domain);
+		for (Constraint c : problem.constraints)
+			logger.info("constraint: " + c);
+		for (Variable<?> v : problem.variables)
+			logger.info("reduced variable: " + v + " : " + bind.get(v));
 	}
 
 	@Override
 	public boolean answer(int n, Result result) throws IOException {
-        Log.info("X = %s Y = %s", result.get(x), result.get(y));
+        logger.info("answer " + n + ": X = " + result.get(x) + " Y = " + result.get(y));
 		return true;
 	}
 

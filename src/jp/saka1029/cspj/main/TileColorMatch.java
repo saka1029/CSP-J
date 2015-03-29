@@ -6,12 +6,13 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import jp.saka1029.cspj.geometry.Matrix;
-import jp.saka1029.cspj.problem.old.Domain;
-import jp.saka1029.cspj.problem.old.Log;
-import jp.saka1029.cspj.problem.old.Variable;
+import jp.saka1029.cspj.problem.Domain;
+import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
 
@@ -19,6 +20,8 @@ import org.jfree.graphics2d.svg.SVGGraphics2D;
 
 public class TileColorMatch extends SolverMain {
 
+	static final Logger logger = Logger.getLogger(TileColorMatch.class.getName());
+	
     enum Color {
 
         R(java.awt.Color.red),
@@ -34,14 +37,19 @@ public class TileColorMatch extends SolverMain {
     
     static class Tile {
 
-        final Color top, right, bottom, left;
+        final Color up, right, down, left;
         Tile base = null;
 
-        Tile(Color top, Color right, Color bottom, Color left) {
-            this.top = top;
+        Tile(Color up, Color right, Color down, Color left) {
+            this.up = up;
             this.right = right;
-            this.bottom = bottom;
+            this.down = down;
             this.left = left;
+        }
+
+        @Override
+        public int hashCode() {
+        	return Arrays.hashCode(new Color[] {up, right, down, left});
         }
 
         @Override
@@ -49,11 +57,11 @@ public class TileColorMatch extends SolverMain {
             if (!(obj instanceof Tile))
                 return false;
             Tile o = (Tile)obj;
-            return top == o.top && right == o.right && bottom == o.bottom && left == o.left;
+            return up == o.up && right == o.right && down == o.down && left == o.left;
         }
         
         Tile rotate() {
-            return new Tile(right, bottom, left, top);
+            return new Tile(right, down, left, up);
         }
         
         boolean same(Tile t) {
@@ -67,16 +75,16 @@ public class TileColorMatch extends SolverMain {
         }
         
         boolean right(Tile t) { return right == t.left; }
-        boolean bottom(Tile t) { return bottom == t.top; }
+        boolean down(Tile t) { return down == t.up; }
 
 //        static final Stroke line = new BasicStroke();
         
         void draw(SVGGraphics2D g, int x, int y, int s) {
             int cx = x + s / 2;
             int cy = y + s / 2;
-            g.setPaint(top.color); g.fillPolygon(new int[] {x, x + s, cx}, new int[] {y, y, cy}, 3);
+            g.setPaint(up.color); g.fillPolygon(new int[] {x, x + s, cx}, new int[] {y, y, cy}, 3);
             g.setPaint(right.color); g.fillPolygon(new int[] {x + s, x + s, cx}, new int[] {y, y + s, cy}, 3);
-            g.setPaint(bottom.color); g.fillPolygon(new int[] {x, x + s, cx}, new int[] {y + s, y + s, cy}, 3);
+            g.setPaint(down.color); g.fillPolygon(new int[] {x, x + s, cx}, new int[] {y + s, y + s, cy}, 3);
             g.setPaint(left.color); g.fillPolygon(new int[] {x, x, cx}, new int[] {y, y + s, cy}, 3);
 //            g.setStroke(line);
             g.setPaint(java.awt.Color.black); g.drawRect(x, y, s, s);
@@ -106,42 +114,44 @@ public class TileColorMatch extends SolverMain {
 
         @Override
         public String toString() {
-            return String.format("Tile(%s %s %s %s)", top, right, bottom, left);
+            return String.format("Tile(%s %s %s %s)", up, right, down, left);
         }
     }
     
-    Matrix<Variable<Tile>> variables = new Matrix<>(6, 4);
+    Matrix<Variable<? extends Tile>> variables = new Matrix<>(6, 4);
 
     static String name(int x, int y) { return String.format("%d@%d", x, y); }
 
     @Override
     public void define() throws IOException {
         List<Tile> tiles = Tile.allTiles();
+//        Domain<Tile> first = Domain.of(tiles.get(0));
         Domain<Tile> dom = Domain.of(tiles);
         int width = variables.width;
         int height = variables.height;
         for (int w = 0; w < width; ++w)
             for (int h = 0; h < height; ++h)
                 variables.set(w, h, problem.variable(name(w, h), dom));
-        problem.forEachPairs(a -> !((Tile)a[0]).same((Tile)a[1]), "notSame", variables.asList());
+//                	w == 0 && h == 0 ? first : dom));
+        problem.forAllPairs("notSame", (a, b) -> !a.same(b), variables.asList());
         for (int w = 0; w < width; ++w)
             for (int h = 0; h < height; ++h) {
 //                if (w + 1 < width)
 //                    problem.constraint(a -> ((Tile)a[0]).right((Tile)a[1]), "right",
 //                        variables.get(w, h), variables.get(w + 1, h));
 //                if (h + 1 < height)
-//                    problem.constraint(a -> ((Tile)a[0]).bottom((Tile)a[1]), "bottom",
+//                    problem.constraint(a -> ((Tile)a[0]).down((Tile)a[1]), "down",
 //                        variables.get(w, h), variables.get(w, h + 1));
-                problem.constraint(a -> ((Tile)a[0]).right((Tile)a[1]), "right",
+                problem.constraint("right", (a, b) -> a.right(b),
                     variables.get(w, h), variables.get((w + 1) % width, h));
-                problem.constraint(a -> ((Tile)a[0]).bottom((Tile)a[1]), "bottom",
+                problem.constraint("down", (a, b) -> a.down(b),
                     variables.get(w, h), variables.get(w, (h + 1) % height));
             }
     }
 
     @Override
     public boolean answer(int n, Result result) throws IOException {
-        Log.info(result);
+        logger.info(result.toString());
         int width = variables.width;
         int height = variables.height;
         int size = 80;
@@ -149,7 +159,7 @@ public class TileColorMatch extends SolverMain {
         SVGGraphics2D g = new SVGGraphics2D(width * size + margin * 2, height * size + margin * 2);
         for (int w = 0; w < width; ++w)
             for (int h = 0; h < height; ++h)
-                ((Tile)result.get(variables.get(w, h))).draw(g, w * size + margin, h * size + margin, size);
+                result.get(variables.get(w, h)).draw(g, w * size + margin, h * size + margin, size);
         String s = g.getSVGDocument();
         File file = new File(String.format("result/TileColorMatch/%s-%04d.svg", solver.getClass().getSimpleName(), n));
         try (Writer w = new OutputStreamWriter(new FileOutputStream(file), "utf-8")) {

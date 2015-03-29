@@ -6,15 +6,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class Constraint extends ProblemElement {
+public class Constraint extends ProblemElement implements Comparable<Constraint> {
 
 	static final Logger logger = Logger.getLogger(Constraint.class.toString());
 	
-	public final ConstraintPredicate predicate;
+	public final ConstraintPredicate<Object> predicate;
 	public final List<Variable<?>> variables;
 	
-	Constraint(Problem problem, int no, String name, ConstraintPredicate predicate, Collection<? extends Variable<?>> variables) {
+	Constraint(Problem problem, int no, String name, ConstraintPredicate<Object> predicate, Collection<? extends Variable<?>> variables) {
 		super(problem, no, name);
+		if (predicate == null)
+			throw new IllegalArgumentException("predicate");
+		if (variables == null || variables.size() == 0)
+			throw new IllegalArgumentException("variables");
 		this.predicate = predicate;
 		List<Variable<?>> list = new ArrayList<>(variables.size());
 		for (Variable<?> v : variables) {
@@ -77,7 +81,7 @@ public class Constraint extends ProblemElement {
 			for (int i = 0; i < size; ++i)
 				builders.get(i).add(values.get(i));
 		});
-		logger.fine("Constraint.test: " + this + " : " + builders);
+		logger.finest("Constraint.test: " + this + " : " + builders);
 		for (int i = 0; i < size; ++i)
 			if (!variables.get(i).rawBind(builders.get(i).build(), bind))
 				return false;
@@ -93,9 +97,9 @@ public class Constraint extends ProblemElement {
 
 	private String toString(List<?> vars) {
         char c = name.charAt(0);
-        if (name.contains("%"))
+        if (name.contains("%s"))
             return String.format(name, vars.toArray());
-        else if  (Character.isAlphabetic(c) || c > 0xff)
+        else if  (Character.isAlphabetic(c) || c == '_' || c > 0xff)
             return name + "(" + String.join(", ", toStringList(vars)) + ")";
         else if (vars.size() == 1)
             return String.format("(%s %s)", name, vars.get(0));
@@ -105,11 +109,16 @@ public class Constraint extends ProblemElement {
 
     @Override
     public String toString() {
-    	if (predicate instanceof DerivationPredicate<?>)
+    	if (predicate instanceof DerivationPredicate)
     		return String.format("%s == %s",
     			variables.get(0).toString(),
     			toString(variables.subList(1, variables.size())));
     	else
     		return toString(variables);
     }
+
+	@Override
+	public int compareTo(Constraint o) {
+		return no - o.no;
+	}
 }

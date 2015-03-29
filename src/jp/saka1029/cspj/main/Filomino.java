@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -14,18 +15,15 @@ import jp.saka1029.cspj.geometry.Matrix;
 import jp.saka1029.cspj.geometry.Point;
 import jp.saka1029.cspj.geometry.PointSet;
 import jp.saka1029.cspj.geometry.Printer;
-import jp.saka1029.cspj.problem.old.Domain;
-import jp.saka1029.cspj.problem.old.Log;
-import jp.saka1029.cspj.problem.old.Util;
-import jp.saka1029.cspj.problem.old.Variable;
+import jp.saka1029.cspj.problem.Domain;
+import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
 
 public class Filomino extends SolverMain {
 
-    Board board;
-    List<Variable<PointSet>> variables;
-    
+	static final Logger logger = Logger.getLogger(Filomino.class.getName());
+	
     static boolean contains(List<Point> list, Point p, int max) {
         for (int i= 0; i < max; ++i)
             if (list.get(i).equals(p))
@@ -59,9 +57,16 @@ public class Filomino extends SolverMain {
                     shapes(n, o, i + 1, list, r);
     }
 
+    static <T> List<T> list(int size) {
+    	List<T> r = new ArrayList<>(size);
+    	for (int i = 0; i < size; ++i)
+    		r.add(null);
+    	return r;
+    }
+
     Set<PointSet> shapes(Point origin, int n) {
         Set<PointSet> r = new HashSet<>();
-        List<Point> list = Util.array(n);
+        List<Point> list = list(n);
         shapes(n, origin, 0, list, r);
         return r;
     }
@@ -80,6 +85,9 @@ public class Filomino extends SolverMain {
     	addOption("-i", true, true, a -> input(a));
     }
 
+    Board board;
+    List<Variable<? extends PointSet>> variables;
+    
     @Override
     public void define() throws IOException {
         board = new Board(input);
@@ -88,14 +96,10 @@ public class Filomino extends SolverMain {
             Point origin = e.getKey();
             int n = e.getValue();
             Domain<PointSet> d = Domain.of(shapes(origin, n));
-            variables.add(problem.variable(String.format("v%d@%s", n, origin), d));
+            variables.add(problem.variable(String.format("%d@%s", n, origin), d));
         }
-        problem.forEachPairs(
-            a -> {
-                PointSet x = (PointSet)a[0];
-                PointSet y = (PointSet)a[1];
-                return x.equals(y) || !x.overlap(y) && !(x.size() == y.size() && neighbors(x, y));
-            }, "notOverlapOrSame", variables);
+        problem.forAllPairs("notOverlapOrsame",
+        	(x, y) -> x.equals(y) || !x.overlap(y) && !(x.size() == y.size() && neighbors(x, y)), variables);
     }
 
     void rest(Matrix<Integer> m, Point p, PointSet.Builder b) {
@@ -123,12 +127,12 @@ public class Filomino extends SolverMain {
     @Override
     public boolean answer(int n, Result result) throws IOException {
         if (n > 1000) {
-            Log.info("answer count exeeds 100");
+            logger.info("answer count exeeds 100");
             return false;
         }
         int width = board.box.size.x, height = board.box.size.y;
         Matrix<Integer> m = new Matrix<>(width, height, 0);
-        for (Variable<PointSet> v : variables) {
+        for (Variable<? extends PointSet> v : variables) {
             PointSet set = result.get(v);
             int s = set.size();
             for (Point p : set)
@@ -136,14 +140,14 @@ public class Filomino extends SolverMain {
         }
         boolean notAnswer = false;
         Set<PointSet> rest = rest(m);
-        Log.info("answer %d:", n);
-        Log.info("Filomino: rest = %s", rest);
+        logger.info("answer " + n + ":");
+        logger.info("Filomino: rest = " + rest);
         L: for (PointSet e : rest) {
             int size = e.size();
             if (size > 2) continue;
             for (Point p : e.neighbors())
                 if (m.contains(p) && m.get(p) == size) {
-                    Log.info("Filomino: not an answer");
+                    logger.info("Filomino: not an answer");
                     notAnswer = true;
                     break L;
                 }
@@ -164,7 +168,7 @@ public class Filomino extends SolverMain {
                     if (self == 0)
                         printer.draw(x, y, "?");
                 }
-            Log.info(printer);
+            logger.info(printer.toString());
             printer.writeSVG(new File(input.getParent(), input.getName() + ".svg"));
         }
         return true;

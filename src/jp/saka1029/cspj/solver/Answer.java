@@ -1,7 +1,8 @@
 package jp.saka1029.cspj.solver;
 
+@FunctionalInterface
 public interface Answer {
-    
-    boolean answer(Result result);
+
+    public boolean answer(Result result);
 
 }

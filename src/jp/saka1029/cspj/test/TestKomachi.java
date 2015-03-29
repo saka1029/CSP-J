@@ -9,17 +9,21 @@ import java.util.List;
 
 
 
+
+
 import jp.saka1029.cspj.problem.old.Domain;
 import jp.saka1029.cspj.problem.old.Log;
 import jp.saka1029.cspj.problem.old.Problem;
 import jp.saka1029.cspj.problem.old.Variable;
-import jp.saka1029.cspj.solver.Debug;
-import jp.saka1029.cspj.solver.Solver;
-import jp.saka1029.cspj.solver.basic.BasicSolver;
 
 
 
 
+
+
+import jp.saka1029.cspj.solver.old.Debug;
+import jp.saka1029.cspj.solver.old.Solver;
+import jp.saka1029.cspj.solver.old.basic.BasicSolver;
 
 import org.junit.Test;
 

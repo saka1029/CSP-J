@@ -6,10 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import jp.saka1029.cspj.problem.old.Bind;
-import jp.saka1029.cspj.problem.old.Domain;
-import jp.saka1029.cspj.problem.old.Problem;
-import jp.saka1029.cspj.problem.old.Variable;
+import jp.saka1029.cspj.problem.Bind;
+import jp.saka1029.cspj.problem.Domain;
+import jp.saka1029.cspj.problem.Problem;
+import jp.saka1029.cspj.problem.Variable;
 
 public class VariableMap {
 
@@ -86,12 +86,11 @@ public class VariableMap {
 	private final Map<VarValue, Integer> map = new HashMap<>();
 	
 	public VariableMap(Problem problem, Bind bind) {
-		for (Variable<?> v : problem.variables())
+		for (Variable<?> v : problem.variables)
 			add(v, bind);
 	}
 
 	public SatLiteral get(Variable<?> expression, Object value, boolean sign) {
-//		if (!(expression instanceof Variable<?>)) return null;
 		Integer i =  map.get(new VarValue((Variable<?>)expression, value));
 		if (i == null) return null;
 		VarValue2 v = multiValues.get(i);

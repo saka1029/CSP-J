@@ -1,9 +1,12 @@
 package jp.saka1029.cspj.problem;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class Domain<T> implements Iterable<T> {
 
@@ -34,7 +37,15 @@ public class Domain<T> implements Iterable<T> {
 			}
 		};
 	}
-	
+
+    public Stream<T> stream(boolean parallel) {
+    	return parallel ? elements.parallelStream() : elements.stream();
+    }
+    	
+    public List<Object> asList() {
+    	return new ArrayList<>(elements);
+    }
+
 	public static <T> Domain<T> of(Collection<? extends T> elements) {
 		Domain<T> r = new Domain<>();
 		for (T e : elements)

@@ -1,8 +1,9 @@
 package jp.saka1029.cspj.problem;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
-public class Bind {
+public class Bind implements Iterable<Domain<?>> {
 
 	private final Domain<?>[] domains;
 	
@@ -36,9 +37,22 @@ public class Bind {
     	}
     	return map;
 	}
+	
+	public int notUniqueVariableSize() {
+		int r = 0;
+		for (Domain<?> domain : domains)
+			if (domain.size() > 1)
+				++r;
+		return r;
+	}
 
 	@Override
 	public String toString() {
 		return Arrays.toString(domains);
+	}
+
+	@Override
+	public Iterator<Domain<?>> iterator() {
+		return Arrays.asList(domains).iterator();
 	}
 }

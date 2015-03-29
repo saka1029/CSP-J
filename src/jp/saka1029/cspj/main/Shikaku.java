@@ -8,20 +8,22 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 import jp.saka1029.cspj.geometry.Board;
 import jp.saka1029.cspj.geometry.Box;
 import jp.saka1029.cspj.geometry.Point;
 import jp.saka1029.cspj.geometry.Printer;
-import jp.saka1029.cspj.problem.old.Bind;
-import jp.saka1029.cspj.problem.old.Domain;
-import jp.saka1029.cspj.problem.old.Log;
-import jp.saka1029.cspj.problem.old.Variable;
+import jp.saka1029.cspj.problem.Bind;
+import jp.saka1029.cspj.problem.Domain;
+import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
 
 public class Shikaku extends SolverMain {
 
+	static final Logger logger = Logger.getLogger(Shikaku.class.getName());
+	
 	File input;
 	public Shikaku input(String f) { input = new File(f); return this; }
 	
@@ -30,13 +32,13 @@ public class Shikaku extends SolverMain {
 	}
 
     Board board;
-    List<Variable<Box>> variables;
+    List<Variable<? extends Box>> variables;
     
     @Override
     public void define() throws IOException {
         board = new Board(input);
-        Log.info("Shikaku: file=%s", input);
-        Log.info(board);
+        logger.info("Shikaku: file=" + input);
+        logger.info(board.toString());
         variables = new ArrayList<>();
         for (Entry<Point, Integer> e : board.numbers.entrySet()) {
             Point p = e.getKey();
@@ -57,22 +59,22 @@ public class Shikaku extends SolverMain {
             }
             variables.add(problem.variable(String.format("%d@%s", n, p), builder.build()));
         }
-        problem.forEachPairs(a -> !((Box)a[0]).overlap((Box)a[1]), "notOverlap", variables);
+        problem.forAllPairs("notOverlap", (a, b) -> !a.overlap(b), variables);
         printReduced(problem.bind());
     }
 
     void printReduced(Bind bind) {
-    	Log.info("*** reduces problem ***");
+    	logger.info("*** reduced problem ***");
         Printer printer = new Printer();
         printer.draw(board.box);
-        for (Variable<Box> v : variables) {
-        	Domain<Box> d = bind.get(v);
+        for (Variable<? extends Box> v : variables) {
+        	Domain<? extends Box> d = bind.get(v);
         	if (d.size() == 1)
-            printer.draw(d.first());
+                printer.draw(d.first());
         }
         for (Entry<Point, Integer> e : board.numbers.entrySet())
             printer.draw(e.getKey(), e.getValue());
-        Log.info(printer);
+        logger.info(printer.toString());
     	
     }
 
@@ -80,11 +82,11 @@ public class Shikaku extends SolverMain {
     public boolean answer(int n, Result result) {
         Printer printer = new Printer();
         printer.draw(board.box);
-        for (Variable<Box> v : variables)
+        for (Variable<? extends Box> v : variables)
             printer.draw(result.get(v));
         for (Entry<Point, Integer> e : board.numbers.entrySet())
             printer.draw(e.getKey(), e.getValue());
-        Log.info(printer);
+        logger.info(printer.toString());
         File svg = new File(input.getParentFile(), input.getName() + ".svg");
         try (Writer w = new OutputStreamWriter( new FileOutputStream(svg), "utf-8")) {
             w.write(printer.toSVG());

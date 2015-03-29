@@ -3,18 +3,18 @@ package jp.saka1029.cspj.problem;
 import java.util.List;
 import java.util.Objects;
 
-public class DerivationPredicate<T> implements ConstraintPredicate {
+public class DerivationPredicate<T, A> implements ConstraintPredicate<A> {
 
-	final DerivationFunction<T> function;
+	public final DerivationFunction<T, A> function;
 	
-	DerivationPredicate(DerivationFunction<T> function) {
+	DerivationPredicate(DerivationFunction<T, A> function) {
 		this.function = function;
 	}
 
 	@Override
-	public boolean test(List<?> values) {
-		Object first = values.get(0);
-		List<?> rest = values.subList(1, values.size());
+	public boolean test(List<A> a) {
+		A first = (A)a.get(0);
+		List<A> rest = (List<A>)a.subList(1, a.size());
 		T check = function.apply(rest);
 		return check == null ? false : Objects.equals(first, check);
 	}
