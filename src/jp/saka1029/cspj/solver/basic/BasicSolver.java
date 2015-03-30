@@ -3,7 +3,6 @@ package jp.saka1029.cspj.solver.basic;
 import java.util.logging.Logger;
 
 import jp.saka1029.cspj.problem.Bind;
-import jp.saka1029.cspj.problem.Constraint;
 import jp.saka1029.cspj.problem.Domain;
 import jp.saka1029.cspj.problem.Problem;
 import jp.saka1029.cspj.problem.Variable;
@@ -80,19 +79,19 @@ public class BasicSolver implements Solver {
 //        return b;
 //    }
     
-    private void solve(Problem problem) {
+    private void solveInternal(Problem problem, Bind bind) {
         long start = System.currentTimeMillis();
         this.answerCount = 0;
-        Bind b = problem.bind();
-        if (b == null) return;
-        int reducedVariables = b.notUniqueVariableSize();
+        if (bind == null)
+            bind = problem.bind();
+        int reducedVariables = bind.notUniqueVariableSize();
         logger.info("BasicSolver: **** reduced problem ****");
         for (Variable<?> v : problem.variables)
-            logger.info("BasicSolver: variable " + v + " : " + b.get(v));
-        for (Constraint c : problem.constraints)
-            logger.info("BasicSolver: constraint " + c);
-        Bind bind = new Bind(b);
-        solveSimple(bind); 
+            logger.info("BasicSolver: variable " + v + " : " + bind.get(v));
+//        for (Constraint c : problem.constraints)
+//            logger.info("BasicSolver: constraint " + c);
+        Bind newBind = new Bind(bind);
+        solveSimple(newBind); 
 //        solveParallel(bind, false); 
         logger.info(String.format("BasicSolver: variables=%d reduced variables=%d constraints=%d answers=%d elapse=%dms",
             problem.variables.size(), reducedVariables, problem.constraints.size(),
@@ -100,9 +99,16 @@ public class BasicSolver implements Solver {
     }
 
     @Override
+    public void solve(Problem problem, Bind bind, Answer answer) {
+        this.problem = problem;
+        this.answer = answer;
+        solveInternal(problem, bind);
+    }
+
+    @Override
     public void solve(Problem problem, Answer answer) {
         this.problem = problem;
         this.answer = answer;
-        solve(problem);
+        solveInternal(problem, null);
     }
 }

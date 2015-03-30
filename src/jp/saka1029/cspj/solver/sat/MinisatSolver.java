@@ -45,7 +45,8 @@ public class MinisatSolver implements Solver {
     }
 
     private void addClause(VecLit lits) {
-        logger.fine("clause: " + toString(lits));
+    	if (logger.isLoggable(Level.FINEST))
+            logger.finest("clause: " + toString(lits));
         solver.addClause(lits);
     }
 
@@ -112,9 +113,10 @@ public class MinisatSolver implements Solver {
         }
 	}
 
-    public void solve(Problem problem) {
+    void solveInternal(Problem problem, Bind bind) {
         long start = System.currentTimeMillis();
-        Bind bind = problem.bind();
+        if (bind == null)
+            bind = problem.bind();
         if (bind == null) return;
 //        logger.info("MinisatSolver: **** reduced problem ****");
 //        for (Variable<?> v : problem.variables)
@@ -145,9 +147,15 @@ public class MinisatSolver implements Solver {
     }
 
     @Override
+    public void solve(Problem problem, Bind bind, Answer answer) {
+        this.answer = answer;
+        solveInternal(problem, bind);
+    }
+
+    @Override
     public void solve(Problem problem, Answer answer) {
         this.answer = answer;
-        solve(problem);
+        solveInternal(problem, null);
     }
 
 //    public void toDimacs(Problem problem, File file) throws IOException {

@@ -21,6 +21,7 @@ import jp.saka1029.cspj.solver.jacop.JacopSolver;
 import jp.saka1029.cspj.solver.sat.MinisatSolver;
 import jp.saka1029.cspj.solver.sat.Sat4jSolver;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
@@ -42,7 +43,7 @@ public class TestMain {
 	}
 
     @DataPoints
-    public static Solver[] solvers = { new BasicSolver(), new ChocoSolver(), new MinisatSolver(), new Sat4jSolver(), new JacopSolver(), };
+    public static Solver[] solvers = { new BasicSolver(), /* new ChocoSolver(), */ new MinisatSolver(), new Sat4jSolver(), new JacopSolver(), };
     
 //    @Theory
 //    public void testSimpleColoring(Solver solver) throws IOException {
@@ -181,6 +182,7 @@ public class TestMain {
         methodName(); assertTrue(new TileColorMatch().solver(solver).solve() >= 1);
     }
 
+    @Ignore
     @Theory
     public void testTileColorMatch2(Solver solver) throws IOException {
     	if (solver instanceof ChocoSolver) return;

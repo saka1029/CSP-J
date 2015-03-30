@@ -60,7 +60,7 @@ public class Shikaku extends SolverMain {
             variables.add(problem.variable(String.format("%d@%s", n, p), builder.build()));
         }
         problem.forAllPairs("notOverlap", (a, b) -> !a.overlap(b), variables);
-        printReduced(problem.bind());
+//        printReduced(problem.bind());
     }
 
     void printReduced(Bind bind) {

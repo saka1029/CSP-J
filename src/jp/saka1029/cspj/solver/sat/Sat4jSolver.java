@@ -123,9 +123,10 @@ public class Sat4jSolver implements Solver {
         }
 	}
 
-    public void solve(Problem problem) {
+    void solveInternal(Problem problem, Bind bind) {
         long start = System.currentTimeMillis();
-        Bind bind = problem.bind();
+        if (bind == null)
+            bind = problem.bind();
         if (bind == null) return;
         this.map = new VariableMap(problem, bind);
         this.solver = SolverFactory.newDefault();
@@ -162,9 +163,15 @@ public class Sat4jSolver implements Solver {
     }
 
     @Override
+    public void solve(Problem problem, Bind bind, Answer answer) {
+        this.answer = answer;
+        solveInternal(problem, bind);
+    }
+
+    @Override
     public void solve(Problem problem, Answer answer) {
         this.answer = answer;
-        solve(problem);
+        solveInternal(problem, null);
     }
 
 }

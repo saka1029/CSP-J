@@ -29,17 +29,22 @@ public class JacopSolver implements Solver {
 	
 	@Override
 	public void solve(Problem problem, Answer answer) {
+		solve(problem, null, answer);
+	}
+
+	@Override
+	public void solve(Problem problem, Bind bind, Answer answer) {
         long start = System.currentTimeMillis();
-        Bind b = problem.bind();
-        if (b == null) return;
-        Bind bind = new Bind(b);
+        if (bind == null)
+            bind = problem.bind();
+        Bind newBind = new Bind(bind);
 		Store store = new Store();
-		Object[][] map = bind.map();
+		Object[][] map = newBind.map();
 		int size = problem.variables.size();
 		IntVar[] vars = new IntVar[size];
 		for (int i = 0; i < size; ++i) {
 			Variable<?> v = problem.variable(i);
-			Domain<?> domain = bind.get(v);
+			Domain<?> domain = newBind.get(v);
 			vars[i] = new IntVar(store, "v" + i, 0, domain.size() - 1);
 		}
 		for (Constraint c : problem.constraints) {
@@ -48,7 +53,7 @@ public class JacopSolver implements Solver {
 			for (int i = 0; i < varSize; ++i)
 				ivars[i] = vars[c.variables.get(i).no];
 			List<int[]> list = new ArrayList<>();
-			c.encode(bind, true, (indices, values) -> {
+			c.encode(newBind, true, (indices, values) -> {
 				int[] indexArray = new int[varSize];
 				for (int i = 0; i < varSize; ++i)
 					indexArray[i] = indices.get(i);

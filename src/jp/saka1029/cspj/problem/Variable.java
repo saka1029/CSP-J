@@ -2,6 +2,7 @@ package jp.saka1029.cspj.problem;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Variable<T> extends ProblemElement implements Comparable<Variable<T>> {
@@ -31,9 +32,11 @@ public class Variable<T> extends ProblemElement implements Comparable<Variable<T
 		if (org.size() <= domain.size())
 			return true;
 		bind.put(this, domain);
-		logger.finest("Variable.bind: " + this + " <- " + domain);
+		if (logger.isLoggable(Level.FINEST))
+            logger.finest("Variable.bind: " + this + " <- " + domain);
 		for (Constraint e : constraints)
-			if (!e.test(bind))
+//			if (!e.test(bind))
+			if (!e.test(this, bind))
 				return false;
 		return true;
 	}

@@ -3,8 +3,11 @@ package jp.saka1029.cspj.problem;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 public class Constraint extends ProblemElement implements Comparable<Constraint> {
 
@@ -72,20 +75,66 @@ public class Constraint extends ProblemElement implements Comparable<Constraint>
 		new EncodeDriver(bind, consistent, encoder).encode(0);
 	}
 
-	boolean test(Bind bind) {
+	private boolean build(List<Domain.Builder<Object>> builders, Bind bind) {
 		int size = variables.size();
+		for (int i = 0; i < size; ++i)
+			if (!variables.get(i).rawBind(builders.get(i).build(), bind))
+				return false;
+		return true;
+	}
+
+	boolean test(Bind bind) {
+		if (bind.get(this) != null)
+			return true;
+		if (logger.isLoggable(Level.FINEST))
+            logger.finest("Constraint.test/1: " + this);
+		int size = variables.size();
+		List<Object[]> combinations = new ArrayList<>();
 		List<Domain.Builder<Object>> builders = new ArrayList<>(size);
 		for (int i = 0; i < size; ++i)
 			builders.add(new Domain.Builder<>());
 		encode(bind, true, (indices, values) -> {
 			for (int i = 0; i < size; ++i)
 				builders.get(i).add(values.get(i));
+			combinations.add(values.toArray());
 		});
-		logger.finest("Constraint.test: " + this + " : " + builders);
+		bind.put(this, combinations);
+//		logger.finest("Constraint.test/1: " + this + " : " + builders);
+		return build(builders, bind);
+	}
+
+	boolean test(Variable<?> variable, Bind bind) {
+		List<Object[]> combinations = bind.get(this);
+		if (combinations == null)
+			return test(bind);
+		if (logger.isLoggable(Level.FINEST))
+            logger.finest("Constraint.test/2: " + this);
+		int orgSize = combinations.size();
+		int size = variables.size();
+		int pos = variables.indexOf(variable);
+		Domain<?> domain = bind.get(variable);
+		List<Domain.Builder<Object>> builders = new ArrayList<>(size);
 		for (int i = 0; i < size; ++i)
-			if (!variables.get(i).rawBind(builders.get(i).build(), bind))
-				return false;
-		return true;
+			builders.add(new Domain.Builder<>());
+		for (Iterator<Object[]> iterator = combinations.iterator(); iterator.hasNext(); ) {
+			Object[] values = iterator.next();
+			if (!domain.contains(values[pos]))
+				iterator.remove();
+			else
+                for (int i = 0; i < size; ++i)
+                    builders.get(i).add(values[i]);
+		}
+		int newSize = combinations.size();
+		if (logger.isLoggable(Level.FINEST))
+            logger.finest("Constraint.test/2: combinations size "
+                + orgSize + " -> " + newSize
+                + " " + (orgSize == newSize ? "==" : ""));
+		if (newSize == 0)
+			return false;
+		else if (newSize == orgSize)
+			return true;
+//		logger.finest("Constraint.test/2: " + this + " : " + builders);
+		return build(builders, bind);
 	}
 
 	private static <T> List<String> toStringList(Collection<T> list) {

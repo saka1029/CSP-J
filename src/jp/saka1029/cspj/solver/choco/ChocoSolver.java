@@ -22,11 +22,17 @@ public class ChocoSolver implements Solver {
 	
 	@Override
 	public void solve(Problem problem, Answer answer) {
+		solve(problem, null, answer);
+	}
+
+	@Override
+	public void solve(Problem problem, Bind bind, Answer answer) {
         long start = System.currentTimeMillis();
         Bind b = problem.bind();
         if (b == null) return;
         int reducedVariables = b.notUniqueVariableSize();
-        Bind bind = new Bind(b);
+        if (bind == null)
+            bind = new Bind(b);
 		org.chocosolver.solver.Solver solver = new org.chocosolver.solver.Solver();
 		Object[][] map = bind.map();
 		int size = problem.variables.size();

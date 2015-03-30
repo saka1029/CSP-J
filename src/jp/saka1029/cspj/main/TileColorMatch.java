@@ -142,11 +142,15 @@ public class TileColorMatch extends SolverMain {
 //                if (h + 1 < height)
 //                    problem.constraint(a -> ((Tile)a[0]).down((Tile)a[1]), "down",
 //                        variables.get(w, h), variables.get(w, h + 1));
+            	// 長方形の上下および左右は連結しているものとする。（円環面上に配置する）
                 problem.constraint("right", (a, b) -> a.right(b),
                     variables.get(w, h), variables.get((w + 1) % width, h));
                 problem.constraint("down", (a, b) -> a.down(b),
                     variables.get(w, h), variables.get(w, (h + 1) % height));
             }
+        // 左上すみのタイルを決め打ちする。
+        Tile first = tiles.get(0);
+        problem.constraint("topLeft", a -> a.equals(first), variables.get(0, 0));
     }
 
     @Override

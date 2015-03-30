@@ -258,14 +258,12 @@ public class Problem {
 	}
 	
 	public Bind bind() {
-		Bind bind = new Bind(_variables.size());
+		Bind bind = new Bind(_variables.size(), _constraints.size());
 		for (Variable<?> v : _variables)
 			v.put(bind);
 		for (Constraint c : _constraints)
-			if (!c.test(bind)) {
-				logger.severe("Constraint (" + c + ") unsatisfied");
-				return null;
-			}
+			if (!c.test(bind))
+				throw new RuntimeException("Constraint (" + c + ") unsatisfied");
 		return bind;
 	}
 }
