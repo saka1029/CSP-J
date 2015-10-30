@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import jp.saka1029.cspj.problem.ConstraintPredicate5;
 import jp.saka1029.cspj.problem.Domain;
-//import static jp.saka1029.cspj.problem.Helper.*;
+import static jp.saka1029.cspj.problem.Helper.*;
 import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
@@ -43,19 +43,19 @@ public class SendMoreMoney extends SolverMain {
 //        String fn = "constraint";
         Variable<Integer> Z = problem.constant(0);
 //        problem.constraint(fn, (b, c, d, e) -> b + c == d + e * 10,  d, e, y, c1);	// <<<<< compile OK 1 constraint, 0 variables
-        problem.constraint(fn, f, Z, d, e, y, c1);
+        constraint(fn, f, Z, d, e, y, c1);
 //        ceq(plus(d, e), plus(y, mult(c1, 10)));	// <<<<< compile OK 4 constraints, 3 variables
 //        cand(eq(plus(d, e), plus(y, mult(c1, 10))));	// <<<<< compile OK 4 constraints, 3 variables
-        problem.constraint(fn, f, c1, n, r, e, c2);
-        problem.constraint(fn, f, c2, e, o, n, c3);
-        problem.constraint(fn, f, c3, s, m, o, c4);
-        problem.constraint(fn, f, c4, Z, Z, m, Z); // <<<<< compile OK
+        constraint(fn, f, c1, n, r, e, c2);
+        constraint(fn, f, c2, e, o, n, c3);
+        constraint(fn, f, c3, s, m, o, c4);
+        constraint(fn, f, c4, Z, Z, m, Z); // <<<<< compile OK
 //        problem.constraint("==", a -> a.get(0) == a.get(1), c4, m); // <<<<< compile OK
 //        problem.constraint("==", Problem.CEQ, c4, m); // <<<<< compile OK
 //        ceq(c4, m); // <<<<< compile OK
 //        cne(s, e); // <<<<< compile OK
 //        ceq(m, 1);	// <<<<< compile OK
-        problem.allDifferent(s, e, n, d, m, o, r, y); // <<<<< compile OK
+        allDifferent(s, e, n, d, m, o, r, y); // <<<<< compile OK
 //        allDifferent(s, e, n, d, m, o, r, y); // <<<<< compile OK
 //        problem.forEachPairs("!=", a -> !a.get(0).equals(a.get(1)), s, e, n, d, m, o, r, y); // <<<<< compile OK
 //        problem.forEachPairs("!=", Problem.NE, s, e, n, d, m, o, r, y); // <<<<< compile error

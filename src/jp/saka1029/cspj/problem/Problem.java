@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
 public class Problem {
@@ -90,7 +92,8 @@ public class Problem {
 	}
 
 	@SuppressWarnings("unchecked")
-	public final <T, A> Variable<T> variable(String name, String constraintName, DerivationFunction<T, A> function, Collection<Variable<? extends A>> variables) {
+	public final <T, A> Variable<T> variable(String name, String constraintName,
+	        DerivationFunction<T, A> function, Collection<Variable<? extends A>> variables) {
 		Domain<T> domain = new Builder<>(function, variables).build();
 		Variable<T> variable = variable(name, domain);
 		List<Variable<? extends A>> constraintVariables = new ArrayList<>();
@@ -105,7 +108,8 @@ public class Problem {
 //		return variable(name, constraintName, function, Arrays.asList(variables));
 //	}
 	
-	public final <T, A> Variable<T> variable(String name, String constraintName, DerivationFunction1<T, A> function, Variable<A> a) {
+	public final <T, A> Variable<T> variable(String name, String constraintName,
+	        DerivationFunction1<T, A> function, Variable<A> a) {
 		return variable(name, constraintName, function, Arrays.asList(a));
 	}
 	
@@ -139,6 +143,18 @@ public class Problem {
 		return variable(name, constraintName, function, Arrays.asList(a, b, c, d, e, f));
 	}
 	
+	public final <X, T, A extends X, B extends X, C extends X, D extends X, E extends X, F extends X, G extends X> Variable<T> variable(
+			String name, String constraintName, DerivationFunction7<X, T, A, B, C, D, E, F, G> function,
+            Variable<A> a, Variable<B> b, Variable<C> c, Variable<D> d, Variable<E> e, Variable<F> f, Variable<G> g) {
+		return variable(name, constraintName, function, Arrays.asList(a, b, c, d, e, f, g));
+	}
+	
+	public final <X, T, A extends X, B extends X, C extends X, D extends X, E extends X, F extends X, G extends X, H extends X> Variable<T> variable(
+			String name, String constraintName, DerivationFunction8<X, T, A, B, C, D, E, F, G, H> function,
+            Variable<A> a, Variable<B> b, Variable<C> c, Variable<D> d, Variable<E> e, Variable<F> f, Variable<G> g, Variable<H> h) {
+		return variable(name, constraintName, function, Arrays.asList(a, b, c, d, e, f, g, h));
+	}
+	
 	private final List<Constraint> _constraints = new ArrayList<>();
 	public final List<Constraint> constraints = Collections.unmodifiableList(_constraints);
 	
@@ -159,111 +175,169 @@ public class Problem {
 		return add(new Constraint(this, no, name, (ConstraintPredicate<Object>)predicate, variables));
 	}
 
-//	@SafeVarargs
-//	public final <A> Constraint<A> constraint(String name, ConstraintPredicate<A> predicate, Variable<? extends A>... variables) {
-//		return constraint(name, predicate, Arrays.asList(variables));
-//	}
-
 	public final <A> Constraint constraint(String name, ConstraintPredicate1<A> predicate, Variable<? extends A> a) {
 		return constraint(name, predicate, Arrays.asList(a));
 	}
 	
-	public final <X, A extends X, B extends X> Constraint constraint(String name,
-		ConstraintPredicate2<X, A, B> predicate,
-		Variable<? extends A> a, Variable<? extends B> b) {
+	public final <X, A extends X, B extends X>
+            Constraint constraint(String name,
+            ConstraintPredicate2<X, A, B> predicate,
+            Variable<? extends A> a, Variable<? extends B> b) {
 		return constraint(name, predicate, Arrays.asList(a, b));
 	}
 	
-	public final <X, A extends X, B extends X, C extends X> Constraint constraint(String name,
-		ConstraintPredicate3<X, A, B, C> predicate,
-		Variable<? extends A> a, Variable<? extends B> b, Variable<? extends C> c) {
+	public final <X, A extends X, B extends X, C extends X>
+            Constraint constraint(String name,
+            ConstraintPredicate3<X, A, B, C> predicate,
+            Variable<? extends A> a, Variable<? extends B> b, Variable<? extends C> c) {
 		return constraint(name, predicate, Arrays.asList(a, b, c));
 	}
 	
-	public final <X, A extends X, B extends X, C extends X, D extends X> Constraint constraint(String name,
-		ConstraintPredicate4<X, A, B, C, D> predicate,
-		Variable<? extends A> a, Variable<? extends B> b, Variable<? extends C> c, Variable<? extends D> d) {
+	public final <X, A extends X, B extends X, C extends X, D extends X>
+            Constraint constraint(String name,
+            ConstraintPredicate4<X, A, B, C, D> predicate,
+            Variable<? extends A> a, Variable<? extends B> b, Variable<? extends C> c,
+            Variable<? extends D> d) {
 		return constraint(name, predicate, Arrays.asList(a, b, c, d));
 	}
 	
-	public final <X, A extends X, B extends X, C extends X, D extends X, E extends X> Constraint constraint(String name,
-		ConstraintPredicate5<X, A, B, C, D, E> predicate,
-		Variable<? extends A> a, Variable<? extends B> b, Variable<? extends C> c, Variable<? extends D> d, Variable<? extends E> e) {
+	public final <X, A extends X, B extends X, C extends X, D extends X, E extends X>
+            Constraint constraint(String name,
+            ConstraintPredicate5<X, A, B, C, D, E> predicate,
+            Variable<? extends A> a, Variable<? extends B> b, Variable<? extends C> c,
+            Variable<? extends D> d, Variable<? extends E> e) {
 		return constraint(name, predicate, Arrays.asList(a, b, c, d, e));
 	}
 	
-	public final <X, A extends X, B extends X, C extends X, D extends X, E extends X, F extends X> Constraint constraint(String name,
-		ConstraintPredicate6<X, A, B, C, D, E, F> predicate,
-		Variable<? extends A> a, Variable<? extends B> b, Variable<? extends C> c, Variable<? extends D> d, Variable<? extends E> e, Variable<? extends F> f) {
+	public final <X, A extends X, B extends X, C extends X, D extends X, E extends X, F extends X>
+            Constraint constraint(String name,
+            ConstraintPredicate6<X, A, B, C, D, E, F> predicate,
+            Variable<? extends A> a, Variable<? extends B> b, Variable<? extends C> c,
+            Variable<? extends D> d, Variable<? extends E> e, Variable<? extends F> f) {
 		return constraint(name, predicate, Arrays.asList(a, b, c, d, e, f));
 	}
 	
-	public <A> void forAllPairs(String name, ConstraintPredicate2<A, A, A> predicate, Collection<Variable<? extends A>> variables) {
-		int i = 0;
-		for (Variable<? extends A> u : variables) {
-			int j = 0;
-			for (Variable<? extends A> v : variables) {
-				if (i < j)
-					constraint(name, predicate, u, v);
-				++j;
-			}
-			++i;
-		}
+	public final <X, A extends X, B extends X, C extends X, D extends X, E extends X, F extends X, G extends X>
+            Constraint constraint(String name,
+            ConstraintPredicate7<X, A, B, C, D, E, F, G> predicate,
+            Variable<? extends A> a, Variable<? extends B> b, Variable<? extends C> c,
+            Variable<? extends D> d, Variable<? extends E> e, Variable<? extends F> f,
+            Variable<? extends G> g) {
+		return constraint(name, predicate, Arrays.asList(a, b, c, d, e, f, g));
 	}
 	
-	@SafeVarargs
-	public final <A> void forAllPairs(String name, ConstraintPredicate2<A, A, A> predicate, Variable<A>... variables) {
-		forAllPairs(name, predicate, Arrays.asList(variables));
+	public final <X, A extends X, B extends X, C extends X, D extends X, E extends X, F extends X, G extends X, H extends X>
+            Constraint constraint(String name,
+            ConstraintPredicate8<X, A, B, C, D, E, F, G, H> predicate,
+            Variable<? extends A> a, Variable<? extends B> b, Variable<? extends C> c,
+            Variable<? extends D> d, Variable<? extends E> e, Variable<? extends F> f,
+            Variable<? extends G> g, Variable<? extends H> h) {
+		return constraint(name, predicate, Arrays.asList(a, b, c, d, e, f, g, h));
 	}
 	
-	public <A> void forAllPairs(String name, ConstraintPredicate4<Object, Integer, A, Integer, A> predicate, Collection<Variable<? extends A>> variables) {
-		int i = 0;
-		for (Variable<? extends A> u : variables) {
-			int j = 0;
-			for (Variable<? extends A> v : variables) {
-				if (i < j)
-					constraint(name, predicate, constant(i), u, constant(j), v);
-				++j;
-			}
-			++i;
-		}
-	}
-
-	@SafeVarargs
-	public final <A> void forAllPairs(String name, ConstraintPredicate4<Object, Integer, A, Integer, A> predicate, Variable<A>... variables) {
-		forAllPairs(name, predicate, Arrays.asList(variables));
-	}
-
-	public <A> void allDifferent(Collection<Variable<? extends A>> variables) {
-		forAllPairs("!=", (a, b) -> !a.equals(b), variables);
-	}
-	
-	@SafeVarargs
-	public final <A> void allDifferent(Variable<A>... variables) {
-		allDifferent(Arrays.asList(variables));
-	}
-
-	public <A> void forAllNeighbors(String name, ConstraintPredicate2<A, A, A> predicate, Collection<Variable<A>> variables) {
-		Variable<A> left = null;
-		for (Variable<A> v : variables) {
-			if (left != null)
-                constraint(name, predicate, left, v);
-            left = v;
-		}
-	}
-	
-	@SafeVarargs
-	public final <A> void forAllNeighbors(String name, ConstraintPredicate2<A, A, A> predicate, Variable<A>... variables) {
-		forAllNeighbors(name, predicate, Arrays.asList(variables));
-	}
+//	public <X, T, A extends X> Collection<Variable<T>> mapAllPairs(String name, DerivationFunction2<X, T, A, A> derivation,
+//	        Collection<Variable<A>> variables) {
+//	    List<Variable<T>> result = new ArrayList<>();
+//		int i = 0;
+//		for (Variable<A> u : variables) {
+//			int j = 0;
+//			for (Variable<A> v : variables) {
+//				if (i < j)
+//				    result.add(variable(null, name, derivation, u, v));
+//				++j;
+//			}
+//			++i;
+//		}
+//		return result;
+//	}
+//	
+//	public <A> void forAllPairs(String name, ConstraintPredicate2<A, A, A> predicate,
+//	        Collection<Variable<? extends A>> variables) {
+//		int i = 0;
+//		for (Variable<? extends A> u : variables) {
+//			int j = 0;
+//			for (Variable<? extends A> v : variables) {
+//				if (i < j)
+//					constraint(name, predicate, u, v);
+//				++j;
+//			}
+//			++i;
+//		}
+//	}
+//	
+//	@SafeVarargs
+//	public final <A> void forAllPairs(String name, ConstraintPredicate2<A, A, A> predicate, Variable<A>... variables) {
+//		forAllPairs(name, predicate, Arrays.asList(variables));
+//	}
+//	
+//	public <A> void forAllPairs(String name,
+//	        ConstraintPredicate4<Object, Integer, A, Integer, A> predicate,
+//	        Collection<Variable<? extends A>> variables) {
+//		int i = 0;
+//		for (Variable<? extends A> u : variables) {
+//			int j = 0;
+//			for (Variable<? extends A> v : variables) {
+//				if (i < j)
+//					constraint(name, predicate, constant(i), u, constant(j), v);
+//				++j;
+//			}
+//			++i;
+//		}
+//	}
+//
+//	@SafeVarargs
+//	public final <A> void forAllPairs(String name,
+//	        ConstraintPredicate4<Object, Integer, A, Integer, A> predicate, Variable<A>... variables) {
+//		forAllPairs(name, predicate, Arrays.asList(variables));
+//	}
+//
+//	public <A> void allDifferent(Collection<Variable<? extends A>> variables) {
+//		forAllPairs("!=", (a, b) -> !a.equals(b), variables);
+//	}
+//	
+//	@SafeVarargs
+//	public final <A> void allDifferent(Variable<A>... variables) {
+//		allDifferent(Arrays.asList(variables));
+//	}
+//
+//	public <X, T, A extends X> Collection<Variable<T>> mapAllNeighbors(String name, DerivationFunction2<X, T, A, A> derivation,
+//	        Collection<Variable<A>> variables) {
+//	    List<Variable<T>> result = new ArrayList<>();
+//		Variable<A> left = null;
+//		for (Variable<A> v : variables) {
+//			if (left != null)
+//                variable(null, name, derivation, left, v);
+//            left = v;
+//		}
+//		return result;
+//	}
+//	
+//	public <A> void forAllNeighbors(String name, ConstraintPredicate2<A, A, A> predicate,
+//	        Collection<Variable<A>> variables) {
+//		Variable<A> left = null;
+//		for (Variable<A> v : variables) {
+//			if (left != null)
+//                constraint(name, predicate, left, v);
+//            left = v;
+//		}
+//	}
+//	
+//	@SafeVarargs
+//	public final <A> void forAllNeighbors(String name, ConstraintPredicate2<A, A, A> predicate, Variable<A>... variables) {
+//		forAllNeighbors(name, predicate, Arrays.asList(variables));
+//	}
 	
 	public Bind bind() {
 		Bind bind = new Bind(_variables.size(), _constraints.size());
 		for (Variable<?> v : _variables)
 			v.put(bind);
+		Map<Variable<?>, Domain<?>> que = new TreeMap<>();
 		for (Constraint c : _constraints)
-			if (!c.test(bind))
+			if (!c.test(bind, que))
 				throw new RuntimeException("Constraint (" + c + ") unsatisfied");
+		for (Entry<Variable<?>, Domain<?>> e : que.entrySet())
+			if (!e.getKey().rawBind(e.getValue(), bind))
+				throw new RuntimeException("bind " + e.getKey() + " <- " + e.getValue() + " failed");
 		return bind;
 	}
 }

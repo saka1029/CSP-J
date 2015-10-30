@@ -1,8 +1,6 @@
 package jp.saka1029.cspj.main;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Logger;
 
 import jp.saka1029.cspj.problem.Domain;
@@ -50,7 +48,8 @@ public class 推理パズル_4人で競争 extends SolverMain {
     final 人 晋 = new 人(problem, "晋");
     final 人 保 = new 人(problem, "保");
     final 人 友 = new 人(problem, "友");
-    final List<人> みんな = Arrays.asList(明, 晋, 保, 友);
+//    final List<人> みんな = Arrays.asList(明, 晋, 保, 友);
+    final 人[] みんな = {明, 晋, 保, 友};
 
 	@Override
 	public void define() throws IOException {

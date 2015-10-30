@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import jp.saka1029.cspj.geometry.Matrix;
 import jp.saka1029.cspj.problem.Domain;
+import static jp.saka1029.cspj.problem.Helper.*;
 import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
@@ -118,7 +119,7 @@ public class TileColorMatch extends SolverMain {
         }
     }
     
-    Matrix<Variable<? extends Tile>> variables = new Matrix<>(6, 4);
+    Matrix<Variable<Tile>> variables = new Matrix<>(6, 4);
 
     static String name(int x, int y) { return String.format("%d@%d", x, y); }
 
@@ -133,7 +134,7 @@ public class TileColorMatch extends SolverMain {
             for (int h = 0; h < height; ++h)
                 variables.set(w, h, problem.variable(name(w, h), dom));
 //                	w == 0 && h == 0 ? first : dom));
-        problem.forAllPairs("notSame", (a, b) -> !a.same(b), variables.asList());
+        constraint(mapPair("notSame", (a, b) -> !a.same(b), variables.asList()));
         for (int w = 0; w < width; ++w)
             for (int h = 0; h < height; ++h) {
 //                if (w + 1 < width)
@@ -142,15 +143,15 @@ public class TileColorMatch extends SolverMain {
 //                if (h + 1 < height)
 //                    problem.constraint(a -> ((Tile)a[0]).down((Tile)a[1]), "down",
 //                        variables.get(w, h), variables.get(w, h + 1));
-            	// 長方形の上下および左右は連結しているものとする。（円環面上に配置する）
-                problem.constraint("right", (a, b) -> a.right(b),
+            	// 長方形の上下および左右の辺は連結しているものとする。（円環面上に配置する）
+                constraint("right", (a, b) -> a.right(b),
                     variables.get(w, h), variables.get((w + 1) % width, h));
-                problem.constraint("down", (a, b) -> a.down(b),
+                constraint("down", (a, b) -> a.down(b),
                     variables.get(w, h), variables.get(w, (h + 1) % height));
             }
         // 左上すみのタイルを決め打ちする。
         Tile first = tiles.get(0);
-        problem.constraint("topLeft", a -> a.equals(first), variables.get(0, 0));
+        constraint("topLeft", a -> a.equals(first), variables.get(0, 0));
     }
 
     @Override

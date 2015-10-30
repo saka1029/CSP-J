@@ -30,7 +30,7 @@ public class TestHelper {
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
 		Variable<Integer> y = problem.variable("y", Domain.of(2, 3, 4));
-		cand(eq(x, y));
+		constraint(and(eq(x, y)));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2, 3), bind.get(x));
 	}
@@ -40,7 +40,7 @@ public class TestHelper {
 		methodName();
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
-		cand(eq(x, 2));
+		constraint(and(eq(x, 2)));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2), bind.get(x));
 	}
@@ -51,7 +51,7 @@ public class TestHelper {
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
 		Variable<Integer> y = problem.variable("y", Domain.of(2, 3, 4));
-		ceq(x, y);
+		constraint(eq(x, y));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2, 3), bind.get(x));
 	}
@@ -61,7 +61,7 @@ public class TestHelper {
 		methodName();
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
-		ceq(x, 2);
+		constraint(eq(x, 2));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2), bind.get(x));
 	}
@@ -72,7 +72,7 @@ public class TestHelper {
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
 		Variable<Integer> y = problem.variable("y", Domain.of(2));
-		cand(ne(x, y));
+		constraint(and(ne(x, y)));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(1, 3), bind.get(x));
 	}
@@ -82,7 +82,7 @@ public class TestHelper {
 		methodName();
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
-		cand(ne(x, 2));
+		constraint(and(ne(x, 2)));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(1, 3), bind.get(x));
 	}
@@ -93,7 +93,7 @@ public class TestHelper {
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
 		Variable<Integer> y = problem.variable("y", Domain.of(2));
-		cne(x, y);
+		constraint(ne(x, y));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(1, 3), bind.get(x));
 	}
@@ -103,7 +103,7 @@ public class TestHelper {
 		methodName();
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
-		cne(x, 2);
+		constraint(ne(x, 2));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(1, 3), bind.get(x));
 	}
@@ -114,7 +114,7 @@ public class TestHelper {
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(2, 3, 4));
 		Variable<Integer> y = problem.variable("y", Domain.of(1, 2, 3));
-		cand(lt(x, y));
+		constraint(and(lt(x, y)));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2), bind.get(x));
 	}
@@ -124,7 +124,7 @@ public class TestHelper {
 		methodName();
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(2, 3, 4));
-		cand(lt(x, 3));
+		constraint(and(lt(x, 3)));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2), bind.get(x));
 	}
@@ -135,7 +135,7 @@ public class TestHelper {
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(2, 3, 4));
 		Variable<Integer> y = problem.variable("y", Domain.of(1, 2, 3));
-		clt(x, y);
+		constraint(lt(x, y));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2), bind.get(x));
 	}
@@ -145,7 +145,7 @@ public class TestHelper {
 		methodName();
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(2, 3, 4));
-		clt(x, 3);
+		constraint(lt(x, 3));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2), bind.get(x));
 	}
@@ -156,7 +156,7 @@ public class TestHelper {
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(2, 3, 4));
 		Variable<Integer> y = problem.variable("y", Domain.of(1, 2, 3));
-		cand(le(x, y));
+		constraint(and(le(x, y)));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2, 3), bind.get(x));
 	}
@@ -166,7 +166,7 @@ public class TestHelper {
 		methodName();
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(2, 3, 4));
-		cand(le(x, 3));
+		constraint(and(le(x, 3)));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2, 3), bind.get(x));
 	}
@@ -177,7 +177,7 @@ public class TestHelper {
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(2, 3, 4));
 		Variable<Integer> y = problem.variable("y", Domain.of(1, 2, 3));
-		cle(x, y);
+		constraint(le(x, y));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2, 3), bind.get(x));
 	}
@@ -187,7 +187,7 @@ public class TestHelper {
 		methodName();
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(2, 3, 4));
-		cle(x, 3);
+		constraint(le(x, 3));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2, 3), bind.get(x));
 	}
@@ -198,7 +198,7 @@ public class TestHelper {
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
 		Variable<Integer> y = problem.variable("y", Domain.of(2, 3, 4));
-		cand(gt(x, y));
+		constraint(and(gt(x, y)));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(3), bind.get(x));
 	}
@@ -208,7 +208,7 @@ public class TestHelper {
 		methodName();
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
-		cand(gt(x, 2));
+		constraint(and(gt(x, 2)));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(3), bind.get(x));
 	}
@@ -219,7 +219,7 @@ public class TestHelper {
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
 		Variable<Integer> y = problem.variable("y", Domain.of(2, 3, 4));
-		cgt(x, y);
+		constraint(gt(x, y));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(3), bind.get(x));
 	}
@@ -229,7 +229,7 @@ public class TestHelper {
 		methodName();
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
-		cgt(x, 2);
+		constraint(gt(x, 2));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(3), bind.get(x));
 	}
@@ -240,7 +240,7 @@ public class TestHelper {
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
 		Variable<Integer> y = problem.variable("y", Domain.of(2, 3, 4));
-		cand(ge(x, y));
+		constraint(and(ge(x, y)));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2, 3), bind.get(x));
 	}
@@ -250,7 +250,7 @@ public class TestHelper {
 		methodName();
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
-		cand(ge(x, 2));
+		constraint(and(ge(x, 2)));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2, 3), bind.get(x));
 	}
@@ -261,7 +261,7 @@ public class TestHelper {
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
 		Variable<Integer> y = problem.variable("y", Domain.of(2, 3, 4));
-		cge(x, y);
+		constraint(ge(x, y));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2, 3), bind.get(x));
 	}
@@ -271,7 +271,7 @@ public class TestHelper {
 		methodName();
 		Problem problem = new Problem();
 		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
-		cge(x, 2);
+		constraint(ge(x, 2));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(2, 3), bind.get(x));
 	}
@@ -454,7 +454,7 @@ public class TestHelper {
 		methodName();
 		Problem problem = new Problem();
 		Variable<Boolean> x = problem.variable("x", Domain.of(true, false));
-		cnot(x);
+		constraint(not(x));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(false), bind.get(x));
 	}
@@ -477,7 +477,7 @@ public class TestHelper {
 		Variable<Boolean> x = problem.variable("x", Domain.of(true, false));
 		Variable<Boolean> y = problem.variable("y", Domain.of(true, false));
 		List<Variable<? extends Boolean>> list = Arrays.asList(x, y);
-		cand(list);
+		constraint(and(list));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(true), bind.get(x));
 	}
@@ -488,7 +488,7 @@ public class TestHelper {
 		Problem problem = new Problem();
 		Variable<Boolean> x = problem.variable("x", Domain.of(true, false));
 		Variable<Boolean> y = problem.variable("y", Domain.of(true, false));
-		cand(x, y);
+		constraint(and(x, y));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(true), bind.get(x));
 	}
@@ -523,7 +523,7 @@ public class TestHelper {
 		Variable<Boolean> x = problem.variable("x", Domain.of(true, false));
 		Variable<Boolean> y = problem.variable("y", Domain.of(false));
 		List<Variable<? extends Boolean>> list = Arrays.asList(x, y);
-		cor(list);
+		constraint(or(list));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(true), bind.get(x));
 	}
@@ -534,47 +534,9 @@ public class TestHelper {
 		Problem problem = new Problem();
 		Variable<Boolean> x = problem.variable("x", Domain.of(true, false));
 		Variable<Boolean> y = problem.variable("y", Domain.of(false));
-		cor(x, y);
+		constraint(or(x, y));
 		Bind bind = problem.bind();
 		assertEquals(Domain.of(true), bind.get(x));
-	}
-
-	@Test
-	public void testForEachPairsStringConstraintPredicateOfACollectionOfVariableOfQextendsA() {
-		methodName();
-		Problem problem = new Problem();
-		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
-		Variable<Integer> y = problem.variable("y", Domain.of(2, 3));
-		Variable<Integer> z = problem.variable("z", Domain.of(3));
-		List<Variable<? extends Integer>> list = Arrays.asList(x, y, z);
-		forAllPairs("!=", (a, b) -> !a.equals(b), list);
-		Bind bind = problem.bind();
-		assertEquals(Domain.of(1), bind.get(x));
-	}
-
-	@Test
-	public void testForEachPairsStringConstraintPredicateOfAVariableOfAArray() {
-		methodName();
-		Problem problem = new Problem();
-		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
-		Variable<Integer> y = problem.variable("y", Domain.of(2, 3));
-		Variable<Integer> z = problem.variable("z", Domain.of(3));
-		forAllPairs("!=", (a, b) -> !a.equals(b), x, y, z);
-		Bind bind = problem.bind();
-		assertEquals(Domain.of(1), bind.get(x));
-	}
-
-	@Test
-	public void testAllDifferentCollectionOfVariableOfQextendsObject() {
-		methodName();
-		Problem problem = new Problem();
-		Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
-		Variable<Integer> y = problem.variable("y", Domain.of(2, 3));
-		Variable<Integer> z = problem.variable("z", Domain.of(3));
-		List<Variable<? extends Integer>> list = Arrays.asList(x, y, z);
-		allDifferent(list);
-		Bind bind = problem.bind();
-		assertEquals(Domain.of(1), bind.get(x));
 	}
 
 	@Test

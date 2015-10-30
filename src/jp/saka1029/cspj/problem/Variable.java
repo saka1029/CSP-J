@@ -1,7 +1,10 @@
 package jp.saka1029.cspj.problem;
 
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,9 +18,9 @@ public class Variable<T> extends ProblemElement implements Comparable<Variable<T
 	Variable(Problem problem, int no, String name, Domain<T> domain) {
 		super(problem, no, name);
 		if (name == null)
-			throw new IllegalAccessError("name");
+			throw new IllegalArgumentException("name");
 		if (domain == null || domain.size() <= 0)
-			throw new IllegalAccessError("domain");
+			throw new IllegalArgumentException("domain");
 		this.domain = domain;
 	}
 	
@@ -34,11 +37,17 @@ public class Variable<T> extends ProblemElement implements Comparable<Variable<T
 		bind.put(this, domain);
 		if (logger.isLoggable(Level.FINEST))
             logger.finest("Variable.bind: " + this + " <- " + domain);
+		Map<Variable<?>, Domain<?>> que = new TreeMap<>();
 		for (Constraint e : constraints)
 //			if (!e.test(bind))
-			if (!e.test(this, bind))
+			if (!e.test(this, bind, que))
+				return false;
+		for (Entry<Variable<?>, Domain<?>> e : que.entrySet())
+			if (!e.getKey().rawBind(e.getValue(), bind))
 				return false;
 		return true;
+//		return !que.entrySet().parallelStream()
+//			.anyMatch(e -> !e.getKey().rawBind(e.getValue(), bind));
 	}
 	
 	@SuppressWarnings("unchecked")

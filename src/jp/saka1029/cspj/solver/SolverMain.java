@@ -45,7 +45,7 @@ public abstract class SolverMain {
     public SolverMain solver(Solver solver) { this.solver = solver; return this; }
     public SolverMain solver(String solver) {
     	try {
-            Class.forName(solver).newInstance();
+            this.solver = (Solver)Class.forName(solver).newInstance();
     	} catch (Exception e) {
     		throw new RuntimeException("cannot create solver: " + solver);
     	}

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -75,15 +76,30 @@ public class Constraint extends ProblemElement implements Comparable<Constraint>
 		new EncodeDriver(bind, consistent, encoder).encode(0);
 	}
 
-	private boolean build(List<Domain.Builder<Object>> builders, Bind bind) {
+	private boolean build(List<Domain.Builder<Object>> builders, Bind bind, Map<Variable<?>, Domain<?>> que) {
 		int size = variables.size();
-		for (int i = 0; i < size; ++i)
-			if (!variables.get(i).rawBind(builders.get(i).build(), bind))
+//		for (int i = 0; i < size; ++i)
+//			if (!variables.get(i).rawBind(builders.get(i).build(), bind))
+//				return false;
+		for (int i = 0; i < size; ++i) {
+			Domain.Builder<?> builder = builders.get(i);
+			int builderSize = builder.size();
+			Variable<?> v = variables.get(i);
+			if (builderSize <= 0)
 				return false;
+			else if (builderSize < bind.get(v).size()) {
+				Domain<?> queDomain = que.get(v);
+				if (queDomain == null || builderSize < queDomain.size()) {
+//					if (logger.isLoggable(Level.INFO) && queDomain != null)
+//						logger.info("Constrant.build: " + queDomain.size() + " -> " + builderSize);
+					que.put(v, builder.build());
+				}
+			}
+		}
 		return true;
 	}
 
-	boolean test(Bind bind) {
+	boolean test(Bind bind, Map<Variable<?>, Domain<?>> que) {
 		if (bind.get(this) != null)
 			return true;
 		if (logger.isLoggable(Level.FINEST))
@@ -100,13 +116,13 @@ public class Constraint extends ProblemElement implements Comparable<Constraint>
 		});
 		bind.put(this, combinations);
 //		logger.finest("Constraint.test/1: " + this + " : " + builders);
-		return build(builders, bind);
+		return build(builders, bind, que);
 	}
 
-	boolean test(Variable<?> variable, Bind bind) {
+	boolean test(Variable<?> variable, Bind bind, Map<Variable<?>, Domain<?>> que) {
 		List<Object[]> combinations = bind.get(this);
 		if (combinations == null)
-			return test(bind);
+			return test(bind, que);
 		if (logger.isLoggable(Level.FINEST))
             logger.finest("Constraint.test/2: " + this);
 		int orgSize = combinations.size();
@@ -134,7 +150,7 @@ public class Constraint extends ProblemElement implements Comparable<Constraint>
 		else if (newSize == orgSize)
 			return true;
 //		logger.finest("Constraint.test/2: " + this + " : " + builders);
-		return build(builders, bind);
+		return build(builders, bind, que);
 	}
 
 	private static <T> List<String> toStringList(Collection<T> list) {

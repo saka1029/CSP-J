@@ -16,6 +16,7 @@ import jp.saka1029.cspj.geometry.Point;
 import jp.saka1029.cspj.geometry.Printer;
 import jp.saka1029.cspj.problem.Bind;
 import jp.saka1029.cspj.problem.Domain;
+import static jp.saka1029.cspj.problem.Helper.*;
 import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
@@ -32,7 +33,7 @@ public class Shikaku extends SolverMain {
 	}
 
     Board board;
-    List<Variable<? extends Box>> variables;
+    List<Variable<Box>> variables;
     
     @Override
     public void define() throws IOException {
@@ -59,7 +60,7 @@ public class Shikaku extends SolverMain {
             }
             variables.add(problem.variable(String.format("%d@%s", n, p), builder.build()));
         }
-        problem.forAllPairs("notOverlap", (a, b) -> !a.overlap(b), variables);
+        constraint(mapPair("notOverlap", (a, b) -> !a.overlap(b), variables));
 //        printReduced(problem.bind());
     }
 

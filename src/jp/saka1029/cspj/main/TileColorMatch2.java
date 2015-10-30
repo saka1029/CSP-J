@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 import jp.saka1029.cspj.geometry.Matrix;
 import jp.saka1029.cspj.problem.Domain;
+import static jp.saka1029.cspj.problem.Helper.*;
 import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
@@ -125,8 +126,8 @@ public class TileColorMatch2 extends SolverMain {
         }
     }
     
-    Matrix<Variable<? extends Tile>> shapes = new Matrix<>(6, 4);
-    Matrix<Variable<? extends Tile>> tiles = new Matrix<>(6, 4);
+    Matrix<Variable<Tile>> shapes = new Matrix<>(6, 4);
+    Matrix<Variable<Tile>> tiles = new Matrix<>(6, 4);
 
     static String name(String s, int x, int y) { return String.format("%s%d@%d", s, x, y); }
 
@@ -144,9 +145,9 @@ public class TileColorMatch2 extends SolverMain {
             	Variable<Tile> tile = problem.variable(name("t", w, h), tilesDomain);
                 shapes.set(w, h, shape);
                 tiles.set(w, h, tile);
-                problem.constraint("contains", (a, b) -> group.get(a).contains(b), shape, tile);
+                constraint("contains", (a, b) -> group.get(a).contains(b), shape, tile);
             }
-        problem.allDifferent(shapes.asList());
+        allDifferent(shapes.asList());
         for (int w = 0; w < width; ++w)
             for (int h = 0; h < height; ++h) {
 //                if (w + 1 < width)
@@ -155,9 +156,9 @@ public class TileColorMatch2 extends SolverMain {
 //                if (h + 1 < height)
 //                    problem.constraint(a -> ((Tile)a[0]).down((Tile)a[1]), "down",
 //                        variables.get(w, h), variables.get(w, h + 1));
-                problem.constraint("right", (a, b) -> a.right(b),
+                constraint("right", (a, b) -> a.right(b),
                     tiles.get(w, h), tiles.get((w + 1) % width, h));
-                problem.constraint("down", (a, b) -> a.down(b),
+                constraint("down", (a, b) -> a.down(b),
                     tiles.get(w, h), tiles.get(w, (h + 1) % height));
             }
     }

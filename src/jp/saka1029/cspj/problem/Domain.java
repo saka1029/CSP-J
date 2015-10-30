@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class Domain<T> implements Iterable<T> {
@@ -58,6 +59,13 @@ public class Domain<T> implements Iterable<T> {
 		Domain<T> r = new Domain<>();
 		for (T e : elements)
 			r.add(e);
+		return r;
+	}
+	
+	public static <T> Domain<T> of(int size, Function<Integer, T> initializer) {
+		Domain<T> r = new Domain<>();
+		for (int i = 0; i < size; ++i)
+			r.add(initializer.apply(i));
 		return r;
 	}
 	

@@ -29,8 +29,10 @@ public class Board {
                 if (line.equals("")) continue;
                 String[] ss = line.split("[ \\t]+");
                 if (height == 0 && ss.length == 1) {
-                    if (headerHeight == -1) headerHeight = Integer.parseInt(ss[0]);
-                    else if (headerWidth == -1) headerWidth = Integer.parseInt(ss[0]);
+                    if (headerHeight == -1)
+                        headerHeight = Integer.parseInt(ss[0]);
+                    else if (headerWidth == -1)
+                        headerWidth = Integer.parseInt(ss[0]);
                     continue;
                 }
                 int w = ss.length;

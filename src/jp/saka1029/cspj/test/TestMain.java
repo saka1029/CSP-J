@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import jp.saka1029.cspj.main.Akari;
+import jp.saka1029.cspj.main.Australia;
 import jp.saka1029.cspj.main.Filomino;
+import jp.saka1029.cspj.main.Hamilton;
 import jp.saka1029.cspj.main.SendMoreMoney;
 import jp.saka1029.cspj.main.Shikaku;
 import jp.saka1029.cspj.main.AC3;
@@ -14,6 +16,7 @@ import jp.saka1029.cspj.main.TileColorMatch2;
 import jp.saka1029.cspj.main.推理パズル_4人で競争;
 import jp.saka1029.cspj.main.春からみんな新生活;
 import jp.saka1029.cspj.main.TileColorMatch;
+import jp.saka1029.cspj.main.Komachi;
 import jp.saka1029.cspj.solver.Solver;
 import jp.saka1029.cspj.solver.basic.BasicSolver;
 import jp.saka1029.cspj.solver.choco.ChocoSolver;
@@ -141,8 +144,25 @@ public class TestMain {
     }
 
     @Theory
+    public void testShikaku003(Solver solver) throws IOException {
+        methodName(); assertEquals(1, new Shikaku().input("data/cis003.txt").solver(solver).solve());
+    }
+
+    @Theory
+    public void testShikaku003many(Solver solver) throws IOException {
+        if (!(solver instanceof BasicSolver)) return;
+//        methodName(); assertEquals(8, new Shikaku().input("data/cis003-many.txt").solver(solver).solve());
+        methodName(); assertEquals(12, new Shikaku().input("data/cis003-4.txt").solver(solver).solve());
+    }
+
+    @Theory
     public void testShikaku53(Solver solver) throws IOException {
         methodName(); assertEquals(1, new Shikaku().input("data/cis53.txt").solver(solver).solve());
+    }
+
+    @Theory
+    public void testShikaku54(Solver solver) throws IOException {
+        methodName(); assertEquals(1, new Shikaku().input("data/cis54.txt").solver(solver).solve());
     }
 
     @Theory
@@ -165,17 +185,13 @@ public class TestMain {
         methodName(); assertEquals(1, new 推理パズル_4人で競争().solver(new BasicSolver()).solve());
     }
 
-//    @Theory
-//    public void testHamilton(Solver solver) throws IOException {
-//        Log.methodName(); assertTrue(new Hamilton().solver(solver).solve() >= 1);
-//    }
-//
-//    @Ignore
-//    @Theory
-//    public void testHamilton2(Solver solver) throws IOException {
-//        Log.methodName(); assertEquals(1, new Hamilton2().solver(solver).solve());
-//    }
+    @Ignore
+    @Theory
+    public void testHamilton(Solver solver) throws IOException {
+        methodName(); assertTrue(new Hamilton().solver(solver).solve() >= 1);
+    }
 
+    @Ignore
     @Theory
     public void testTileColorMatch(Solver solver) throws IOException {
     	if (solver instanceof ChocoSolver) return;
@@ -193,12 +209,12 @@ public class TestMain {
 //    public void testNQueen(Solver solver) throws IOException {
 //    	Log.methodName(); assertTrue(new NQueen().number(8).solver(solver).solve() > 0);
 //    }
-//
-//    @Theory
-//    public void testAustralia(Solver solver) throws IOException {
-//    	Log.methodName(); assertEquals(18, new Australia().solver(solver).solve());
-//    }
-//
+
+    @Theory
+    public void testAustralia(Solver solver) throws IOException {
+    	methodName(); assertEquals(18, new Australia().solver(solver).solve());
+    }
+
 //    @Ignore
 //    @Test
 //    public void testBenchmark() throws IOException {
@@ -207,10 +223,10 @@ public class TestMain {
 ////    	Log.methodName(); assertEquals(1, new Benchmark().input("data/frb40-19-1.csp").solver(new BasicSolver()).solve());
 //    }
 //    
-//    @Theory
-//    public void testKomachi(Solver solver) throws IOException {
-//    	Log.methodName(); assertTrue(new Komachi().solver(solver).solve() > 0);
-//    }
+    @Theory
+    public void testKomachi(Solver solver) throws IOException {
+    	methodName(); assertTrue(new Komachi().solver(solver).solve() > 0);
+    }
 //    
 //    @Theory
 //    public void testVerbalArithmetic(Solver solver) throws IOException {

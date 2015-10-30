@@ -16,6 +16,7 @@ import jp.saka1029.cspj.geometry.Point;
 import jp.saka1029.cspj.geometry.PointSet;
 import jp.saka1029.cspj.geometry.Printer;
 import jp.saka1029.cspj.problem.Domain;
+import static jp.saka1029.cspj.problem.Helper.*;
 import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
@@ -86,7 +87,7 @@ public class Filomino extends SolverMain {
     }
 
     Board board;
-    List<Variable<? extends PointSet>> variables;
+    List<Variable<PointSet>> variables;
     
     @Override
     public void define() throws IOException {
@@ -98,8 +99,15 @@ public class Filomino extends SolverMain {
             Domain<PointSet> d = Domain.of(shapes(origin, n));
             variables.add(problem.variable(String.format("%d@%s", n, origin), d));
         }
-        problem.forAllPairs("notOverlapOrsame",
-        	(x, y) -> x.equals(y) || !x.overlap(y) && !(x.size() == y.size() && neighbors(x, y)), variables);
+
+        constraint(mapPair("notOverlapOrsame",
+        	(x, y) -> x.equals(y) || !x.overlap(y) && !(x.size() == y.size() && neighbors(x, y)), variables));
+
+//        constraint(and(mapPair((a, b) -> variable(null, "notOverlapOrsame",
+//        	(x, y) -> x.equals(y) || !x.overlap(y) && !(x.size() == y.size() && neighbors(x, y)), a, b), variables)));
+
+//        problem.forAllPairs("notOverlapOrsame",
+//        	(x, y) -> x.equals(y) || !x.overlap(y) && !(x.size() == y.size() && neighbors(x, y)), variables);
     }
 
     void rest(Matrix<Integer> m, Point p, PointSet.Builder b) {
