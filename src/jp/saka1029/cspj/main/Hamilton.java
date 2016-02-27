@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import jp.saka1029.cspj.problem.Domain;
+import static jp.saka1029.cspj.problem.Helper.*;
 import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
@@ -143,7 +144,7 @@ public class Hamilton extends SolverMain {
         }
         for (Node node : nodes)
             for (Node neighbor : node.neighbors)
-                problem.constraint("linkOrNot",
+                constraint("linkOrNot",
                     (l, r) -> l.neighbors.contains(r.node) == r.neighbors.contains(l.node),
                     variables.get(node.name), variables.get(neighbor.name));
     }

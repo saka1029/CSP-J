@@ -45,7 +45,7 @@ public class TestProblem {
         Problem problem = new Problem();
         Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
         Variable<Integer> y = problem.variable("y", Domain.of(2, 3, 4));
-        problem.constraint("==", (a, b) -> a.equals(b), x, y);
+        constraint("==", (a, b) -> a.equals(b), x, y);
         Bind bind = print(problem);
         assertEquals(Domain.of(2, 3), bind.get(x));
         assertEquals(Domain.of(2, 3), bind.get(y));
@@ -56,9 +56,9 @@ public class TestProblem {
     	methodName();
         Problem problem = new Problem();
         Variable<String> x = problem.variable("x", Domain.of("a", "b", "c"));
-        Variable<Boolean> xa = problem.variable("xa", "is_a", a -> a.equals("a"), x);
-        Variable<Boolean> xb = problem.variable("xb", "is_b", a -> a.equals("b"), x);
-        problem.constraint("||", (a, b) -> a || b, xa, xb);
+        Variable<Boolean> xa = variable("xa", "is_a", a -> a.equals("a"), x);
+        Variable<Boolean> xb = variable("xb", "is_b", a -> a.equals("b"), x);
+        constraint("||", (a, b) -> a || b, xa, xb);
         Bind bind = print(problem);
         assertEquals(Domain.of("a", "b", "c"), bind.get(x));
     }
@@ -71,7 +71,7 @@ public class TestProblem {
         Problem problem = new Problem();
         Variable<Integer> x = problem.variable("x", Domain.of(-1, 0));
         Variable<Gender> g = problem.variable("g", Domain.of(Gender.values()));
-        problem.constraint("==", (a, b) -> a == b.ordinal(), x, g);
+        constraint("==", (a, b) -> a == b.ordinal(), x, g);
         Bind bind = print(problem);
         assertEquals(Domain.of(0), bind.get(x));
         assertEquals(Domain.of(Gender.Male), bind.get(g));
@@ -83,8 +83,8 @@ public class TestProblem {
         Problem problem = new Problem();
         Variable<Integer> x = problem.variable("x", Domain.of(1, 2, 3));
         Variable<Integer> y = problem.variable("y", Domain.of(2, 3, 4));
-        Variable<Integer> z = problem.variable("z", "+", (a, b) -> a + b, x, y);
-        problem.constraint("%s == 6", a -> a == 6, z);
+        Variable<Integer> z = variable("z", "+", (a, b) -> a + b, x, y);
+        constraint("%s == 6", a -> a == 6, z);
         Bind bind = print(problem);
         assertEquals(Domain.of(2, 3), bind.get(x));
         assertEquals(Domain.of(3, 4), bind.get(y));
@@ -115,8 +115,8 @@ public class TestProblem {
         Problem problem = new Problem();
         Variable<Baz> x = problem.variable("x", Domain.of(new Baz(1), new Baz(2)));
         Variable<Bar> y = problem.variable("y", Domain.of(new Bar(2), new Bar(3)));
-        Variable<Foo> z = problem.variable("z", "+", (a, b) -> new Baz(a.i + b.i), x, y);
-        problem.constraint("is5", a -> a.i == 5, z);
+        Variable<Foo> z = variable("z", "+", (a, b) -> new Baz(a.i + b.i), x, y);
+        constraint("is5", a -> a.i == 5, z);
         Bind bind = print(problem);
         assertEquals(Domain.of(new Foo(2)), bind.get(x));
     }
@@ -127,7 +127,7 @@ public class TestProblem {
         Problem problem = new Problem();
         Variable<Baz> x = problem.variable("x", Domain.of(new Baz(1), new Baz(2)));
         Variable<Bar> y = problem.variable("y", Domain.of(new Bar(2), new Bar(3)));
-        problem.constraint("==", (a, b) -> a.i == b.i, x, y);
+        constraint("==", (a, b) -> a.i == b.i, x, y);
         Bind bind = print(problem);
         assertEquals(Domain.of(new Foo(2)), bind.get(x));
     }
@@ -166,7 +166,7 @@ public class TestProblem {
         list.add(x);
         list.add(y);
         Variable<Foo> z = problem.variable("z", "+", a -> new Baz(a.get(0).i + a.get(1).i), list);
-        problem.constraint("is5", a -> a.i == 5, z);
+        constraint("is5", a -> a.i == 5, z);
         Bind bind = print(problem);
         assertEquals(Domain.of(new Foo(2)), bind.get(x));
     }

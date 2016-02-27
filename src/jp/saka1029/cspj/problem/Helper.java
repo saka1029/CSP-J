@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class Helper {
@@ -12,7 +11,7 @@ public class Helper {
 	private Helper() {}
 	
 	public static <T> Variable<Boolean> eq(Variable<T> x, Variable<T> y) {
-		return x.problem.variable(null, "==", (a, b) -> a.equals(b), x, y);
+		return variable(null, "==", (a, b) -> a.equals(b), x, y);
 	}
 
 	public static <T> Variable<Boolean> eq(Variable<T> x, T y) {
@@ -20,7 +19,7 @@ public class Helper {
 	}
 	
 	public static <T> Variable<Boolean> ne(Variable<T> x, Variable<T> y) {
-		return x.problem.variable(null, "!=", (a, b) -> !a.equals(b), x, y);
+		return variable(null, "!=", (a, b) -> !a.equals(b), x, y);
 	}
 	
 	public static <T> Variable<Boolean> ne(Variable<T> x, T y) {
@@ -28,7 +27,7 @@ public class Helper {
 	}
 	
 	public static <T extends Comparable<T>> Variable<Boolean> lt(Variable<T> x, Variable<T> y) {
-		return x.problem.variable(null, "<", (a, b) -> a.compareTo(b) < 0, x, y);
+		return variable(null, "<", (a, b) -> a.compareTo(b) < 0, x, y);
 	}
 
 	public static <T extends Comparable<T>> Variable<Boolean> lt(Variable<T> x, T y) {
@@ -36,7 +35,7 @@ public class Helper {
 	}
 	
 	public static <T extends Comparable<T>> Variable<Boolean> le(Variable<T> x, Variable<T> y) {
-		return x.problem.variable(null, "<=", (a, b) -> a.compareTo(b) <= 0, x, y);
+		return variable(null, "<=", (a, b) -> a.compareTo(b) <= 0, x, y);
 	}
 
 	public static <T extends Comparable<T>> Variable<Boolean> le(Variable<T> x, T y) {
@@ -44,7 +43,7 @@ public class Helper {
 	}
 	
 	public static <T extends Comparable<T>> Variable<Boolean> gt(Variable<T> x, Variable<T> y) {
-		return x.problem.variable(null, ">", (a, b) -> a.compareTo(b) > 0, x, y);
+		return variable(null, ">", (a, b) -> a.compareTo(b) > 0, x, y);
 	}
 
 	public static <T extends Comparable<T>> Variable<Boolean> gt(Variable<T> x, T y) {
@@ -52,7 +51,7 @@ public class Helper {
 	}
 	
 	public static <T extends Comparable<T>> Variable<Boolean> ge(Variable<T> x, Variable<T> y) {
-		return x.problem.variable(null, ">=", (a, b) -> a.compareTo(b) >= 0, x, y);
+		return variable(null, ">=", (a, b) -> a.compareTo(b) >= 0, x, y);
 	}
 
 	public static <T extends Comparable<T>> Variable<Boolean> ge(Variable<T> x, T y) {
@@ -120,11 +119,11 @@ public class Helper {
 	}
 	
 	public static Variable<Integer> abs(Variable<Integer> x) {
-		return x.problem.variable(null, "abs", a -> Math.abs(a), x);
+		return variable(null, "abs", a -> Math.abs(a), x);
 	}
 
 	public static Variable<Integer> div(Variable<Integer> x, Variable<Integer> y) {
-		return x.problem.variable(null, "/", (a, b) -> a / b, x, y);
+		return variable(null, "/", (a, b) -> a / b, x, y);
 	}
 
 	public static Variable<Integer> div(Variable<Integer> x, int y) {
@@ -132,7 +131,7 @@ public class Helper {
 	}
 
 	public static Variable<Integer> mod(Variable<Integer> x, Variable<Integer> y) {
-		return x.problem.variable(null, "%", (a, b) -> a % b, x, y);
+		return variable(null, "%", (a, b) -> a % b, x, y);
 	}
 
 	public static Variable<Integer> mod(Variable<Integer> x, int y) {
@@ -149,7 +148,7 @@ public class Helper {
 	}
 	
 	public static Variable<Boolean> not(Variable<Boolean> x) {
-		return x.problem.variable(null, "!", a -> !a, x);
+		return variable(null, "!", a -> !a, x);
 	}
 	
 	@SafeVarargs
@@ -228,7 +227,7 @@ public class Helper {
 	// define constraint
 	public static void constraint(Collection<Variable<Boolean>> variables) {
 	    for (Variable<? extends Boolean> v : variables)
-            variables.iterator().next().problem.constraint("isTrue", a -> a, v);
+            constraint("isTrue", a -> a, v);
 	}
 
 	@SafeVarargs

@@ -26,6 +26,12 @@ public class Point implements Comparable<Point> {
     public Point minus(Point p) {
         return new Point(x - p.x, y - p.y);
     }
+    
+    public int deviationSquare(Point p) {
+        int x = this.x - p.x;
+        int y = this.y - p.y;
+        return x * x + y + y;
+    }
 
     public Iterable<Point> neighbors() {
         List<Point> r = new ArrayList<>();

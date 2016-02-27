@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import jp.saka1029.cspj.problem.Domain;
+import static jp.saka1029.cspj.problem.Helper.*;
 import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
@@ -63,11 +64,11 @@ public class TypeInference extends SolverMain {
 
 	@Override
 	public void define() throws IOException {
-		problem.constraint("c0", (a, b, c, d) -> rule("if", a, b, c, d), v1, v2, v3, v4);
-		problem.constraint("c1", (a, b, c) -> rule("==", a, b, c), v2, v0, INT);
-		problem.constraint("c2", (a) -> a == T.Int, v3);
-		problem.constraint("c3", (a, b, c) -> rule("*", a, b, c), v4, v0, v1);
-		problem.constraint("c4", (a, b, c) -> rule("-", a, b, c), v0, v0, INT);
+		constraint("c0", (a, b, c, d) -> rule("if", a, b, c, d), v1, v2, v3, v4);
+		constraint("c1", (a, b, c) -> rule("==", a, b, c), v2, v0, INT);
+		constraint("c2", (a) -> a == T.Int, v3);
+		constraint("c3", (a, b, c) -> rule("*", a, b, c), v4, v0, v1);
+		constraint("c4", (a, b, c) -> rule("-", a, b, c), v0, v0, INT);
 	}
 
 	@Override

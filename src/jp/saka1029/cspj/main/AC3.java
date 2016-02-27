@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import jp.saka1029.cspj.problem.Bind;
 import jp.saka1029.cspj.problem.Constraint;
 import jp.saka1029.cspj.problem.Domain;
+import static jp.saka1029.cspj.problem.Helper.*;
 import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
@@ -58,8 +59,8 @@ public class AC3 extends SolverMain {
 	public void define() throws IOException {
 		x = problem.variable("X", Domain.range(0, 5));
 		y = problem.variable("Y", Domain.range(0, 5));
-		problem.constraint("%s %% 2 == 0", a -> a % 2 == 0, x);
-		problem.constraint("%s + %s == 4", (a, b) -> a + b == 4, x, y);
+		constraint("%s %% 2 == 0", a -> a % 2 == 0, x);
+		constraint("%s + %s == 4", (a, b) -> a + b == 4, x, y);
 		Bind bind = problem.bind();
 		for (Variable<?> v : problem.variables)
 			logger.info("variable: " + v + " : " + v.domain);

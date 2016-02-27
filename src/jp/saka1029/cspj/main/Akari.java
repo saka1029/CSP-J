@@ -9,6 +9,7 @@ import jp.saka1029.cspj.geometry.Matrix;
 import jp.saka1029.cspj.geometry.Point;
 import jp.saka1029.cspj.geometry.Printer;
 import jp.saka1029.cspj.problem.Domain;
+import static jp.saka1029.cspj.problem.Helper.*;
 import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
@@ -138,9 +139,9 @@ public class Akari extends SolverMain {
 		logger.info(board.toString());
 		for (int y = -1; y < size.y; ++y)
             for (int x = -1; x < size.x; ++x) {
-                problem.constraint("isValidDown", (a, b) -> a.isValidDown(b),
+                constraint("isValidDown", (a, b) -> a.isValidDown(b),
                     variables.get(x, y, block), variables.get(x, y + 1, block));
-                problem.constraint("isValidRight", (a, b) -> a.isValidRight(b),
+                constraint("isValidRight", (a, b) -> a.isValidRight(b),
                     variables.get(x, y, block), variables.get(x + 1, y, block));
             }
 		for (int y = 0; y < size.y; ++y)
@@ -152,7 +153,7 @@ public class Akari extends SolverMain {
                 Variable<Cell> right = variables.get(x + 1, y, block);
                 Variable<Cell> up = variables.get(x, y - 1, block);
                 Variable<Cell> down = variables.get(x, y + 1, block);
-                    problem.constraint("isValidLightCount",
+                    constraint("isValidLightCount",
                     	(c, l, r, u, d) -> c.isValidLightCount(l, r, u, d),
                     	center, left, right, up, down);
             }

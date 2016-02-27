@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import jp.saka1029.cspj.problem.Bind;
+import static jp.saka1029.cspj.problem.Helper.*;
 import jp.saka1029.cspj.problem.Problem;
 import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.problem.Domain;
@@ -203,18 +204,18 @@ public class TestMonkeyBanana {
 			variables.add(problem.variable("v" + i, stateDomain));
 		}
 		for (int i = 1; i < step; ++i) {
-			problem.constraint("transition", (a, b, c) -> a.transition(b, c),
+			constraint("transition", (a, b, c) -> a.transition(b, c),
 				transitions.get(i- 1), variables.get(i - 1), variables.get(i));
 		}
 //		problem.forAllNeighbors("transition", a -> a.get(0).transition(a.get(1)), variables);
-		problem.constraint("goal", a -> a.goal(), variables.get(step - 1));
+		constraint("goal", a -> a.goal(), variables.get(step - 1));
 		Bind bind = problem.bind();
 		// 最短の手数を求めてそこにゴールを設定する。
 		for (int i = step - 1; i > 0; --i) {
 			Variable<? extends State> v = variables.get(i);
 			for (State s : bind.get(v))
 				if (s.goal()) {
-					problem.constraint("goal", a -> a.goal(), v);
+					constraint("goal", a -> a.goal(), v);
 					break;
 				}
 		}

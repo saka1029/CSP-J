@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import jp.saka1029.cspj.problem.Domain;
+import static jp.saka1029.cspj.problem.Helper.*;
 import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
@@ -27,7 +28,7 @@ public class TypeInferenceIdent extends SolverMain {
 	
 	@Override
 	public void define() throws IOException {
-		problem.constraint("c0", (a, b) -> a == b, v0, v1);
+		constraint("c0", (a, b) -> a == b, v0, v1);
 	}
 
 	@Override

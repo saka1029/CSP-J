@@ -53,10 +53,10 @@ public class TestHukumen {
 //            return x == y && x == z;
 //        }, A, B, C, D, E, F, G);
         
-        Variable<Integer> X = problem.variable("X", "X", (a, b) -> a + b, A, B);
-        Variable<Integer> Y = problem.variable("Y", "Y", (c, d) -> c / d, C, D);
-        Variable<Integer> Z = problem.variable("Z", "Z", (e, f, g) -> e + f - g, E, F, G);
-        problem.constraint("equation", (x, y, z) -> x == y && x == z, X, Y, Z);
+        Variable<Integer> X = variable("X", "X", (a, b) -> a + b, A, B);
+        Variable<Integer> Y = variable("Y", "Y", (c, d) -> c / d, C, D);
+        Variable<Integer> Z = variable("Z", "Z", (e, f, g) -> e + f - g, E, F, G);
+        constraint("equation", (x, y, z) -> x == y && x == z, X, Y, Z);
 
         Solver solver = new BasicSolver();
         solver.solve(problem, new Answer() {
@@ -81,8 +81,8 @@ public class TestHukumen {
         Variable<Integer> G = problem.variable("G", domain);
         Variable<Integer> H = problem.variable("H", domain);
         allDifferent(A, B, C, D, E, F, G, H);
-        problem.constraint("sum", (a, b, c, d) -> a + b + c + d == 18, A, B, C, D);
-        problem.constraint("sum", (a, b, f, e) -> a + b + f + e == 22, A, B, F, E);
+        constraint("sum", (a, b, c, d) -> a + b + c + d == 18, A, B, C, D);
+        constraint("sum", (a, b, f, e) -> a + b + f + e == 22, A, B, F, E);
         Solver solver = new BasicSolver();
         solver.solve(problem, new Answer() {
             @Override

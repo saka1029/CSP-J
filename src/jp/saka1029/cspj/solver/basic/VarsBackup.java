@@ -6,12 +6,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import jp.saka1029.cspj.problem.ConstraintPredicate;
-import jp.saka1029.cspj.problem.ConstraintPredicate1;
-import jp.saka1029.cspj.problem.ConstraintPredicate2;
-import jp.saka1029.cspj.problem.ConstraintPredicate3;
-import jp.saka1029.cspj.problem.ConstraintPredicate4;
-import jp.saka1029.cspj.problem.ConstraintPredicate5;
-import jp.saka1029.cspj.problem.ConstraintPredicate6;
 import jp.saka1029.cspj.problem.Domain;
 import jp.saka1029.cspj.problem.Problem;
 import jp.saka1029.cspj.problem.Variable;
