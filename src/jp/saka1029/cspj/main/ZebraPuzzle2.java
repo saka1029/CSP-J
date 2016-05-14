@@ -141,7 +141,7 @@ public class ZebraPuzzle2 extends SolverMain {
         constraint(or(map(e -> variable(null, "NorwegianNextBlue",
             (nh, c, h) -> c == Color.Blue && Math.abs(nh - h) == 1,
             norwegian.house, e.color, e.house),
-            persons)));
+            filter(x -> x != norwegian, persons))));
  
 //        constraint(or(
 //            variable(null, "NorwegianNextBlue", (nh, c, h) -> c == Color.Blue && Math.abs(nh - h) == 1, norwegian.house, ukurainian.color, ukurainian.house),
