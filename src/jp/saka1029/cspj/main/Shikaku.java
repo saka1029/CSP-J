@@ -60,7 +60,8 @@ public class Shikaku extends SolverMain {
             }
             variables.add(problem.variable(String.format("%d@%s", n, p), builder.build()));
         }
-        constraint(mapPair("notOverlap", (a, b) -> !a.overlap(b), variables));
+//        constraint(mapPair("notOverlap", (a, b) -> !a.overlap(b), variables));
+        constraint(mapPair((x, y) -> variable(null, "notOverlap", (a, b) -> !a.overlap(b), x, y), variables));
 //        printReduced(problem.bind());
     }
 
@@ -91,8 +92,8 @@ public class Shikaku extends SolverMain {
         File svg = new File(input.getParentFile(), input.getName() + ".svg");
         try (Writer w = new OutputStreamWriter( new FileOutputStream(svg), "utf-8")) {
             w.write(printer.toSVG());
-        } catch (IOException e1) {
-            e1.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         return true;
     }

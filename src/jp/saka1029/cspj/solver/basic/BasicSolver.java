@@ -3,6 +3,7 @@ package jp.saka1029.cspj.solver.basic;
 import java.util.logging.Logger;
 
 import jp.saka1029.cspj.problem.Bind;
+import jp.saka1029.cspj.problem.Constraint;
 import jp.saka1029.cspj.problem.Domain;
 import jp.saka1029.cspj.problem.Problem;
 import jp.saka1029.cspj.problem.Variable;

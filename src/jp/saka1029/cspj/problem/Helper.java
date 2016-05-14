@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Helper {
 
@@ -166,7 +168,7 @@ public class Helper {
 	}
 	
 	@SafeVarargs
-	public static Variable<Boolean> or(Variable<Boolean>... x) {
+	public static Variable<Boolean> or(Variable<? extends Boolean>... x) {
 		return or(list(x));
 	}
 
@@ -223,6 +225,58 @@ public class Helper {
             Variable<A> a, Variable<B> b, Variable<C> c, Variable<D> d, Variable<E> e, Variable<F> f, Variable<G> g, Variable<H> h) {
 		return a.problem.variable(name, constraintName, function, list(a, b, c, d, e, f, g, h));
 	}
+
+//	public static <T, A> Variable<T> variable(String constraintName,
+//	        DerivationFunction<T, A> function, Collection<Variable<? extends A>> variables) {
+//		return variables.iterator().next().problem.variable(null, constraintName, function, variables);
+//	}
+//
+//	public static <T, A> Variable<T> variable(String constraintName,
+//	        DerivationFunction1<T, A> function, Variable<A> a) {
+//		return a.problem.variable(null, constraintName, function, list(a));
+//	}
+//
+//	public static <X, T, A extends X, B extends X> Variable<T> variable(
+//            String constraintName, DerivationFunction2<X, T, A, B> function,
+//            Variable<A> a, Variable<B> b) {
+//		return a.problem.variable(null, constraintName, function, list(a, b));
+//	}
+//	
+//	public static <X, T, A extends X, B extends X, C extends X> Variable<T> variable(
+//            String constraintName, DerivationFunction3<X, T, A, B, C> function,
+//            Variable<A> a, Variable<B> b, Variable<C> c) {
+//		return a.problem.variable(null, constraintName, function, list(a, b, c));
+//	}
+//	
+//	public static <X, T, A extends X, B extends X, C extends X, D extends X> Variable<T> variable(
+//            String constraintName, DerivationFunction4<X, T, A, B, C, D> function,
+//            Variable<A> a, Variable<B> b, Variable<C> c, Variable<D> d) {
+//		return a.problem.variable(null, constraintName, function, list(a, b, c, d));
+//	}
+//	
+//	public static <X, T, A extends X, B extends X, C extends X, D extends X, E extends X> Variable<T> variable(
+//            String constraintName, DerivationFunction5<X, T, A, B, C, D, E> function,
+//            Variable<A> a, Variable<B> b, Variable<C> c, Variable<D> d, Variable<E> e) {
+//		return a.problem.variable(null, constraintName, function, list(a, b, c, d, e));
+//	}
+//	
+//	public static <X, T, A extends X, B extends X, C extends X, D extends X, E extends X, F extends X> Variable<T> variable(
+//			String constraintName, DerivationFunction6<X, T, A, B, C, D, E, F> function,
+//            Variable<A> a, Variable<B> b, Variable<C> c, Variable<D> d, Variable<E> e, Variable<F> f) {
+//		return a.problem.variable(null, constraintName, function, list(a, b, c, d, e, f));
+//	}
+//	
+//	public static <X, T, A extends X, B extends X, C extends X, D extends X, E extends X, F extends X, G extends X> Variable<T> variable(
+//			String constraintName, DerivationFunction7<X, T, A, B, C, D, E, F, G> function,
+//            Variable<A> a, Variable<B> b, Variable<C> c, Variable<D> d, Variable<E> e, Variable<F> f, Variable<G> g) {
+//		return a.problem.variable(null, constraintName, function, list(a, b, c, d, e, f, g));
+//	}
+//	
+//	public static <X, T, A extends X, B extends X, C extends X, D extends X, E extends X, F extends X, G extends X, H extends X> Variable<T> variable(
+//			String constraintName, DerivationFunction8<X, T, A, B, C, D, E, F, G, H> function,
+//            Variable<A> a, Variable<B> b, Variable<C> c, Variable<D> d, Variable<E> e, Variable<F> f, Variable<G> g, Variable<H> h) {
+//		return a.problem.variable(null, constraintName, function, list(a, b, c, d, e, f, g, h));
+//	}
 	
 	// define constraint
 	public static void constraint(Collection<Variable<Boolean>> variables) {
@@ -321,47 +375,60 @@ public class Helper {
     	return map(f, list(args));
     }
     
-//    public static <T, R> Collection<R> mapPair(BiFunction<T, T, R> mapper, Collection<T> source) {
-//        List<R> result = new ArrayList<>();
-//        int i = 0;
-//        for (T a : source) {
-//            int j = 0;
-//            for (T b : source) {
-//                if (i < j)
-//                    result.add(mapper.apply(a, b));
-//                ++j;
-//            }
-//            ++i;
-//        }
-//        return result;
-//    }
-//    
-//    @SafeVarargs
-//    public static <T, R> Collection<R> mapPair(BiFunction<T, T, R> mapper, T... source) {
-//        return mapPair(mapper, list(source));
-//    }
+	public static <X> List<X> filter(Predicate<X> f, Collection<X> args) {
+    	List<X> r = new ArrayList<>();
+    	for (X a : args)
+    	    if (f.test(a))
+                r.add(a);
+    	return r;
+    }
+
+    @SafeVarargs
+	public static <X> List<X> filter(Predicate<X> f, X... args) {
+    	return filter(f, list(args));
+    }
     
-    public static <T, R> Collection<Variable<R>> mapPair(String constraintName,
-            DerivationFunction2<T, R, T, T> mapper, Collection<Variable<T>> source) {
-        List<Variable<R>> result = new ArrayList<>();
+    public static <T, R> Collection<R> mapPair(BiFunction<T, T, R> mapper, Collection<T> source) {
+        List<R> result = new ArrayList<>();
         int i = 0;
-        for (Variable<T> a : source) {
+        for (T a : source) {
             int j = 0;
-            for (Variable<T> b : source) {
+            for (T b : source) {
                 if (i < j)
-                    result.add(variable(null, constraintName, mapper, a, b));
+                    result.add(mapper.apply(a, b));
                 ++j;
             }
             ++i;
         }
         return result;
     }
-
+    
     @SafeVarargs
-    public static <T, R> Collection<Variable<R>> mapPair(String constraintName,
-            DerivationFunction2<T, R, T, T> mapper, Variable<T>... source) {
-        return mapPair(constraintName, mapper, list(source));
+    public static <T, R> Collection<R> mapPair(BiFunction<T, T, R> mapper, T... source) {
+        return mapPair(mapper, list(source));
     }
+    
+//    public static <T, R> Collection<Variable<R>> mapPair(String constraintName,
+//            DerivationFunction2<T, R, T, T> mapper, Collection<Variable<T>> source) {
+//        List<Variable<R>> result = new ArrayList<>();
+//        int i = 0;
+//        for (Variable<T> a : source) {
+//            int j = 0;
+//            for (Variable<T> b : source) {
+//                if (i < j)
+//                    result.add(variable(null, constraintName, mapper, a, b));
+//                ++j;
+//            }
+//            ++i;
+//        }
+//        return result;
+//    }
+//
+//    @SafeVarargs
+//    public static <T, R> Collection<Variable<R>> mapPair(String constraintName,
+//            DerivationFunction2<T, R, T, T> mapper, Variable<T>... source) {
+//        return mapPair(constraintName, mapper, list(source));
+//    }
     
     public static <T, R> Collection<Variable<R>> mapNeighbor(String constraintName,
             DerivationFunction2<T, R, T, T> mapper, Collection<Variable<T>> source) {
@@ -426,8 +493,21 @@ public class Helper {
 //        constraint(and(mapPair((x, y) -> variable(null, "!=", (a, b) -> !a.equals(b), x, y), variables)));
 //        for (Variable<Boolean> v : mapPair((x, y) -> variable(null, "!=", (a, b) -> !a.equals(b), x, y), variables))
 //            constraint(v);
+
 //        forAllPairs("!=", (x, y) -> !x.equals(y), variables);
-        constraint(mapPair("!=", (x, y) -> !x.equals(y), variables));
+
+//        constraint(mapPair((a, b) -> variable("ne", "!=", (x, y) -> !x.equals(y), a, b), variables));
+
+        int i = 0;
+        for (Variable<T> a : variables) {
+            int j = 0;
+            for (Variable<T> b : variables) {
+                if (i < j)
+                    constraint(ne(a, b));
+                ++j;
+            }
+            ++i;
+        }
     }
     
     @SafeVarargs

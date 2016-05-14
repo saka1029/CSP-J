@@ -75,5 +75,9 @@ public class AC3 extends SolverMain {
         logger.info("answer " + n + ": X = " + result.get(x) + " Y = " + result.get(y));
 		return true;
 	}
+	
+	public static void main(String[] args) throws IOException {
+        new AC3().parse(args).solve();
+    }
 
 }

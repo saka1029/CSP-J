@@ -6,7 +6,7 @@ JaCop
 JaCopにはExtensionalSupportとExtensionalConflict constraintsがある。
 これは組み合わせ可能な値を配列の配列で表現する制約である。
 
-```java
+```
 IntVar a = new IntVar(store, "a", 0, 1); 
    IntVar b = new IntVar(store, "b", 0, 1); 
    IntVar c = new IntVar(store, "c", 0, 1); 

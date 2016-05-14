@@ -1,6 +1,7 @@
 package jp.saka1029.cspj.main;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 import jp.saka1029.cspj.problem.Constraint;
@@ -64,24 +65,33 @@ public class 春からみんな新生活 extends SolverMain {
 
         // セツオ：　　オレはこの春、結婚することになったんだ。
         constraint(eq(セツオ.新生活, 新生活.結婚));
+//        constraint("==", l -> l == 新生活.結婚, セツオ.新生活);
 
         // イクミ：　　私はセツオより一つ年上よ。２５才で思い切って転職する人がいるのね。
-        constraint(eq(イクミ.年齢, plus(セツオ.年齢, 1)));
-        constraint(or(map(p -> and(eq(p.新生活, 新生活.転職), eq(p.年齢, 25)), セツオ, カナコ, シンイチ, ツキコ)));
+//        constraint(eq(イクミ.年齢, plus(セツオ.年齢, 1)));
+        constraint("ひとつ上", (a, b) -> a == b + 1, イクミ.年齢, セツオ.年齢);
+//        constraint(or(map(p -> and(eq(p.新生活, 新生活.転職), eq(p.年齢, 25)), セツオ, カナコ, シンイチ, ツキコ)));
+        constraint(or(map(p -> variable(null, "転職２５歳", (a, b) -> a == 新生活.転職 && b == 25, p.新生活, p.年齢), セツオ, カナコ, シンイチ, ツキコ)));
 
         // カナコ：　　私は海外転勤になっちゃった。
         //        私はツキコとは１才違いで、セツオとは３才違いよ。
-        constraint(eq(カナコ.新生活, 新生活.海外転勤));
-        constraint(eq(abs(minus(カナコ.年齢, ツキコ.年齢)), 1));
-        constraint(eq(abs(minus(カナコ.年齢, セツオ.年齢)), 3));
+//        constraint(eq(カナコ.新生活, 新生活.海外転勤));
+        constraint("海外転勤", a -> a == 新生活.海外転勤, カナコ.新生活);
+//        constraint(eq(abs(minus(カナコ.年齢, ツキコ.年齢)), 1));
+//        constraint(eq(abs(minus(カナコ.年齢, セツオ.年齢)), 3));
+        constraint("一つ違い", (a, b) -> Math.abs(a - b) == 1, カナコ.年齢, ツキコ.年齢);
+        constraint("三つ違い", (a, b) -> Math.abs(a - b) == 3, カナコ.年齢, セツオ.年齢);
 
         // シンイチ：　カナコ姉さんはしっかりしていますよね。
         //        ところで、３０才の記念にペットを飼い始めたのは誰だっけ？
-        constraint(lt(シンイチ.年齢, カナコ.年齢));
-        constraint(or(map(p -> and(eq(p.新生活, 新生活.ペットを飼う), eq(p.年齢, 30)), セツオ, イクミ, カナコ, ツキコ)));
+//        constraint(lt(シンイチ.年齢, カナコ.年齢));
+        constraint("年下", (a, b) -> a < b, シンイチ.年齢, カナコ.年齢);
+//        constraint(or(map(p -> and(eq(p.新生活, 新生活.ペットを飼う), eq(p.年齢, 30)), セツオ, イクミ, カナコ, ツキコ)));
+        constraint(or(map(p -> variable(null, "ペットを飼う２５歳", (a, b) -> a == 新生活.ペットを飼う && b == 30, p.新生活, p.年齢), セツオ, イクミ, カナコ, ツキコ)));
         
         // ツキコ：　　私もイクミ姉さんのように仕事頑張らないとね。
-        constraint(lt(ツキコ.年齢, イクミ.年齢));
+//        constraint(lt(ツキコ.年齢, イクミ.年齢));
+        constraint("年下", (a, b) -> a < b, ツキコ.年齢, イクミ.年齢);
 
         logger.info("*** constraints ***");
         for (Constraint c : problem.constraints)

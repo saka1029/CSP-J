@@ -1,6 +1,7 @@
 package jp.saka1029.cspj.problem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 public class Constraint extends ProblemElement implements Comparable<Constraint> {
@@ -59,8 +61,11 @@ public class Constraint extends ProblemElement implements Comparable<Constraint>
 		
 		void encode(int index) {
 			if (index >= size) {
-				if (predicate.test(values) == consistent)
+                logger.finest("EncodeDriver.encode: test " + values + " = " + predicate.test(values));
+				if (predicate.test(values) == consistent) {
 					encoder.encode(indicesProtected, valuesProtected);
+					logger.finest("EncodeDriver.encde: " + indicesProtected + ", " + valuesProtected);
+				}
 			} else {
 				int i = 0;
 				for (Object e : domains.get(index)) {
@@ -116,6 +121,10 @@ public class Constraint extends ProblemElement implements Comparable<Constraint>
 		});
 		bind.put(this, combinations);
 //		logger.finest("Constraint.test/1: " + this + " : " + builders);
+		logger.finest("Constraint.test/1: bind.put " + this + ", "
+		    + combinations.stream()
+		        .map(a -> Arrays.toString(a))
+		        .collect(Collectors.joining(", ", "[", "]")));
 		return build(builders, bind, que);
 	}
 
@@ -141,10 +150,10 @@ public class Constraint extends ProblemElement implements Comparable<Constraint>
                     builders.get(i).add(values[i]);
 		}
 		int newSize = combinations.size();
-		if (logger.isLoggable(Level.FINEST))
-            logger.finest("Constraint.test/2: combinations size "
-                + orgSize + " -> " + newSize
-                + " " + (orgSize == newSize ? "==" : ""));
+//		if (logger.isLoggable(Level.FINEST))
+//            logger.finest("Constraint.test/2: combinations size "
+//                + orgSize + " -> " + newSize
+//                + " " + (orgSize == newSize ? "==" : ""));
 		if (newSize == 0)
 			return false;
 		else if (newSize == orgSize)

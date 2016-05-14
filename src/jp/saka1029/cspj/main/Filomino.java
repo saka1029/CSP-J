@@ -100,11 +100,11 @@ public class Filomino extends SolverMain {
             variables.add(problem.variable(String.format("%d@%s", n, origin), d));
         }
 
-        constraint(mapPair("notOverlapOrsame",
-        	(x, y) -> x.equals(y) || !x.overlap(y) && !(x.size() == y.size() && neighbors(x, y)), variables));
+//        constraint(mapPair("notOverlapOrsame",
+//        	(x, y) -> x.equals(y) || !x.overlap(y) && !(x.size() == y.size() && neighbors(x, y)), variables));
 
-//        constraint(and(mapPair((a, b) -> variable(null, "notOverlapOrsame",
-//        	(x, y) -> x.equals(y) || !x.overlap(y) && !(x.size() == y.size() && neighbors(x, y)), a, b), variables)));
+        constraint(mapPair((a, b) -> variable(null, "notOverlapOrsame",
+        	(x, y) -> x.equals(y) || !x.overlap(y) && !(x.size() == y.size() && neighbors(x, y)), a, b), variables));
 
 //        problem.forAllPairs("notOverlapOrsame",
 //        	(x, y) -> x.equals(y) || !x.overlap(y) && !(x.size() == y.size() && neighbors(x, y)), variables);

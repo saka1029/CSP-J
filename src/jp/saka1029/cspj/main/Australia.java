@@ -13,7 +13,7 @@ public class Australia extends SolverMain {
 
 	static final Logger logger = Logger.getLogger(Australia.class.getName());
 
-	enum Color { R, G, B}
+	enum Color {R, G, B}
 	
 	Variable<Color> WA, NT, SA, Q, NSW, V, T;
 	

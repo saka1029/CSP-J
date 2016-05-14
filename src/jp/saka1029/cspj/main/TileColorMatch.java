@@ -134,7 +134,8 @@ public class TileColorMatch extends SolverMain {
             for (int h = 0; h < height; ++h)
                 variables.set(w, h, problem.variable(name(w, h), dom));
 //                	w == 0 && h == 0 ? first : dom));
-        constraint(mapPair("notSame", (a, b) -> !a.same(b), variables.asList()));
+//        constraint(mapPair("notSame", (a, b) -> !a.same(b), variables.asList()));
+        constraint(mapPair((x, y) -> variable(null, "notSame", (a, b) -> !a.same(b), x, y), variables.asList()));
         for (int w = 0; w < width; ++w)
             for (int h = 0; h < height; ++h) {
 //                if (w + 1 < width)
