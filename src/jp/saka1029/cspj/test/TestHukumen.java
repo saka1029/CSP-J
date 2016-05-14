@@ -1,15 +1,13 @@
 package jp.saka1029.cspj.test;
 
-import static org.junit.Assert.*;
+import static jp.saka1029.cspj.problem.Helper.*;
 
 import java.util.logging.Logger;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import jp.saka1029.cspj.problem.Domain;
 import jp.saka1029.cspj.problem.Problem;
-import static jp.saka1029.cspj.problem.Helper.*;
 import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Answer;
 import jp.saka1029.cspj.solver.Result;
@@ -19,7 +17,7 @@ import jp.saka1029.cspj.solver.basic.BasicSolver;
 public class TestHukumen {
 
 	static Logger logger = Logger.getLogger(TestMain.class.getName());
-	
+
     static {
         System.setProperty("java.util.logging.SimpleFormatter.format", "%1$tFT%1$tT.%1$tL %4$s %5$s %6$s%n");
     }
@@ -52,7 +50,7 @@ public class TestHukumen {
 //            int z = e + f - g;
 //            return x == y && x == z;
 //        }, A, B, C, D, E, F, G);
-        
+
         Variable<Integer> X = variable("X", "X", (a, b) -> a + b, A, B);
         Variable<Integer> Y = variable("Y", "Y", (c, d) -> c / d, C, D);
         Variable<Integer> Z = variable("Z", "Z", (e, f, g) -> e + f - g, E, F, G);
@@ -67,7 +65,7 @@ public class TestHukumen {
             }
         });
     }
-    
+
     @Test
     public void testCube() {
         Problem problem = new Problem();

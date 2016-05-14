@@ -3,7 +3,6 @@ package jp.saka1029.cspj.solver.basic;
 import java.util.logging.Logger;
 
 import jp.saka1029.cspj.problem.Bind;
-import jp.saka1029.cspj.problem.Constraint;
 import jp.saka1029.cspj.problem.Domain;
 import jp.saka1029.cspj.problem.Problem;
 import jp.saka1029.cspj.problem.Variable;
@@ -14,11 +13,11 @@ import jp.saka1029.cspj.solver.Solver;
 public class BasicSolver implements Solver {
 
 	static final Logger logger = Logger.getLogger(BasicSolver.class.getName());
-	
+
     private Problem problem;
     private Answer answer;
     private int answerCount;
-    
+
 //    static class Bin {
 //    	final Variable<?> v;
 //    	final Domain<?> d;
@@ -62,7 +61,7 @@ public class BasicSolver implements Solver {
             }
         return b;
     }
-    
+
 //    private boolean solveParallel(Bind bind, boolean parallel) {
 //        boolean b = true;
 //        Variable<?> var = select(bind);
@@ -79,7 +78,7 @@ public class BasicSolver implements Solver {
 //        		.allMatch(x -> solveParallel(x, false));
 //        return b;
 //    }
-    
+
     private void solveInternal(Problem problem, Bind bind) {
         long start = System.currentTimeMillis();
         this.answerCount = 0;
@@ -92,8 +91,8 @@ public class BasicSolver implements Solver {
 //        for (Constraint c : problem.constraints)
 //            logger.info("BasicSolver: constraint " + c);
         Bind newBind = new Bind(bind);
-        solveSimple(newBind); 
-//        solveParallel(bind, false); 
+        solveSimple(newBind);
+//        solveParallel(bind, false);
         logger.info(String.format("BasicSolver: variables=%d reduced variables=%d constraints=%d answers=%d elapse=%dms",
             problem.variables.size(), reducedVariables, problem.constraints.size(),
             answerCount, System.currentTimeMillis() - start));

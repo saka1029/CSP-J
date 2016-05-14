@@ -11,9 +11,9 @@ import java.util.TreeMap;
 import java.util.logging.Logger;
 
 public class Problem {
-	
-	static final Logger logger = Logger.getLogger(Problem.class.getName());
-	
+
+	static final Logger logger = Helper.getLogger(Problem.class.getName());
+
 	private final List<Variable<?>> _variables = new ArrayList<>();
 	public final List<Variable<?>> variables = Collections.unmodifiableList(_variables);
 	public Variable<?> variable(int index) { return _variables.get(index); }
@@ -28,7 +28,7 @@ public class Problem {
 		_variables.add(variable);
 		return variable;
 	}
-	
+
 	public <T> Variable<T> variable(String name, Domain<T> domain) {
 		int no = _variables.size();
 		if (name == null)
@@ -39,9 +39,9 @@ public class Problem {
 			throw new IllegalArgumentException("variable names start with '_' are reserved: " + name);
 		return add(new Variable<T>(this, no, name, domain));
 	}
-	
+
 	private final Map<Object, Variable<?>> constantCache = new HashMap<>();
-	
+
 	public <T> Variable<T> constant(T value) {
 		@SuppressWarnings("unchecked")
 		Variable<T> constant = (Variable<T>)constantCache.get(value);
@@ -49,7 +49,7 @@ public class Problem {
 			constantCache.put(value, constant = variable(value.toString(), Domain.of(value)));
 		return constant;
 	}
-	
+
 	private static <T> List<T> list(int size) {
 		List<T> r = new ArrayList<>(size);
 		for (int i = 0; i < size; ++i)
@@ -58,20 +58,20 @@ public class Problem {
 	}
 
 	private static class Builder<T, A> {
-		
+
 		final DerivationFunction<T, A> function;
 		final int size;
 		final List<A> values;
 		final List<Variable<? extends A>> variables;
 		final Domain.Builder<T> builder = new Domain.Builder<>();
-		
+
 		Builder(DerivationFunction<T, A> function, Collection<Variable<? extends A>> variables) {
             this.function = function;
             this.size = variables.size();
             this.values = list(size);
             this.variables = new ArrayList<>(variables);
 		}
-		
+
 		void build(int index) {
 			if (index >= size) {
 				T t = function.apply(values);
@@ -104,12 +104,12 @@ public class Problem {
 
 	private final List<Constraint> _constraints = new ArrayList<>();
 	public final List<Constraint> constraints = Collections.unmodifiableList(_constraints);
-	
+
 	private <A> Constraint add(Constraint constraint) {
 		_constraints.add(constraint);
 		return constraint;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <T, A> Constraint constraint(String name, ConstraintPredicate<A> predicate, Collection<Variable<? extends A>> variables) {
 		int no = _constraints.size();

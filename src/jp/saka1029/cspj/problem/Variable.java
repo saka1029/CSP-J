@@ -10,11 +10,11 @@ import java.util.logging.Logger;
 
 public class Variable<T> extends ProblemElement implements Comparable<Variable<T>> {
 
-	static final Logger logger = Logger.getLogger(Variable.class.getName());
-	
+	static final Logger logger = Helper.getLogger(Variable.class.getName());
+
 	public final Domain<T> domain;
 	final Set<Constraint> constraints = new HashSet<>();
-	
+
 	Variable(Problem problem, int no, String name, Domain<T> domain) {
 		super(problem, no, name);
 		if (name == null)
@@ -23,11 +23,11 @@ public class Variable<T> extends ProblemElement implements Comparable<Variable<T
 			throw new IllegalArgumentException("domain");
 		this.domain = domain;
 	}
-	
+
 	void put(Bind bind) {
 		bind.put(this, domain);
 	}
-	
+
 	boolean bind(Domain<T> domain, Bind bind) {
 		if (domain.size() <= 0)
 			return false;
@@ -49,12 +49,12 @@ public class Variable<T> extends ProblemElement implements Comparable<Variable<T
 //		return !que.entrySet().parallelStream()
 //			.anyMatch(e -> !e.getKey().rawBind(e.getValue(), bind));
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public boolean rawBind(Domain<?> domain, Bind bind) {
 		return bind((Domain<T>)domain, bind);
 	}
-	
+
 	@Override public String toString() {
 		return name; // + (domain.size() == 1 ? "(=" + domain.first() + ")" : "");
 	}
