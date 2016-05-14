@@ -1,49 +1,5 @@
-2016-05-14T12:01:16.413 最も詳細 Constraint.test/1: lessThan(a, a) 
-2016-05-14T12:01:16.445 最も詳細 EncodeDriver.encode: test [1, 1] = false 
-2016-05-14T12:01:16.447 最も詳細 EncodeDriver.encode: test [1, 2] = true 
-2016-05-14T12:01:16.448 最も詳細 EncodeDriver.encde: [0, 1], [1, 2] 
-2016-05-14T12:01:16.449 最も詳細 EncodeDriver.encode: test [1, 3] = true 
-2016-05-14T12:01:16.450 最も詳細 EncodeDriver.encde: [0, 2], [1, 3] 
-2016-05-14T12:01:16.455 最も詳細 EncodeDriver.encode: test [2, 1] = false 
-2016-05-14T12:01:16.459 最も詳細 EncodeDriver.encode: test [2, 2] = false 
-2016-05-14T12:01:16.459 最も詳細 EncodeDriver.encode: test [2, 3] = true 
-2016-05-14T12:01:16.460 最も詳細 EncodeDriver.encde: [1, 2], [2, 3] 
-2016-05-14T12:01:16.461 最も詳細 EncodeDriver.encode: test [3, 1] = false 
-2016-05-14T12:01:16.462 最も詳細 EncodeDriver.encode: test [3, 2] = false 
-2016-05-14T12:01:16.464 最も詳細 EncodeDriver.encode: test [3, 3] = false 
-2016-05-14T12:01:16.473 最も詳細 Constraint.test/1: bind.put lessThan(a, a), [[1, 2], [1, 3], [2, 3]] 
-2016-05-14T12:01:16.475 最も詳細 Constraint.test/1: lessThan(a, b) 
-2016-05-14T12:01:16.475 最も詳細 EncodeDriver.encode: test [1, 1] = false 
-2016-05-14T12:01:16.476 最も詳細 EncodeDriver.encode: test [1, 2] = true 
-2016-05-14T12:01:16.476 最も詳細 EncodeDriver.encde: [0, 1], [1, 2] 
-2016-05-14T12:01:16.477 最も詳細 EncodeDriver.encode: test [1, 3] = true 
-2016-05-14T12:01:16.478 最も詳細 EncodeDriver.encde: [0, 2], [1, 3] 
-2016-05-14T12:01:16.479 最も詳細 EncodeDriver.encode: test [2, 1] = false 
-2016-05-14T12:01:16.480 最も詳細 EncodeDriver.encode: test [2, 2] = false 
-2016-05-14T12:01:16.480 最も詳細 EncodeDriver.encode: test [2, 3] = true 
-2016-05-14T12:01:16.481 最も詳細 EncodeDriver.encde: [1, 2], [2, 3] 
-2016-05-14T12:01:16.481 最も詳細 EncodeDriver.encode: test [3, 1] = false 
-2016-05-14T12:01:16.481 最も詳細 EncodeDriver.encode: test [3, 2] = false 
-2016-05-14T12:01:16.482 最も詳細 EncodeDriver.encode: test [3, 3] = false 
-2016-05-14T12:01:16.482 最も詳細 Constraint.test/1: bind.put lessThan(a, b), [[1, 2], [1, 3], [2, 3]] 
-2016-05-14T12:01:16.484 最も詳細 Variable.bind: a <- [1, 2] 
-2016-05-14T12:01:16.485 最も詳細 Constraint.test/2: lessThan(a, b) 
-2016-05-14T12:01:16.486 最も詳細 Constraint.test/2: lessThan(a, a) 
-2016-05-14T12:01:16.486 最も詳細 Variable.bind: b <- [2, 3] 
-2016-05-14T12:01:16.487 最も詳細 Constraint.test/2: lessThan(a, b) 
-2016-05-14T12:01:16.488 情報 BasicSolver: **** reduced problem **** 
-2016-05-14T12:01:16.488 情報 BasicSolver: variable a : [1, 2] 
-2016-05-14T12:01:16.489 情報 BasicSolver: variable b : [2, 3] 
-2016-05-14T12:01:16.493 最も詳細 Variable.bind: a <- [1] 
-2016-05-14T12:01:16.494 最も詳細 Constraint.test/2: lessThan(a, b) 
-2016-05-14T12:01:16.495 最も詳細 Constraint.test/2: lessThan(a, a) 
-2016-05-14T12:01:16.495 最も詳細 Variable.bind: b <- [2] 
-2016-05-14T12:01:16.496 最も詳細 Constraint.test/2: lessThan(a, b) 
-2016-05-14T12:01:16.498 最も詳細 Variable.bind: b <- [3] 
-2016-05-14T12:01:16.498 最も詳細 Constraint.test/2: lessThan(a, b) 
-2016-05-14T12:01:16.499 最も詳細 Variable.bind: a <- [2] 
-2016-05-14T12:01:16.499 最も詳細 Constraint.test/2: lessThan(a, b) 
-2016-05-14T12:01:16.500 最も詳細 Constraint.test/2: lessThan(a, a) 
-2016-05-14T12:01:16.501 最も詳細 Variable.bind: b <- [3] 
-2016-05-14T12:01:16.501 最も詳細 Constraint.test/2: lessThan(a, b) 
-2016-05-14T12:01:16.502 情報 BasicSolver: variables=2 reduced variables=2 constraints=2 answers=3 elapse=92ms 
+2016-05-14T16:10:42.356 最も詳細 Constraint.test/1: lessThan(a, a) 
+2016-05-14T16:10:42.403 最も詳細 EncodeDriver.encode: test [1, 1] = false 
+2016-05-14T16:10:42.411 最も詳細 EncodeDriver.encode: test [2, 2] = false 
+2016-05-14T16:10:42.413 最も詳細 EncodeDriver.encode: test [3, 3] = false 
+2016-05-14T16:10:42.425 最も詳細 Constraint.test/1: bind.put lessThan(a, a), [] 

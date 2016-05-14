@@ -18,6 +18,8 @@ public class Constraint extends ProblemElement implements Comparable<Constraint>
 	
 	public final ConstraintPredicate<Object> predicate;
 	public final List<Variable<?>> variables;
+	private final List<Variable<?>> variableSet;
+	private final int[] variableIndexMap;
 	
 	Constraint(Problem problem, int no, String name, ConstraintPredicate<Object> predicate, Collection<? extends Variable<?>> variables) {
 		super(problem, no, name);
@@ -26,8 +28,15 @@ public class Constraint extends ProblemElement implements Comparable<Constraint>
 		if (variables == null || variables.size() == 0)
 			throw new IllegalArgumentException("variables");
 		this.predicate = predicate;
+		this.variableSet = new ArrayList<>();
+		this.variableIndexMap = new int[variables.size()];
 		List<Variable<?>> list = new ArrayList<>(variables.size());
+		int i = 0;
 		for (Variable<?> v : variables) {
+		    int index = variableSet.indexOf(v);
+		    variableIndexMap[i++] = index;
+		    if (index == -1)
+		        variableSet.add(v);
 			list.add(v);
 			v.constraints.add(this);
 		}
@@ -43,10 +52,13 @@ public class Constraint extends ProblemElement implements Comparable<Constraint>
 
 	private class EncodeDriver {
 
-		final int size = variables.size();
-		final List<Integer> indices = list(size);
+		final int vsize = variables.size();
+		final int size = variableSet.size();
+		final List<Integer> indexSet = list(size);
+		final List<Integer> indices = list(vsize);
 		final List<Integer> indicesProtected = Collections.unmodifiableList(indices);
-		final List<Object> values = list(size);
+		final List<Object> valueSet = list(size);
+		final List<Object> values = list(vsize);
 		final List<Object> valuesProtected = Collections.unmodifiableList(values);
 		final List<Domain<?>> domains = list(size);
 		final boolean consistent;
@@ -54,23 +66,39 @@ public class Constraint extends ProblemElement implements Comparable<Constraint>
 		
 		EncodeDriver(Bind bind, boolean consistent, ConstraintEncoder encoder) {
 			for (int i = 0; i < size; ++i)
-				domains.set(i, bind.get(variables.get(i)));
+				domains.set(i, bind.get(variableSet.get(i)));
 			this.consistent = consistent;
 			this.encoder = encoder;
 		}
 		
+		private void extendValues() {
+		    for (int i = 0, f = 0; i < vsize; ++i) {
+		        int index = variableIndexMap[i];
+		        values.set(i, valueSet.get(index == -1 ? f++ : index));
+		    }
+		}
+		
+		private void extendIndices() {
+		    for (int i = 0, f = 0; i < vsize; ++i) {
+		        int index = variableIndexMap[i];
+                indices.set(i, indexSet.get(index == -1 ? f++ : index));
+		    }
+		}
+
 		void encode(int index) {
 			if (index >= size) {
+			    extendValues();
                 logger.finest("EncodeDriver.encode: test " + values + " = " + predicate.test(values));
 				if (predicate.test(values) == consistent) {
+				    extendIndices();
 					encoder.encode(indicesProtected, valuesProtected);
 					logger.finest("EncodeDriver.encde: " + indicesProtected + ", " + valuesProtected);
 				}
 			} else {
 				int i = 0;
 				for (Object e : domains.get(index)) {
-					indices.set(index, i++);
-					values.set(index, e);
+					indexSet.set(index, i++);
+					valueSet.set(index, e);
 					encode(index + 1);
 				}
 			}
