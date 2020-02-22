@@ -1,7 +1,5 @@
 package jp.saka1029.cspj.test;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -19,7 +17,7 @@ public class TestLambda {
 			.filter(x -> x != null)
 			.forEach(System.out::println);
 	}
-	
+
 	static abstract class Tree {
 		final String name;
 		Tree(String name) {
@@ -27,19 +25,19 @@ public class TestLambda {
 		}
 		@Override public String toString() { return String.format("Tree %s", name); }
 	}
-	
+
 	static class Node extends Tree {
 		final List<Tree> children = new ArrayList<>();
 		Node(String name) { super(name); }
 		Node add(Tree child) { children.add(child); return this; }
 		@Override public String toString() { return String.format("Node %s", name); }
 	}
-	
+
 	static class Leaf extends Tree {
 		Leaf(String name) { super(name); }
 		@Override public String toString() { return String.format("Leaf %s", name); }
 	}
-	
+
 	static Function<Tree, Stream<String>> traverse;
 	static {
         traverse = x -> x instanceof Node ?
@@ -74,7 +72,7 @@ public class TestLambda {
 			.flatMap(traverse2)
 			.forEach(System.out::println);
 	}
-	
+
 	static Function<Integer, Stream<Integer>> f;
 	static {
 		f = x -> Stream.concat(

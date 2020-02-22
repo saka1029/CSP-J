@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>C:\git\CSP-J\doc\.SAT encoding.md.html</title>
+<title>C:\git\CSP-J\.readme.md.html</title>
 
 
 <style type="text/css">
@@ -639,25 +639,15 @@ function setDocumentScrollTop(ypos)
 
 </head>
 <body class="markdown-body">
-<h1> <a id="sat-encoding" class="anchor" href="#sat-encoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SAT encoding</h1> 
-<h2> <a id="encoding-types" class="anchor" href="#encoding-types" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Encoding types</h2> 
-<ul> 
- <li>sparse encoding (Jeavons and Petke 2012) was adopted, among others, by the</li> 
- <li>direct encoding (De Kleer 1989; Walsh 2000)</li> 
- <li>support encoding (Gent 2002)</li> 
- <li>order encoding (Bailleux and Boufkhad 2003; Ansotegui and Many &acute; a 2004; Crawford and ` Baker 1994)</li> 
-</ul> 
-<h2> <a id="the-sparse-encoding" class="anchor" href="#the-sparse-encoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The sparse encoding</h2> 
-<p>CSPの変数<code>V : { 1, ... , n}</code>に対して、n個の論理変数 <code>d1, ... dn</code> を対応させる。 論理変数d1, ... dnはいずれかひとつだけが真となり、他はすべて偽となる。</p> 
-<h2> <a id="the-order-encoding" class="anchor" href="#the-order-encoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The order encoding</h2> 
-<p>CSPの変数<code>V : { 1, ... , n}</code>に対して、n-1個の論理変数<code>d1, ... , dn-1</code>を対応させる。 Vのドメインにおけるn番目の要素は<code>d1, ... dn-1</code> の先頭のn-1個が真で他は偽であると表現する。</p> 
-<pre><code>V : {1, 2, 3, 4, 5}
-V = 1 の場合 [d1, d2, d3, d4] は [F, F, F, F]
-V = 2 の場合 [d1, d2, d3, d4] は [T, F, F, F]
-V = 3 の場合 [d1, d2, d3, d4] は [T, T, F, F]
-V = 4 の場合 [d1, d2, d3, d4] は [T, T, T, F]
-V = 5 の場合 [d1, d2, d3, d4] は [T, T, T, T]
-</code></pre> 
-<p>V ≠ 3 は d2 = d3 と表現できる。 V in {2, 3} は d1 = T and d3 = F と表現できる。</p>
+<h1> <a id="csp-j" class="anchor" href="#csp-j" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CSP-J</h1> 
+<h2> <a id="概要" class="anchor" href="#%E6%A6%82%E8%A6%81" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>概要</h2> 
+<p>CSP-JはJavaで記述された制約充足問題のソルバーです。</p> 
+<h2> <a id="制約充足問題" class="anchor" href="#%E5%88%B6%E7%B4%84%E5%85%85%E8%B6%B3%E5%95%8F%E9%A1%8C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>制約充足問題</h2> 
+<p>Constraint satisfaction problems (CSPs) are mathematical problems defined as a set of objects whose state must satisfy a number of constraints or limitations. 制約充足問題（せいやくじゅうそくもんだい、英: Constraint satisfaction problem, CSP）は、 複数の制約条件を満たすオブジェクトや状態を見つけるという数学の問題です。 CSPs represent the entities in a problem as a homogeneous collection of finite constraints over variables, which is solved by constraint satisfaction methods. CSPは変数に対する有限個の制約 CSPs are the subject of intense research in both artificial intelligence and operations research, since the regularity in their formulation provides a common basis to analyze and solve problems of many seemingly unrelated families. CSPs often exhibit high complexity, requiring a combination of heuristics and combinatorial search methods to be solved in a reasonable time. The Boolean satisfiability problem (SAT), the satisfiability modulo theories (SMT) and answer set programming (ASP) can be roughly thought of as certain forms of the constraint satisfaction problem.</p> 
+<h2> <a id="定義" class="anchor" href="#%E5%AE%9A%E7%BE%A9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>定義</h2> 
+<p>Formally, a constraint satisfaction problem is defined as a triple \langle X,D,C \rangle, where [2] 制約充足問題はX, D, Cの組であらわされます。</p> 
+<p><code>X = {X1, ... ,Xn}</code> は変数の集合です。<br /> <code>D = {D1, ... , Dn}</code> は値域の集合です。<br /> <code>C = {C1, ... , Cm}</code> は制約の集合です。<br /></p> 
+<p>Each variable X_i can take on the values in the nonempty domain D_i. 変数<code>Xi</code>は値域<code>Di</code>の値になることができます。 Every constraint C_j \in C is in turn a pair \langle t_j,R_j \rangle, where t_j \subset X is a subset of k variables 制約<code>cj</code>はペア<code>&lt;tj, Rj&gt;</code>であらわすことができます。 <code>tj</code>は<code>X</code>の部分集合であるk個の変数です。 <code>Rj</code>は and R_j is an k-ary relation on the corresponding subset of domains D_j. An evaluation of the variables is a function from a subset of variables to a particular set of values in the corresponding subset of domains. An evaluation v satisfies a constraint \langle t_j,R_j \rangle if the values assigned to the variables t_j satisfies the relation R_j.</p> 
+<p>An evaluation is consistent if it does not violate any of the constraints. An evaluation is complete if it includes all variables. An evaluation is a solution if it is consistent and complete; such an evaluation is said to solve the constraint satisfaction problem.</p>
 </body>
 </html>

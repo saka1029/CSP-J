@@ -7,14 +7,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 public class Domain<T> implements Iterable<T> {
 
+    static final Logger logger = Helper.getLogger(Domain.class.getName());
+
 	private final Set<T> elements = new HashSet<>();
-	
+
 	private Domain() {}
-	
+
 	public int size() { return elements.size(); }
 	public boolean contains(Object e) { return elements.contains(e); }
 	public T first() { return elements.iterator().next(); }
@@ -42,7 +45,7 @@ public class Domain<T> implements Iterable<T> {
     public Stream<T> stream(boolean parallel) {
     	return parallel ? elements.parallelStream() : elements.stream();
     }
-    	
+
     public List<Object> asList() {
     	return new ArrayList<>(elements);
     }
@@ -61,21 +64,21 @@ public class Domain<T> implements Iterable<T> {
 			r.add(e);
 		return r;
 	}
-	
+
 	public static <T> Domain<T> of(int size, Function<Integer, T> initializer) {
 		Domain<T> r = new Domain<>();
 		for (int i = 0; i < size; ++i)
 			r.add(initializer.apply(i));
 		return r;
 	}
-	
+
 	public static Domain<Integer> range(int min, int max) {
 		Domain<Integer> r = new Domain<>();
 		for (int i= min; i <= max; ++i)
 			r.add(i);
 		return r;
 	}
-	
+
 	public static class Builder<T> {
 		Domain<T> d = new Domain<>();
 		public Domain<T> build() { Domain<T> r = d; d = null; return r; }
@@ -83,7 +86,7 @@ public class Domain<T> implements Iterable<T> {
 		public int size() { return d.size(); }
 		@Override public String toString() { return d.toString(); }
 	}
-	
+
 	@Override public Iterator<T> iterator() { return elements.iterator(); }
 	@Override public String toString() { return elements.toString(); }
 }

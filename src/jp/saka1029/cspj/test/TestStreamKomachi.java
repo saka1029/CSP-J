@@ -1,7 +1,5 @@
 package jp.saka1029.cspj.test;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +19,7 @@ public class TestStreamKomachi {
         list.addAll(tail);
         return list;
     }
-    
+
     static Stream<List<String>> split(String s) {
         if (s.length() <= 0) return Stream.empty();
         Stream<List<String>> b = Stream.of(Arrays.asList(s), Arrays.asList("-" + s));
@@ -33,7 +31,7 @@ public class TestStreamKomachi {
         }
         return b;
     }
-    
+
     @Test
     public void q5() {
         split("123456789")
@@ -42,7 +40,7 @@ public class TestStreamKomachi {
                 .reduce(0, (a, b) -> a + b) == 100)
             .forEach(l -> System.out.println(l));
     }
-    
+
     /**
      * Consバージョン
      */
@@ -71,7 +69,7 @@ public class TestStreamKomachi {
         }
         return b;
     }
-    
+
     @Test
     public void testSplitc() {
         splitc("123456789")
@@ -81,7 +79,7 @@ public class TestStreamKomachi {
                 .reduce(0, (a, b) -> a + b) == 100)
             .forEach(System.out::println);
     }
-    
+
     /*
      * リストのリストバージョン
      */
@@ -99,7 +97,7 @@ public class TestStreamKomachi {
         }
         return b;
     }
-    
+
     @Test
     public void testSplitList() {
 //        for (List<String> l : splitList("123456789"))

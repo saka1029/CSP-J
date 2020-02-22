@@ -32,10 +32,15 @@ public class Constraint extends ProblemElement implements Comparable<Constraint>
 		List<Variable<?>> list = new ArrayList<>(variables.size());
 		Set<Variable<?>> set = new HashSet<>();
 		for (Variable<?> v : variables) {
-		    if (set.contains(v))
+		    if (v.problem != problem)
 		        throw new IllegalArgumentException(
-		            "A variable appears more than once" + variables);
-		    set.add(v);
+		            "Variable (" + v + ") belongs to different problem");
+		    if (v.domain.size() > 1) {
+                if (set.contains(v))
+                    throw new IllegalArgumentException(
+                        "A variable appears more than once" + variables);
+                set.add(v);
+		    }
 			list.add(v);
 			v.constraints.add(this);
 		}
