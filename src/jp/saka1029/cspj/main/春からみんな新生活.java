@@ -1,7 +1,8 @@
 package jp.saka1029.cspj.main;
 
+import static jp.saka1029.cspj.problem.Helper.*;
+
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 import jp.saka1029.cspj.problem.Constraint;
@@ -10,7 +11,6 @@ import jp.saka1029.cspj.problem.Problem;
 import jp.saka1029.cspj.problem.Variable;
 import jp.saka1029.cspj.solver.Result;
 import jp.saka1029.cspj.solver.SolverMain;
-import static jp.saka1029.cspj.problem.Helper.*;
 
 /**
  * この春から新生活を始めることになった５人兄弟。
@@ -20,7 +20,10 @@ import static jp.saka1029.cspj.problem.Helper.*;
  * 名前を呼び捨てにすることはありますが、
  * 「○○姉さん」と言っているときは○○さんは話してより年上です。
  * また、自分のことを他人のように言っている人はいません。
- * 
+ *
+ * 年齢:       { 25, 26, 27, 29, 30 }
+ * 新生活:     { 国内転勤, 海外転勤, 転職, 結婚, ペットを飼う }
+ *
  * セツオ：　　オレはこの春、結婚することになったんだ。
  * イクミ：　　私はセツオより一つ年上よ。２５才で思い切って転職する人がいるのね。
  * カナコ：　　私は海外転勤になっちゃった。
@@ -30,11 +33,11 @@ import static jp.saka1029.cspj.problem.Helper.*;
  * ツキコ：　　私もイクミ姉さんのように仕事頑張らないとね。
  */
 public class 春からみんな新生活 extends SolverMain {
-    
+
 	static final Logger logger = Logger.getLogger(春からみんな新生活.class.getName());
-	
+
     enum 新生活 { 国内転勤, 海外転勤, 転職, 結婚, ペットを飼う }
-    
+
     Domain<新生活> すべての新生活 = Domain.of(新生活.values());
     Domain<Integer> すべての年齢 = Domain.of(25, 26, 27, 29, 30);
 
@@ -88,7 +91,7 @@ public class 春からみんな新生活 extends SolverMain {
         constraint("年下", (a, b) -> a < b, シンイチ.年齢, カナコ.年齢);
 //        constraint(or(map(p -> and(eq(p.新生活, 新生活.ペットを飼う), eq(p.年齢, 30)), セツオ, イクミ, カナコ, ツキコ)));
         constraint(or(map(p -> variable(null, "ペットを飼う２５歳", (a, b) -> a == 新生活.ペットを飼う && b == 30, p.新生活, p.年齢), セツオ, イクミ, カナコ, ツキコ)));
-        
+
         // ツキコ：　　私もイクミ姉さんのように仕事頑張らないとね。
 //        constraint(lt(ツキコ.年齢, イクミ.年齢));
         constraint("年下", (a, b) -> a < b, ツキコ.年齢, イクミ.年齢);
